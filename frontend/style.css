@@ -1,0 +1,13 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+}
+input, textarea, button {
+  margin: 10px 0;
+  padding: 8px;
+}
