@@ -11,15 +11,15 @@ import org.mongodb.scala.model._
 import ch.megard.akka.http.cors.scaladsl.CorsDirectives._
 import ch.megard.akka.http.cors.scaladsl.settings.CorsSettings
 import akka.http.scaladsl.model.HttpMethods._
-
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global  // Or your own execution context
 import scala.concurrent.ExecutionContextExecutor
 import scala.io.StdIn
 import scala.util.{Failure, Success}
+import akka.http.scaladsl.server.Directives._
 
-// === Case Classes ===
-final case class Doctor(id: String, name: String, specialty: String)
-final case class Appointment(id: String, patientId: String, doctorId: String, date: String, time: String)
-final case class Staff(id: String, name: String, role: String, department: String)
+
+// ... [All your imports remain unchanged]
 
 object Main {
   def main(args: Array[String]): Unit = {
@@ -78,8 +78,8 @@ object Main {
                   }
                 }
               },
-              delete {
-                path(Segment) { id =>
+              path(Segment) { id =>
+                delete {
                   doctorCollection.deleteOne(equal("id", id)).toFuture()
                   complete(StatusCodes.OK, s"Doctor $id deleted.")
                 }
@@ -121,8 +121,8 @@ object Main {
                   }
                 }
               },
-              delete {
-                path(Segment) { id =>
+              path(Segment) { id =>
+                delete {
                   appointmentCollection.deleteOne(equal("id", id)).toFuture()
                   complete(StatusCodes.OK, s"Appointment $id cancelled.")
                 }
@@ -152,36 +152,35 @@ object Main {
                 }
               },
               put {
-              path(Segment) { id =>
-                entity(as[Staff]) { updated =>
-                  val updateStaff = staffCollection.updateOne(equal("id", id), combine(
-                    set("name", updated.name),
-                    set("role", updated.role),
-                    set("department", updated.department)
-                  )).toFuture()
+                path(Segment) { id =>
+                  entity(as[Staff]) { updated =>
+                    val updateStaff = staffCollection.updateOne(equal("id", id), combine(
+                      set("name", updated.name),
+                      set("role", updated.role),
+                      set("department", updated.department)
+                    )).toFuture()
 
-                  val updateDoctorTable =
-                    if (updated.department.toLowerCase == "doctor") {
-                      doctorCollection.updateOne(equal("id", id), combine(
-                        set("name", updated.name),
-                        set("specialty", "Updated by staff update") // Adjust logic or extract from Staff if available
-                      )).toFuture()
-                    } else {
-                      Future.successful(())
+                    val updateDoctorTable =
+                      if (updated.department.toLowerCase == "doctor") {
+                        doctorCollection.updateOne(equal("id", id), combine(
+                          set("name", updated.name),
+                          set("specialty", "Updated by staff update")
+                        )).toFuture()
+                      } else {
+                        Future.successful(())
+                      }
+
+                    onSuccess(for {
+                      _ <- updateStaff
+                      _ <- updateDoctorTable
+                    } yield ()) {
+                      complete(StatusCodes.OK, s"Staff $id updated.")
                     }
-
-                  onSuccess(for {
-                    _ <- updateStaff
-                    _ <- updateDoctorTable
-                  } yield ()) {
-                    complete(StatusCodes.OK, s"Staff $id updated.")
                   }
                 }
-              }
-            }
-
-              delete {
-                path(Segment) { id =>
+              },
+              path(Segment) { id =>
+                delete {
                   staffCollection.deleteOne(equal("id", id)).toFuture()
                   complete(StatusCodes.OK, s"Staff $id deleted.")
                 }

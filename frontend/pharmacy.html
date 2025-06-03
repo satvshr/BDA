@@ -9,25 +9,29 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
+    /* Dark Mode CSS Schema */
     :root {
-      --primary: #2563eb;
-      --primary-dark: #1d4ed8;
-      --secondary: #0891b2;
-      --success: #059669;
-      --warning: #d97706;
-      --danger: #dc2626;
-      --background: #f8fafc;
-      --surface: #ffffff;
-      --surface-hover: #f1f5f9;
-      --text-primary: #0f172a;
-      --text-secondary: #64748b;
-      --border: #e2e8f0;
-      --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-      --radius: 0.75rem;
+      --primary: #6366f1; /* Indigo 500 */
+      --primary-dark: #4f46e5; /* Indigo 600 */
+      --secondary: #ec4899; /* Pink 500 */
+      --accent: #10b981; /* Emerald 500 */
+      --warning: #f59e0b; /* Amber 500 */
+      --danger: #ef4444; /* Red 500 */
+      --background: #0f172a; /* Slate 900 */
+      --surface: #1e293b; /* Slate 800 */
+      --surface-light: #334155; /* Slate 700 */
+      --surface-hover: #475569; /* Slate 600 */
+      --text-primary: #f8fafc; /* Slate 50 */
+      --text-secondary: #cbd5e1; /* Slate 300 */
+      --text-muted: #94a3b8; /* Slate 400 */
+      --border: #334155; /* Slate 700 */
+      --glow: 0 0 20px rgba(99, 102, 241, 0.3);
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --radius: 0.75rem; /* Adjusted for consistency with existing elements */
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -519,14 +523,14 @@
     <div class="nav-container">
       <a href="landing.html" class="nav-logo">
         <i class="fas fa-hospital-alt"></i>
-        MediCare System
+        Booky System
       </a>
       
       <ul class="nav-menu">
         <li><a href="landing.html" class="nav-link">Home</a></li>
-        <li><a href="doctors.html" class="nav-link">Doctors</a></li>
-        <li><a href="appointments.html" class="nav-link ">Appointments</a></li>
-        <li><a href="pharmacy.html" class="nav-link active">Pharmacy</a></li>
+        <li><a href="doctors.html" class="nav-link">Librarian</a></li>
+        <li><a href="appointments.html" class="nav-link ">Book issue requests</a></li>
+        <li><a href="pharmacy.html" class="nav-link active">Inventory</a></li>
         <li><a href="staff.html" class="nav-link ">Staff</a></li>
              <li><a href="query.html" class="nav-link ">Query</a></li>
              <div class="feature-content">
@@ -543,9 +547,9 @@
   <div class="header-container">
     <h1>
       <i class="fas fa-prescription-bottle-alt"></i>
-      Pharmacy
+      Inventory
     </h1>
-    <p>Manage prescriptions, track inventory, and dispense medications to patients</p>
+    <p>Manage books, track inventory, and issue requests to users</p>
   </div>
 </section>
 
@@ -557,23 +561,23 @@
     <div class="card-header">
       <div class="card-title">
         <i class="fas fa-prescription"></i>
-        <h2>Pharmacy Management System</h2>
+        <h2>Inventory Management System</h2>
       </div>
-      <p class="card-description">Dispense, track, and manage prescriptions and medications</p>
+      <p class="card-description">Issue, track, and manage books </p>
     </div>
 
     <div class="card-content">
       <div class="form-section">
         <h3>
           <i class="fas fa-info-circle"></i>
-          Prescription Information
+          Book Inventory Information
         </h3>
 
         <div class="form-grid">
           <div class="form-group">
             <label for="aptId">
               <i class="fas fa-hashtag"></i>
-              Prescription ID
+              Book ID
             </label>
             <input 
               id="aptId" 
@@ -586,7 +590,7 @@
           <div class="form-group">
             <label for="aptPatient">
               <i class="fas fa-user-injured"></i>
-              Patient ID
+              User ID
             </label>
             <input 
               id="aptPatient" 
@@ -598,13 +602,13 @@
           <div class="form-group">
             <label for="aptDoctor">
               <i class="fas fa-user-md"></i>
-              Prescribing Doctor ID
+              Author
             </label>
             <select id="aptDoctor" class="form-input">
-              <option value="">Select a Doctor</option>
+              <option value="">Select a Author</option>
             </select>
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
   <label for="aptMedication">
     <i class="fas fa-pills"></i>
     Medication
@@ -615,7 +619,7 @@
     placeholder="Enter medication details" 
     type="text"
   />
-</div>
+</div> -->
 
 
           <div class="form-group">
@@ -653,11 +657,11 @@
         <div class="button-grid">
           <button onclick="createAppointment()" class="btn btn-primary">
             <i class="fas fa-prescription-bottle"></i>
-            Add Medication
+            Add 
           </button>
           <button onclick="getAppointment()" class="btn btn-secondary">
             <i class="fas fa-search"></i>
-            Find Prescription
+            Find 
           </button>
           <button onclick="updateAppointment()" class="btn btn-warning">
             <i class="fas fa-edit"></i>
@@ -665,7 +669,7 @@
           </button>
           <button onclick="deleteAppointment()" class="btn btn-danger">
             <i class="fas fa-times-circle"></i>
-            Cancel Prescription
+            Cancel 
           </button>
         </div>
       </div>
@@ -676,7 +680,7 @@
           <span>System Response</span>
         </div>
         <div id="appointmentOutput" class="output-content">
-          Ready to manage prescriptions. Please fill in the required fields and select an action.
+          Ready to manage. Please fill in the required fields and select an action.
         </div>
       </div>
     </div>
@@ -688,14 +692,14 @@
   <div class="card-header">
     <div class="card-title">
       <i class="fas fa-pills"></i>
-      <h2>Prescriptions</h2>
+      <h2>Inventory</h2>
     </div>
-    <p class="card-description">View and manage all dispensed prescriptions</p>
+    <p class="card-description">View and manage all issued</p>
   </div>
   <div class="card-content" id="appointmentListContainer">
     <div class="loading">
       <i class="fas fa-spinner fa-spin"></i>
-      <p>Loading prescriptions...</p>
+      <p>Loading ...</p>
     </div>
   </div>
 </div>

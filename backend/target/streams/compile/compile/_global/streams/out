@@ -1,0 +1,5 @@
+[0m[[0m[31merror[0m] [0m[0m/home/nightshade/Documents/Projects/bda/BDA/backend/src/main/scala/Main.scala:186:15: value delete is not a member of akka.http.scaladsl.server.Route[0m
+[0m[[0m[31merror[0m] [0m[0mpossible cause: maybe a semicolon is missing before `value delete`?[0m
+[0m[[0m[31merror[0m] [0m[0m              delete {[0m
+[0m[[0m[31merror[0m] [0m[0m              ^[0m
+[0m[[0m[31merror[0m] [0m[0mone error found[0m
