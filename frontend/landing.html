@@ -1,507 +1,793 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📚 Library Management System</title>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <style>
-        /* Modern CSS Variables */
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #ec4899;
-            --accent: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --background: #0f172a;
-            --surface: #1e293b;
-            --surface-light: #334155;
-            --surface-hover: #475569;
-            --text-primary: #f8fafc;
-            --text-secondary: #cbd5e1;
-            --text-muted: #94a3b8;
-            --border: #334155;
-            --glow: 0 0 20px rgba(99, 102, 241, 0.3);
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            --radius: 1rem;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🏥 Hospital Management System</title>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Modern CSS Variables */
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #0891b2;
+      --success: #059669;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --background: #f8fafc;
+      --surface: #ffffff;
+      --surface-hover: #f1f5f9;
+      --text-primary: #0f172a;
+      --text-secondary: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --radius: 0.75rem;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--background);
-            color: var(--text-primary);
-            line-height: 1.6;
-            padding-top: 5rem;
-            background-image: 
-                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.15) 0%, transparent 50%);
-            min-height: 100vh;
-        }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--background);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
 
-        /* Navigation Bar */
-        .navbar {
-            background: rgba(30, 41, 59, 0.8);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-        }
+    /* Navigation Bar */
+    .navbar {
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
 
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 5rem;
-        }
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 4rem;
+    }
 
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            text-decoration: none;
-            color: var(--text-primary);
-            font-weight: 800;
-            font-size: 1.5rem;
-        }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
 
-        .nav-logo i {
-            color: var(--primary);
-            font-size: 2rem;
-            filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5));
-        }
+    .nav-logo i {
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
 
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 2.5rem;
-            align-items: center;
-        }
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+      align-items: center;
+    }
 
-        .nav-link {
-            text-decoration: none;
-            color: var(--text-secondary);
-            font-weight: 500;
-            transition: var(--transition);
-            position: relative;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-        }
+    .nav-link {
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+    }
 
-        .nav-link:hover {
-            color: var(--primary);
-            background: rgba(99, 102, 241, 0.1);
-            box-shadow: var(--glow);
-        }
+    .nav-link:hover {
+      color: var(--primary);
+    }
 
-        .nav-link.active {
-            color: var(--primary);
-            background: rgba(99, 102, 241, 0.2);
-            box-shadow: var(--glow);
-        }
+    .nav-link.active {
+      color: var(--primary);
+    }
 
-        /* Page Header (using .hero styles from provided CSS) */
-        .page-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            padding: 4rem 0;
-            position: relative;
-            overflow: hidden;
-            color: white;
-        }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: var(--transition);
+    }
 
-        .page-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="books" width="40" height="40" patternUnits="userSpaceOnUse"><rect width="40" height="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><rect x="8" y="15" width="4" height="15" fill="rgba(255,255,255,0.1)"/><rect x="14" y="12" width="4" height="18" fill="rgba(255,255,255,0.1)"/><rect x="20" y="18" width="4" height="12" fill="rgba(255,255,255,0.1)"/><rect x="26" y="10" width="4" height="20" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23books)"/></svg>');
-            opacity: 0.3;
-        }
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+    }
 
-        .header-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            position: relative;
-            z-index: 1;
-            text-align: center;
-        }
+    .nav-button {
+      background: var(--primary);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: var(--radius);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+    }
 
-        .header-container h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1.5rem;
-            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
+    .nav-button:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-lg);
+    }
 
-        .header-container h1 i {
-            font-size: 3rem;
-            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
-        }
+    /* Mobile Menu Toggle */
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-primary);
+      cursor: pointer;
+    }
 
-        .header-container p {
-            font-size: 1.25rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
-        }
+    /* Hero Section */
+    .hero {
+      padding: 8rem 0 4rem;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
 
-        /* Main Content */
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
-        }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+      opacity: 0.3;
+    }
 
-        .section-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
+    .hero-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
 
-        .section-header h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-        }
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-        .section-header p {
-            font-size: 1.125rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
-        }
+    .hero p {
+      font-size: 1.25rem;
+      margin-bottom: 2.5rem;
+      opacity: 0.95;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
 
-        /* Quick Actions */
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
 
-        .quick-action {
-            background: var(--surface-light);
-            border: 2px solid var(--border);
-            border-radius: 1rem;
-            padding: 2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
+    .btn-hero {
+      padding: 1rem 2rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: var(--shadow-lg);
+    }
 
-        .quick-action::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            opacity: 0;
-            transition: var(--transition);
-        }
+    .btn-primary {
+      background: white;
+      color: var(--primary);
+    }
 
-        .quick-action:hover::before {
-            opacity: 0.1;
-        }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    }
 
-        .quick-action:hover {
-            border-color: var(--primary);
-            transform: translateY(-4px);
-            box-shadow: var(--glow);
-        }
+    .btn-outline {
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+    }
 
-        .quick-action i {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            position: relative;
-            z-index: 1;
-        }
+    .btn-outline:hover {
+      background: white;
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
 
-        .quick-action h4 {
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-            position: relative;
-            z-index: 1;
-        }
+    /* Management Sections */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
 
-        .quick-action p {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            position: relative;
-            z-index: 1;
-        }
+    .main-content {
+      padding: 4rem 0;
+    }
 
-        /* Footer */
-        .footer {
-            background: var(--surface);
-            border-top: 1px solid var(--border);
-            padding: 3rem 0;
-            margin-top: 4rem;
-        }
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
 
-        .footer-content {
-            text-align: center;
-            color: var(--text-secondary);
-        }
+    .section-header h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
 
-        .footer-text {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            font-weight: 500;
-        }
+    .section-header p {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
 
-        .footer-text i {
-            color: var(--danger);
-            animation: heartbeat 2s infinite;
-        }
+    .management-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
 
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
+    .management-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: var(--transition);
+      border: 1px solid var(--border);
+    }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-            }
+    .management-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
 
-            .mobile-toggle {
-                display: block;
-            }
+    .card-header {
+      background: linear-gradient(135deg, var(--surface-hover) 0%, var(--surface) 100%);
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
 
-            .header-container h1 {
-                font-size: 2.5rem;
-                flex-direction: column;
-                gap: 0.5rem;
-            }
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
 
-            .header-container h1 i {
-                font-size: 2.5rem;
-            }
+    .card-title i {
+      font-size: 1.5rem;
+      color: var(--primary);
+      background: rgba(37, 99, 235, 0.1);
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+    }
 
-            .header-container p {
-                font-size: 1.125rem;
-            }
+    .card-title h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
 
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
+    .card-description {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
 
-            .quick-actions {
-                grid-template-columns: 1fr;
-            }
-        }
+    .card-content {
+      padding: 1.5rem;
+    }
 
-        @media (max-width: 480px) {
-            .nav-container,
-            .header-container,
-            .container {
-                padding: 0 1rem;
-            }
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
 
-            .page-header {
-                padding: 3rem 0;
-            }
-        }
-    </style>
+    .form-group label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+    }
+
+    .form-group label i {
+      color: var(--primary);
+      width: 16px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.875rem;
+      border: 2px solid var(--border);
+      border-radius: 0.5rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      transition: var(--transition);
+      background: var(--surface);
+    }
+    .feature-content {
+      padding: 1.5rem;
+    }
+
+    .feature-btn {
+      width: 100%;
+      padding: 0.875rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .feature-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .logout-btn {
+      background: var(--danger);
+    }
+
+    .logout-btn:hover {
+      background: #b91c1c;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .form-input:hover {
+      border-color: var(--text-secondary);
+    }
+
+    .form-input::placeholder {
+      color: var(--text-secondary);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .button-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      font-size: 0.875rem;
+      box-shadow: var(--shadow);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-primary-action {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-secondary-action {
+      background: var(--secondary);
+      color: white;
+    }
+
+    .btn-warning-action {
+      background: var(--warning);
+      color: white;
+    }
+
+    .btn-danger-action {
+      background: var(--danger);
+      color: white;
+    }
+
+    .output-section {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .output-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+
+    .output-content {
+      background: var(--surface-hover);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--primary);
+      border-radius: 0.5rem;
+      padding: 1rem;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 0.875rem;
+      color: var(--text-primary);
+      min-height: 60px;
+      white-space: pre-wrap;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 3rem 0;
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      text-align: center;
+      color: var(--text-secondary);
+    }
+
+    .footer-text {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-weight: 500;
+    }
+
+    .footer-text i {
+      color: var(--danger);
+      animation: heartbeat 2s infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .nav-menu {
+        display: none;
+      }
+
+      .mobile-toggle {
+        display: block;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero p {
+        font-size: 1.125rem;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .management-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .button-group {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav-container,
+      .hero-container,
+      .container {
+        padding: 0 1rem;
+      }
+
+      .hero {
+        padding: 6rem 0 3rem;
+      }
+
+      .card-header,
+      .card-content {
+        padding: 1rem;
+      }
+    }
+
+    /* Animation */
+    .management-card {
+      animation: slideUp 0.6s ease-out;
+    }
+
+    .management-card:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="#" class="nav-logo">
-                <i class="fas fa-book"></i>
-                Library System
-            </a>
-            
-            <ul class="nav-menu">
-                <li><a href="#home" class="nav-link active">Home</a></li>
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
-            </ul>
-            
-            <a href="#login" class="nav-button btn-primary-action">
-                <i class="fas fa-sign-in-alt"></i>
-                Login
-            </a>
-            
-            <button class="mobile-toggle">
-                <i class="fas fa-bars"></i>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="landing.html" class="nav-logo">
+        <i class="fas fa-hospital-alt"></i>
+        MediCare System
+      </a>
+      
+      <ul class="nav-menu">
+        <li><a href="landing.html" class="nav-link">Home</a></li>
+        <li><a href="doctors.html" class="nav-link ">Doctors</a></li>
+        <li><a href="appointments.html" class="nav-link ">Appointments</a></li>
+        <li><a href="pharmacy.html" class="nav-link ">Pharmacy</a></li>
+        <li><a href="staff.html" class="nav-link ">Staff</a></li>
+        <li><a href="query.html" class="nav-link ">Query</a></li>
+        <div class="feature-content">
+            <button class="feature-btn logout-btn" onclick="logout()">
+              <i class="fas fa-sign-out-alt"></i>
+              Logout
             </button>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero-container">
+      <h1>Hospital Management System</h1>
+      <p>Streamline healthcare operations with our comprehensive management platform. Manage doctors, schedule appointments, and provide quality patient care.</p>
+      
+      <div class="hero-buttons">
+        <a href="doctors.html" class="btn-hero btn-primary">
+          <i class="fas fa-user-md"></i>
+          Manage Doctors
+        </a>
+        <a href="appointments.html" class="btn-hero btn-outline">
+          <i class="fas fa-calendar-alt"></i>
+          Book Appointments
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      
+      <div class="section-header">
+        <h2>Healthcare Management</h2>
+        <p>Efficiently manage your healthcare facility with our intuitive management tools</p>
+      </div>
+
+      
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-text">
+          <i class="fas fa-heart"></i>
+          <span>Healthcare Management System - Providing Quality Care</span>
         </div>
-    </nav>
+      </div>
+    </div>
+  </footer>
 
-    <section class="page-header" id="home">
-        <div class="header-container">
-            <h1><i class="fas fa-book-reader"></i> Library Management System</h1>
-            <p>Efficiently manage your library's collection, members, and loans with our comprehensive platform.</p>
-            
-            <div class="hero-buttons">
-                <a href="#about" class="btn btn-primary-action">
-                    <i class="fas fa-info-circle"></i>
-                    Learn More
-                </a>
-                <a href="#contact" class="btn btn-secondary-action">
-                    <i class="fas fa-envelope"></i>
-                    Contact Us
-                </a>
-            </div>
-        </div>
-    </section>
+  <script>
+    const baseURL = "http://localhost:8080";
 
-    <main class="main-content">
-        <div class="container">
-            
-            <div class="section-header">
-                <h2>Welcome to Our Library</h2>
-                <p>Discover a world of knowledge and community resources.</p>
-            </div>
+    // === Doctor Functions ===
+    async function createDoctor() {
+      const data = {
+        id: docId.value,
+        name: docName.value,
+        specialty: docSpec.value
+      };
+      doctorOutput.innerText = "Creating doctor...";
+      const res = await fetch(`${baseURL}/doctors`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      doctorOutput.innerText = await res.text();
+    }
 
-            <div class="quick-actions">
-                <div class="quick-action" onclick="alert('Explore our vast collection of books!');">
-                    <i class="fas fa-book-open"></i> <h4>Browse Books</h4>
-                    <p>Find your next great read.</p>
-                </div>
-                <div class="quick-action" onclick="alert('Learn how to become a library member!');">
-                    <i class="fas fa-user-friends"></i>
-                    <h4>Become a Member</h4>
-                    <p>Access exclusive resources and services.</p>
-                </div>
-                </div>
+    async function getDoctor() {
+      doctorOutput.innerText = "Fetching doctor...";
+      const res = await fetch(`${baseURL}/doctors/${docId.value}`);
+      doctorOutput.innerText = await res.text();
+    }
 
-            <section id="about" class="member-list-card">
-                <div class="card-header">
-                    <div class="card-title">
-                        <i class="fas fa-info-circle"></i>
-                        <h2>About Our Library</h2>
-                    </div>
-                    <p class="card-description">Dedicated to fostering literacy and lifelong learning.</p>
-                </div>
-                <div class="member-list-content" style="padding: 2rem;">
-                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">
-                        Our library is a vibrant hub for the community, offering a diverse collection of books, digital resources, and engaging programs for all ages. We believe in the power of knowledge and strive to create an inclusive environment where everyone can explore, learn, and grow.
-                    </p>
-                    <p style="color: var(--text-secondary);">
-                        With a commitment to innovation and accessibility, we continually update our resources and services to meet the evolving needs of our patrons. Join us in our mission to inspire curiosity and connect people through the joy of reading.
-                    </p>
-                </div>
-            </section>
+    async function updateDoctor() {
+      const data = {
+        id: docId.value,
+        name: docName.value,
+        specialty: docSpec.value
+      };
+      doctorOutput.innerText = "Updating doctor...";
+      const res = await fetch(`${baseURL}/doctors/${docId.value}`, {
+        method: "PUT", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      doctorOutput.innerText = await res.text();
+    }
 
-            <section id="contact" class="member-list-card" style="margin-top: 2rem;">
-                <div class="card-header">
-                    <div class="card-title">
-                        <i class="fas fa-envelope"></i>
-                        <h2>Contact Us</h2>
-                    </div>
-                    <p class="card-description">Have questions? Reach out to our friendly team.</p>
-                </div>
-                <div class="member-list-content" style="padding: 2rem;">
-                    <p style="color: var(--text-secondary); margin-bottom: 0.5rem;"><i class="fas fa-map-marker-alt" style="margin-right: 0.5rem; color: var(--accent);"></i> 123 Library Lane, Booktown, KL 56789</p>
-                    <p style="color: var(--text-secondary); margin-bottom: 0.5rem;"><i class="fas fa-phone" style="margin-right: 0.5rem; color: var(--accent);"></i> +91 98765 43210</p>
-                    <p style="color: var(--text-secondary);"><i class="fas fa-envelope" style="margin-right: 0.5rem; color: var(--accent);"></i> info@librarysystem.com</p>
-                    <p style="color: var(--text-secondary); margin-top: 1rem;">
-                        Our operating hours are Monday-Friday, 9:00 AM - 6:00 PM. We look forward to hearing from you!
-                    </p>
-                </div>
-            </section>
+    async function deleteDoctor() {
+      doctorOutput.innerText = "Deleting doctor...";
+      const res = await fetch(`${baseURL}/doctors/${docId.value}`, { method: "DELETE" });
+      doctorOutput.innerText = await res.text();
+    }
 
-        </div>
-    </main>
+    // === Appointment Functions ===
+    async function createAppointment() {
+      const data = {
+        id: aptId.value,
+        patientId: aptPatient.value,
+        doctorId: aptDoctor.value,
+        date: aptDate.value,
+        time: aptTime.value
+      };
+      appointmentOutput.innerText = "Booking appointment...";
+      const res = await fetch(`${baseURL}/appointments`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      appointmentOutput.innerText = await res.text();
+    }
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-text">
-                    <i class="fas fa-heart"></i>
-                    <span>Library Management System - Fostering Knowledge and Community</span>
-                </div>
-            </div>
-        </div>
-    </footer>
+    async function getAppointment() {
+      appointmentOutput.innerText = "Fetching appointment...";
+      const res = await fetch(`${baseURL}/appointments/${aptId.value}`);
+      appointmentOutput.innerText = await res.text();
+    }
 
-    <script>
-        // === Navigation and Active Link Highlighting ===
-        document.addEventListener('DOMContentLoaded', function() {
-            // Smooth scrolling for navigation links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                });
+    async function updateAppointment() {
+      const data = {
+        id: aptId.value,
+        patientId: aptPatient.value,
+        doctorId: aptDoctor.value,
+        date: aptDate.value,
+        time: aptTime.value
+      };
+      appointmentOutput.innerText = "Updating appointment...";
+      const res = await fetch(`${baseURL}/appointments/${aptId.value}`, {
+        method: "PUT", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      appointmentOutput.innerText = await res.text();
+    }
+
+    async function deleteAppointment() {
+      appointmentOutput.innerText = "Cancelling appointment...";
+      const res = await fetch(`${baseURL}/appointments/${aptId.value}`, { method: "DELETE" });
+      appointmentOutput.innerText = await res.text();
+    }
+
+    // === Navigation ===
+    document.addEventListener('DOMContentLoaded', function() {
+      // Smooth scrolling for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
             });
-
-            // Active navigation highlighting
-            window.addEventListener('scroll', function() {
-                const sections = document.querySelectorAll('section[id], div[id]');
-                const navLinks = document.querySelectorAll('.nav-link');
-                
-                let current = '';
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    const sectionHeight = section.clientHeight;
-                    // Adjust offset for fixed navbar
-                    if (pageYOffset >= sectionTop - document.querySelector('.navbar').offsetHeight - 50) {
-                        current = section.getAttribute('id');
-                    }
-                });
-
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === '#' + current) {
-                        link.classList.add('active');
-                    }
-                });
-            });
-
-            // Mobile menu toggle (if needed, based on original HTML)
-            const mobileToggle = document.querySelector('.mobile-toggle');
-            const navMenu = document.querySelector('.nav-menu');
-            if (mobileToggle && navMenu) {
-                mobileToggle.addEventListener('click', () => {
-                    navMenu.classList.toggle('active'); // You might need to add a .nav-menu.active style
-                });
-            }
+          }
         });
-    </script>
+      });
+
+      // Active navigation highlighting
+      window.addEventListener('scroll', function() {
+        const sections = document.querySelectorAll('section[id], div[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        let current = '';
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.clientHeight;
+          if (pageYOffset >= sectionTop - 200) {
+            current = section.getAttribute('id');
+          }
+        });
+
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+          }
+        });
+      });
+    });
+    function logout() {
+  
+  // Redirect to login page
+  window.location.href = 'login.html';
+}
+
+  </script>
 </body>
 </html>

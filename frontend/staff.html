@@ -105,7 +105,38 @@
     .nav-link.active {
       color: var(--primary);
     }
+    .feature-content {
+      padding: 1.5rem;
+    }
 
+    .feature-btn {
+      width: 100%;
+      padding: 0.875rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .feature-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .logout-btn {
+      background: var(--danger);
+    }
+
+    .logout-btn:hover {
+      background: #b91c1c;
+    }
     .nav-link::after {
       content: '';
       position: absolute;
@@ -618,11 +649,16 @@
       
       <ul class="nav-menu">
         <li><a href="landing.html" class="nav-link">Home</a></li>
-        <li><a href="doctors.html" class="nav-link">Doctors</a></li>
-        <li><a href="appointments.html" class="nav-link">Appointments</a></li>
-        
-          <li><a href="staff.html" class="nav-link active">Staff</a></li>
-      
+        <li><a href="doctors.html" class="nav-link ">Doctors</a></li>
+        <li><a href="appointments.html" class="nav-link ">Appointments</a></li>
+        <li><a href="pharmacy.html" class="nav-link ">Pharmacy</a></li>
+        <li><a href="staff.html" class="nav-link active">Staff</a></li>
+           <li><a href="query.html" class="nav-link active">Query</a></li>
+                <div class="feature-content">
+            <button class="feature-btn logout-btn" onclick="logout()">
+              <i class="fas fa-sign-out-alt"></i>
+              Logout
+            </button>
       </ul>
     </div>
   </nav>
@@ -752,8 +788,15 @@
         <button class="close-btn" onclick="closeModal()">&times;</button>
       </div>
       <form id="editStaffForm">
-        <input type="hidden" id="editStaffId" name="id">
+             <div class="form-group">
+                <label for="editStaffId">
+                    <i class="fas fa-id-card"></i>
+                    Staff ID
+                </label>
+                <input type="text" id="editStaffId" name="id" class="form-input" required>
+                </div>
         <div class="form-group">
+              
           <label for="editStaffName">
             <i class="fas fa-user"></i>
             Full Name
@@ -1000,8 +1043,11 @@
         }
         
         const staff = await response.json();
+        console.log("Editing staff:", staff.id);
+
         
         // Populate edit form
+    
         document.getElementById('editStaffId').value = staff.id;
         document.getElementById('editStaffName').value = staff.name;
         document.getElementById('editStaffRole').value = staff.role;
@@ -1018,16 +1064,17 @@
     // Handle edit staff form submission
     async function handleEditStaff(event) {
       event.preventDefault();
-      
+     
       const formData = new FormData(editStaffForm);
       const staffData = {
+        id:formData.get('id'),
         name: formData.get('name'),
         role: formData.get('role'),
         department: formData.get('department')
       };
-      
+      console.log("Sending data:", JSON.stringify(staffData));
       const staffId = formData.get('id');
-
+      console.log(staffId)
       try {
         const response = await fetch(`${API_BASE_URL}/${staffId}`, {
           method: 'PUT',
@@ -1093,6 +1140,12 @@
         closeModal();
       }
     });
+        function logout() {
+  
+  // Redirect to login page
+  window.location.href = 'login.html';
+}
+
   </script>
 </body>
 </html>
