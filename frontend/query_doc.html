@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Query Interface - Hospital Management System</title>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #0891b2;
+      --success: #059669;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --background: #f8fafc;
+      --surface: #ffffff;
+      --surface-hover: #f1f5f9;
+      --text-primary: #0f172a;
+      --text-secondary: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --radius: 0.75rem;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--background);
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding-top: 4rem;
+    }
+
+    /* Navigation Bar */
+    .navbar {
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 4rem;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+    .feature-content {
+      padding: 1.5rem;
+    }
+
+    .feature-btn {
+      width: 100%;
+      padding: 0.875rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .feature-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .logout-btn {
+      background: var(--danger);
+    }
+
+    .logout-btn:hover {
+      background: #b91c1c;
+    }
+
+    .nav-logo i {
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .nav-link:hover {
+      color: var(--primary);
+    }
+
+    .nav-link.active {
+      color: var(--primary);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: var(--transition);
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+    }
+
+    /* Page Header */
+    .page-header {
+      background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+      color: white;
+      padding: 3rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="query" width="20" height="20" patternUnits="userSpaceOnUse"><rect width="20" height="20" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><circle cx="5" cy="5" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="15" cy="15" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23query)"/></svg>');
+      opacity: 0.3;
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .header-container h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .header-container h1 i {
+      font-size: 2rem;
+    }
+
+    .header-container p {
+      font-size: 1.125rem;
+      opacity: 0.9;
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+
+    .query-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-bottom: 2rem;
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, var(--surface-hover) 0%, var(--surface) 100%);
+      padding: 2rem;
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-title i {
+      font-size: 2rem;
+      color: var(--secondary);
+      background: rgba(8, 145, 178, 0.1);
+      padding: 1rem;
+      border-radius: 1rem;
+    }
+
+    .card-title h2 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .card-description {
+      color: var(--text-secondary);
+      font-size: 1rem;
+    }
+
+    /* Tab Navigation */
+    .tab-navigation {
+      display: flex;
+      background: var(--surface-hover);
+      border-radius: var(--radius) var(--radius) 0 0;
+      overflow-x: auto;
+    }
+
+    .tab-button {
+      flex: 1;
+      min-width: 200px;
+      padding: 1.5rem 2rem;
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      white-space: nowrap;
+    }
+
+    .tab-button:hover {
+      background: var(--surface);
+      color: var(--text-primary);
+    }
+
+    .tab-button.active {
+      background: var(--surface);
+      color: var(--primary);
+      border-bottom: 3px solid var(--primary);
+    }
+
+    .tab-button i {
+      font-size: 1.25rem;
+    }
+
+    /* Tab Content */
+    .tab-content {
+      display: none;
+      padding: 2rem;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Search Section */
+    .search-section {
+      background: var(--surface-hover);
+      padding: 2rem;
+      border-radius: var(--radius);
+      margin-bottom: 2rem;
+    }
+
+    .search-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .search-header h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .search-header i {
+      color: var(--secondary);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 0.875rem;
+    }
+
+    .form-group label i {
+      color: var(--secondary);
+      width: 16px;
+    }
+
+    .form-input, .form-select {
+      padding: 1rem;
+      border: 2px solid var(--border);
+      border-radius: 0.5rem;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: var(--transition);
+      background: var(--surface);
+    }
+
+    .form-input:focus, .form-select:focus {
+      outline: none;
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+    }
+
+    .form-input:hover, .form-select:hover {
+      border-color: var(--text-secondary);
+    }
+
+    .form-input::placeholder {
+      color: var(--text-secondary);
+    }
+
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      font-size: 0.95rem;
+      box-shadow: var(--shadow);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-primary {
+      background: var(--secondary);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-warning {
+      background: var(--warning);
+      color: white;
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+
+    /* Results Section */
+    .results-section {
+      margin-top: 2rem;
+    }
+
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .results-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: var(--text-secondary);
+    }
+
+    .results-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .btn-sm {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      min-width: auto;
+    }
+
+    /* Data Table */
+    .table-container {
+      overflow-x: auto;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 700px;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .data-table th {
+      background: var(--surface-hover);
+      font-weight: 600;
+      color: var(--text-primary);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .data-table th:hover {
+      background: var(--border);
+    }
+
+    .data-table th i {
+      margin-left: 0.5rem;
+      opacity: 0.5;
+    }
+
+    .data-table tr:hover {
+      background: var(--surface-hover);
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .badge-doctor {
+      background: rgba(5, 150, 105, 0.1);
+      color: var(--success);
+    }
+
+    .badge-nurse {
+      background: rgba(8, 145, 178, 0.1);
+      color: var(--secondary);
+    }
+
+    .badge-admin {
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--primary);
+    }
+
+    .badge-technician {
+      background: rgba(217, 119, 6, 0.1);
+      color: var(--warning);
+    }
+
+    .badge-cardiology {
+      background: rgba(220, 38, 38, 0.1);
+      color: var(--danger);
+    }
+
+    .badge-surgery {
+      background: rgba(5, 150, 105, 0.1);
+      color: var(--success);
+    }
+
+    .badge-pediatrics {
+      background: rgba(8, 145, 178, 0.1);
+      color: var(--secondary);
+    }
+
+    .badge-scheduled {
+      background: rgba(8, 145, 178, 0.1);
+      color: var(--secondary);
+    }
+
+    .badge-completed {
+      background: rgba(5, 150, 105, 0.1);
+      color: var(--success);
+    }
+
+    .badge-cancelled {
+      background: rgba(220, 38, 38, 0.1);
+      color: var(--danger);
+    }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 2rem;
+    }
+
+    .pagination button {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-primary);
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .pagination button:hover:not(:disabled) {
+      background: var(--surface-hover);
+    }
+
+    .pagination button.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .pagination button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 2000;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 2rem;
+      max-width: 600px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: slideUp 0.3s ease-out;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-header h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+      padding: 0.5rem;
+      border-radius: 0.25rem;
+      transition: var(--transition);
+    }
+
+    .close-btn:hover {
+      background: var(--surface-hover);
+      color: var(--text-primary);
+    }
+
+    .modal-body {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem;
+      background: var(--surface-hover);
+      border-radius: 0.5rem;
+    }
+
+    .detail-label {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .detail-value {
+      color: var(--text-secondary);
+    }
+
+    /* Loading and Empty States */
+    .loading {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-secondary);
+    }
+
+    .loading i {
+      animation: spin 1s linear infinite;
+      font-size: 2rem;
+      color: var(--secondary);
+      margin-bottom: 1rem;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-secondary);
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      color: var(--border);
+      margin-bottom: 1rem;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { 
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem 1rem;
+      }
+
+      .header-container h1 {
+        font-size: 2rem;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .button-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .results-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .results-actions {
+        justify-content: center;
+      }
+
+      .tab-button {
+        min-width: 150px;
+        padding: 1rem;
+        font-size: 0.875rem;
+      }
+
+      .nav-menu {
+        gap: 1rem;
+      }
+
+      .modal-content {
+        padding: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .tab-navigation {
+        flex-direction: column;
+      }
+
+      .tab-button {
+        min-width: auto;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .tab-button.active {
+        border-bottom: 1px solid var(--primary);
+        border-left: 3px solid var(--primary);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+ <nav class="navbar">
+    <div class="nav-container">
+      <a href="landing_doc.html" class="nav-logo">
+        <i class="fas fa-hospital-alt"></i>
+        MediCare System
+      </a>
+      
+      <ul class="nav-menu">
+        <li><a href="landing_doc.html" class="nav-link">Home</a></li>
+  
+        <li><a href="appointments_doc.html" class="nav-link ">Appointments</a></li>
+        <li><a href="pharmacy_doc.html" class="nav-link ">Pharmacy</a></li>
+        <li><a href="query_doc.html" class="nav-link ">Query</a></li>
+        <div class="feature-content">
+            <button class="feature-btn logout-btn" onclick="logout()">
+              <i class="fas fa-sign-out-alt"></i>
+              Logout
+            </button>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="header-container">
+      <h1>
+        <i class="fas fa-search"></i>
+        Query Interface
+      </h1>
+      <p>Search and filter hospital records across all departments and services</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="query-card">
+      <div class="card-header">
+        <div class="card-title">
+          <i class="fas fa-database"></i>
+          <h2>Hospital Records Query System</h2>
+        </div>
+        <p class="card-description">
+          Access comprehensive search functionality for doctors, appointments, staff, and pharmacy records
+        </p>
+      </div>
+
+      <!-- Tab Navigation -->
+      <div class="tab-navigation">
+        <button class="tab-button active" data-tab="doctors">
+          <i class="fas fa-user-md"></i>
+          Doctors
+        </button>
+        <button class="tab-button" data-tab="appointments">
+          <i class="fas fa-calendar-check"></i>
+          Appointments
+        </button>
+        <button class="tab-button" data-tab="staff">
+          <i class="fas fa-users"></i>
+          Staff
+        </button>
+        <button class="tab-button" data-tab="pharmacy">
+          <i class="fas fa-pills"></i>
+          Pharmacy
+        </button>
+      </div>
+
+      <!-- Doctors Tab -->
+      <div class="tab-content active" id="doctors-tab">
+        <div class="search-section">
+          <div class="search-header">
+            <h3><i class="fas fa-filter"></i> Doctor Search Filters</h3>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+      
+              <button class="btn btn-sm btn-secondary" onclick="clearFilters('doctors')">
+                <i class="fas fa-times"></i> Clear Filters
+              </button>
+            </div>
+          </div>
+          <form class="form-grid" id="doctor-search-form">
+            <div class="form-group">
+              <label for="doctor-id"><i class="fas fa-id-card"></i> Doctor ID</label>
+              <input type="text" id="doctor-id" class="form-input" placeholder="DOC001 ">
+            </div>
+            <div class="form-group">
+              <label for="doctor-name"><i class="fas fa-user"></i> Doctor Name</label>
+              <input type="text" id="doctor-name" class="form-input" placeholder="Kirti ">
+            </div>
+            <div class="form-group">
+              <label for="doctor-specialty"><i class="fas fa-stethoscope"></i> Specialty</label>
+              <select id="doctor-specialty" class="form-select">
+                <option value="">All Specialties</option>
+                <option value="Cardiology">Cardiology</option>
+                <option value="Surgery">Surgery</option>
+                <option value="Pediatrics">Pediatrics</option>
+                <option value="Neurology">Neurology</option>
+                <option value="Orthopedics">Orthopedics</option>
+              </select>
+            </div>
+          </form>
+          <div class="button-grid">
+            <button class="btn btn-primary" onclick="searchRecords('doctors')">
+              <i class="fas fa-search"></i> Search Doctors
+            </button>
+            <button class="btn btn-success" onclick="exportResults('doctors')">
+              <i class="fas fa-download"></i> Export Results
+            </button>
+          </div>
+        </div>
+
+        <div class="results-section" id="doctors-results">
+          <div class="empty-state">
+            <i class="fas fa-search"></i>
+            <h3>No search performed</h3>
+            <p>Use the filters above to search for doctors</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Appointments Tab -->
+      <div class="tab-content" id="appointments-tab">
+        <div class="search-section">
+          <div class="search-header">
+            <h3><i class="fas fa-filter"></i> Appointment Search Filters</h3>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+           
+              <button class="btn btn-sm btn-secondary" onclick="clearFilters('appointments')">
+                <i class="fas fa-times"></i> Clear Filters
+              </button>
+            </div>
+          </div>
+          <form class="form-grid" id="appointment-search-form">
+            <div class="form-group">
+              <label for="appointment-id"><i class="fas fa-id-card"></i> Appointment ID</label>
+              <input type="text" id="appointment-id" class="form-input" placeholder="APT001">
+            </div>
+            <div class="form-group">
+              <label for="appointment-patient-id"><i class="fas fa-user"></i> Patient ID</label>
+              <input type="text" id="appointment-patient-id" class="form-input" placeholder="PAT001 ">
+            </div>
+            <div class="form-group">
+              <label for="appointment-doctor-id"><i class="fas fa-user-md"></i> Doctor ID</label>
+              <input type="text" id="appointment-doctor-id" class="form-input" placeholder="DOC001 ">
+            </div>
+            <div class="form-group">
+              <label for="appointment-date"><i class="fas fa-calendar"></i> Date</label>
+              <input type="date" id="appointment-date" class="form-input">
+            </div>
+            <div class="form-group">
+              <label for="appointment-time"><i class="fas fa-clock"></i> Time</label>
+              <input type="time" id="appointment-time" class="form-input">
+            </div>
+            
+          </form>
+          <div class="button-grid">
+            <button class="btn btn-primary" onclick="searchRecords('appointments')">
+              <i class="fas fa-search"></i> Search Appointments
+            </button>
+            <button class="btn btn-success" onclick="exportResults('appointments')">
+              <i class="fas fa-download"></i> Export Results
+            </button>
+          </div>
+        </div>
+
+        <div class="results-section" id="appointments-results">
+          <div class="empty-state">
+            <i class="fas fa-search"></i>
+            <h3>No search performed</h3>
+            <p>Use the filters above to search for appointments</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Staff Tab -->
+      <div class="tab-content" id="staff-tab">
+        <div class="search-section">
+          <div class="search-header">
+            <h3><i class="fas fa-users"></i> All Staff Records</h3>
+            <button class="btn btn-success" onclick="exportAllRecords('staff')">
+              <i class="fas fa-download"></i> Search
+            </button>
+          </div>
+        </div>
+
+        <div class="results-section" id="staff-results">
+          <div class="empty-state">
+            <i class="fas fa-users"></i>
+            <h3>Staff Records</h3>
+            <p>Click "Export All Staff" to view all staff members</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pharmacy Tab -->
+      <div class="tab-content" id="pharmacy-tab">
+        <div class="search-section">
+          <div class="search-header">
+            <h3><i class="fas fa-pills"></i> All Pharmacy Records</h3>
+            <button class="btn btn-success" onclick="exportAllRecords('pharmacy')">
+              <i class="fas fa-download"></i> Search
+            </button>
+          </div>
+        </div>
+
+        <div class="results-section" id="pharmacy-results">
+          <div class="empty-state">
+            <i class="fas fa-pills"></i>
+            <h3>Pharmacy Records</h3>
+            <p>Click "Export All Pharmacy" to view all pharmacy records</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Detail Modal -->
+  <div class="modal" id="detail-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-title">Record Details</h3>
+        <button class="close-btn" onclick="closeModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <!-- Dynamic content will be inserted here -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Application State
+    let currentTab = 'doctors';
+    let currentResults = {};
+    let currentPage = 1;
+    const resultsPerPage = 10;
+    let sortColumn = '';
+    let sortDirection = 'asc';
+
+    // API Configuration - Update this with your backend server URL
+    // Common configurations:
+    // - Local development: 'http://localhost:8080'
+    // - Production: 'https://your-server.com' or your actual server URL
+    const API_BASE_URL = 'http://localhost:8080';
+
+    // API Helper Functions
+    async function apiRequest(endpoint, options = {}) {
+      try {
+        const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+          },
+          ...options
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const rawData = await response.json();
+        
+        // Handle the case where API returns array of JSON strings
+        if (Array.isArray(rawData)) {
+          return rawData.map(item => 
+            typeof item === "string" ? JSON.parse(item) : item
+          );
+        }
+        
+        // Handle single object that might be a JSON string
+        if (typeof rawData === "string") {
+          return JSON.parse(rawData);
+        }
+        
+        return rawData;
+      } catch (error) {
+        console.error('API request failed:', error);
+        throw error;
+      }
+    }
+
+    // Entity-specific API functions
+    async function fetchDoctors() {
+      return await apiRequest('/doctors');
+    }
+
+    async function fetchDoctor(id) {
+      return await apiRequest(`/doctors/${id}`);
+    }
+
+    async function fetchAppointments() {
+      return await apiRequest('/appointments');
+    }
+
+    async function fetchAppointment(id) {
+      return await apiRequest(`/appointments/${id}`);
+    }
+
+    async function fetchStaff() {
+      return await apiRequest('/staff');
+    }
+
+    async function fetchStaffMember(id) {
+      return await apiRequest(`/staff/${id}`);
+      console.log(`[DEBUG] Raw data for ${entityType}:`, data);
+    }
+
+    async function fetchPharmacyRecords() {
+      return await apiRequest('/pharmacy');
+    }
+
+    async function fetchPharmacyRecord(id) {
+      return await apiRequest(`/pharmacy/${id}`);
+    }
+    
+
+    // Error handling function
+    function showError(entityType, message) {
+      const resultsContainer = document.getElementById(`${entityType}-results`);
+      resultsContainer.innerHTML = `
+        <div class="empty-state">
+          <i class="fas fa-exclamation-triangle" style="color: var(--danger);"></i>
+          <h3>Error</h3>
+          <p>${message}</p>
+          <button class="btn btn-primary" onclick="searchRecords('${entityType}')">
+            <i class="fas fa-redo"></i> Try Again
+          </button>
+        </div>
+      `;
+    }
+
+    // Tab Management
+    function switchTab(tabName) {
+      // Remove active class from all tab buttons and content
+      document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+      // Add active class to selected tab
+      document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+      document.getElementById(`${tabName}-tab`).classList.add('active');
+
+      currentTab = tabName;
+    }
+
+    // Event listeners for tab buttons
+    document.querySelectorAll('.tab-button').forEach(button => {
+      button.addEventListener('click', () => {
+        const tabName = button.getAttribute('data-tab');
+        switchTab(tabName);
+      });
+    });
+
+    // Search functionality
+    async function searchRecords(entityType) {
+      showLoading(entityType);
+      
+      try {
+        let data;
+        
+        // Always fetch all records first, then filter client-side
+        switch(entityType) {
+          case 'doctors':
+            data = await fetchDoctors();
+            break;
+          case 'appointments':
+            data = await fetchAppointments();
+            break;
+          case 'staff':
+            data = await fetchStaff();
+            break;
+          case 'pharmacy':
+            data = await fetchPharmacyRecords();
+            break;
+          default:
+            throw new Error(`Unknown entity type: ${entityType}`);
+        }
+
+        const filters = getFilters(entityType);
+        const results = filterDataWithRegex(data, filters);
+        currentResults[entityType] = results;
+        currentPage = 1;
+        displayResults(entityType, results);
+        
+      } catch (error) {
+        console.error('Search failed:', error);
+        showError(entityType, 'Failed to fetch data from server. Please check your connection and try again.');
+      }
+    }
+
+    // Export all records without filtering
+    async function exportAllRecords(entityType) {
+      showLoading(entityType);
+      
+      try {
+        let data;
+        
+        switch(entityType) {
+          case 'staff':
+            data = await fetchStaff();
+            break;
+          case 'pharmacy':
+            data = await fetchPharmacyRecords();
+            break;
+          default:
+            throw new Error(`Unknown entity type: ${entityType}`);
+        }
+
+        currentResults[entityType] = data;
+        currentPage = 1;
+        displayResults(entityType, data);
+        
+      } catch (error) {
+        console.error('Export failed:', error);
+        showError(entityType, 'Failed to fetch data from server. Please check your connection and try again.');
+      }
+    }
+
+    function getIdField(entityType) {
+      switch(entityType) {
+        case 'doctors':
+        case 'appointments':
+        case 'staff':
+        case 'pharmacy':
+          return 'id';
+        default:
+          return 'id';
+      }
+    }
+
+    function getFilters(entityType) {
+      const filters = {};
+      const form = document.getElementById(`${entityType.slice(0, -1)}-search-form`);
+      
+      if (!form) return filters;
+      
+      form.querySelectorAll('input, select').forEach(input => {
+        if (input.value.trim()) {
+          // Direct mapping using the full input ID for better accuracy
+          const fieldMappings = {
+            // Doctor fields
+            'doctor-id': 'id',
+            'doctor-name': 'name',
+            'doctor-specialty': 'specialty',
+            
+            // Appointment fields
+            'appointment-id': 'id',
+            'appointment-patient-id': 'patientId',
+            'appointment-doctor-id': 'doctorId',
+            'appointment-date': 'date',
+            'appointment-time': 'time',
+            'appointment-status': 'status',
+            
+            // Staff fields
+            'staff-id': 'id',
+            'staff-name': 'name',
+            'staff-role': 'role',
+            'staff-department': 'department',
+            
+            // Pharmacy fields
+            'pharmacy-id': 'id',
+            'pharmacy-patient-id': 'patientId',
+            'pharmacy-doctor-id': 'doctorId',
+            'pharmacy-date': 'date',
+            'pharmacy-medication': 'medication',
+            'pharmacy-time': 'time'
+          };
+          
+          const mappedKey = fieldMappings[input.id];
+          if (mappedKey) {
+            filters[mappedKey] = input.value.trim();
+            console.log(`Mapped ${input.id} -> ${mappedKey}: ${input.value.trim()}`);
+          }
+        }
+      });
+      
+      console.log('Filters for', entityType, ':', filters);
+      return filters;
+    }
+
+    function filterDataWithRegex(data, filters) {
+      // Handle case where API returns a single object instead of array
+      if (!data) return [];
+      if (!Array.isArray(data)) {
+        data = [data]; // Convert single object to array
+      }
+      
+      let filteredData = [...data];
+      
+      Object.keys(filters).forEach(key => {
+        const filterValue = filters[key];
+        if (!filterValue) return;
+        
+        try {
+          // Create regex pattern - case insensitive
+          const regex = new RegExp(filterValue, 'i');
+          filteredData = filteredData.filter(item => {
+            const itemValue = String(item[key] || '');
+            return regex.test(itemValue);
+          });
+        } catch (error) {
+          // If regex is invalid, fall back to simple string matching
+          console.warn('Invalid regex pattern, using simple string search:', filterValue);
+          const lowerFilterValue = filterValue.toLowerCase();
+          filteredData = filteredData.filter(item => {
+            const itemValue = String(item[key] || '').toLowerCase();
+            return itemValue.includes(lowerFilterValue);
+          });
+        }
+      });
+      
+      return filteredData;
+    }
+
+    function filterData(data, filters) {
+      return filterDataWithRegex(data, filters);
+    }
+
+    function displayResults(entityType, results) {
+      const resultsContainer = document.getElementById(`${entityType}-results`);
+      
+      if (results.length === 0) {
+        resultsContainer.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-search"></i>
+            <h3>No results found</h3>
+            <p>Try adjusting your search criteria</p>
+          </div>
+        `;
+        return;
+      }
+
+      const totalPages = Math.ceil(results.length / resultsPerPage);
+      const startIndex = (currentPage - 1) * resultsPerPage;
+      const endIndex = startIndex + resultsPerPage;
+      const pageResults = results.slice(startIndex, endIndex);
+
+      resultsContainer.innerHTML = `
+        <div class="results-header">
+          <div class="results-info">
+            <span><strong>${results.length}</strong> results found</span>
+            <span>•</span>
+            <span>Page ${currentPage} of ${totalPages}</span>
+          </div>
+          <div class="results-actions">
+            <button class="btn btn-sm btn-warning" onclick="exportResults('${entityType}')">
+              <i class="fas fa-download"></i> Export
+            </button>
+          </div>
+        </div>
+        
+        <div class="table-container">
+          ${generateTable(entityType, pageResults)}
+        </div>
+        
+        ${generatePagination(totalPages)}
+      `;
+    }
+
+    function generateTable(entityType, data) {
+      const columns = getTableColumns(entityType);
+      
+      let tableHTML = `
+        <table class="data-table">
+          <thead>
+            <tr>
+              ${columns.map(col => `
+                <th onclick="sortTable('${entityType}', '${col.key}')">
+                  ${col.label}
+                  <i class="fas fa-sort${sortColumn === col.key ? (sortDirection === 'asc' ? '-up' : '-down') : ''}"></i>
+                </th>
+              `).join('')}
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      data.forEach(item => {
+        tableHTML += '<tr>';
+        columns.forEach(col => {
+          const value = item[col.key] || '';
+          const formattedValue = formatCellValue(col.key, value, entityType);
+          tableHTML += `<td>${formattedValue}</td>`;
+        });
+        tableHTML += `
+          <td>
+            <div class="action-buttons">
+              <button class="btn btn-sm btn-secondary" onclick="viewDetails('${entityType}', '${item.id}')">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        `;
+      });
+
+      tableHTML += '</tbody></table>';
+      return tableHTML;
+    }
+
+    function getTableColumns(entityType) {
+      const columnMaps = {
+        doctors: [
+          { key: 'id', label: 'Doctor ID' },
+          { key: 'name', label: 'Name' },
+          { key: 'specialty', label: 'Specialty' }
+        ],
+        appointments: [
+          { key: 'id', label: 'Appointment ID' },
+          { key: 'patientId', label: 'Patient ID' },
+          { key: 'doctorId', label: 'Doctor ID' },
+          { key: 'date', label: 'Date' },
+          { key: 'time', label: 'Time' },
+     
+        ],
+        staff: [
+          { key: 'id', label: 'Staff ID' },
+          { key: 'name', label: 'Name' },
+          { key: 'role', label: 'Role' },
+          { key: 'department', label: 'Department' }
+        ],
+        pharmacy: [
+          { key: 'id', label: 'Prescription ID' },
+          { key: 'patientId', label: 'Patient ID' },
+          { key: 'doctorId', label: 'Doctor ID' },
+          { key: 'date', label: 'Date' },
+          { key: 'medication', label: 'Medication' },
+          { key: 'time', label: 'Time' }
+        ]
+      };
+      return columnMaps[entityType] || [];
+    }
+
+    function formatCellValue(key, value, entityType) {
+      if (key === 'specialty') {
+        const badgeClass = `badge-${value.toLowerCase()}`;
+        return `<span class="badge ${badgeClass}">${value}</span>`;
+      }
+      if (key === 'role') {
+        const badgeClass = `badge-${value.toLowerCase()}`;
+        return `<span class="badge ${badgeClass}">${value}</span>`;
+      }
+      if (key === 'status') {
+        const badgeClass = `badge-${value.toLowerCase()}`;
+        return `<span class="badge ${badgeClass}">${value}</span>`;
+      }
+      return value;
+    }
+    
+
+    function generatePagination(totalPages) {
+      if (totalPages <= 1) return '';
+
+      let paginationHTML = '<div class="pagination">';
+      
+      // Previous button
+      paginationHTML += `
+        <button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+          <i class="fas fa-chevron-left"></i>
+        </button>
+      `;
+
+      // Page numbers
+      for (let i = 1; i <= totalPages; i++) {
+        if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
+          paginationHTML += `
+            <button onclick="changePage(${i})" ${i === currentPage ? 'class="active"' : ''}>
+              ${i}
+            </button>
+          `;
+        } else if (i === currentPage - 3 || i === currentPage + 3) {
+          paginationHTML += '<span>...</span>';
+        }
+      }
+
+      // Next button
+      paginationHTML += `
+        <button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      `;
+
+      paginationHTML += '</div>';
+      return paginationHTML;
+    }
+
+    function changePage(page) {
+      currentPage = page;
+      const results = currentResults[currentTab] || [];
+      displayResults(currentTab, results);
+    }
+
+    function sortTable(entityType, column) {
+      if (sortColumn === column) {
+        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+      } else {
+        sortColumn = column;
+        sortDirection = 'asc';
+      }
+
+      const results = currentResults[entityType] || [];
+      results.sort((a, b) => {
+        const aVal = String(a[column] || '').toLowerCase();
+        const bVal = String(b[column] || '').toLowerCase();
+        
+        if (sortDirection === 'asc') {
+          return aVal.localeCompare(bVal);
+        } else {
+          return bVal.localeCompare(aVal);
+        }
+      });
+
+      currentPage = 1;
+      displayResults(entityType, results);
+    }
+
+    function showLoading(entityType) {
+      const resultsContainer = document.getElementById(`${entityType}-results`);
+      resultsContainer.innerHTML = `
+        <div class="loading">
+          <i class="fas fa-spinner"></i>
+          <h3>Searching ${entityType}...</h3>
+          <p>Please wait while we fetch the results</p>
+        </div>
+      `;
+    }
+
+    function clearFilters(entityType) {
+      const form = document.getElementById(`${entityType.slice(0, -1)}-search-form`);
+      form.querySelectorAll('input, select').forEach(input => {
+        input.value = '';
+      });
+      
+      const resultsContainer = document.getElementById(`${entityType}-results`);
+      resultsContainer.innerHTML = `
+        <div class="empty-state">
+          <i class="fas fa-search"></i>
+          <h3>No search performed</h3>
+          <p>Use the filters above to search for ${entityType}</p>
+        </div>
+      `;
+    }
+
+    async function viewDetails(entityType, id) {
+      const modal = document.getElementById('detail-modal');
+      const modalTitle = document.getElementById('modal-title');
+      const modalBody = document.getElementById('modal-body');
+
+      modalTitle.textContent = `${entityType.slice(0, -1).toUpperCase()} Details - ${id}`;
+      modalBody.innerHTML = `
+        <div class="loading">
+          <i class="fas fa-spinner"></i>
+          <p>Loading details...</p>
+        </div>
+      `;
+      modal.classList.add('active');
+
+      try {
+        let item;
+        
+        // Fetch detailed record from API
+        switch(entityType) {
+          case 'doctors':
+            item = await fetchDoctor(id);
+            break;
+          case 'appointments':
+            item = await fetchAppointment(id);
+            break;
+          case 'staff':
+            item = await fetchStaffMember(id);
+            break;
+          case 'pharmacy':
+            item = await fetchPharmacyRecord(id);
+            break;
+          default:
+            throw new Error(`Unknown entity type: ${entityType}`);
+        }
+
+        if (!item) {
+          modalBody.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-exclamation-triangle"></i>
+              <p>Record not found</p>
+            </div>
+          `;
+          return;
+        }
+
+        let detailsHTML = '';
+        Object.keys(item).forEach(key => {
+          const label = key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1');
+          detailsHTML += `
+            <div class="detail-item">
+              <span class="detail-label">${label}:</span>
+              <span class="detail-value">${item[key]}</span>
+            </div>
+          `;
+        });
+
+        modalBody.innerHTML = detailsHTML;
+        
+      } catch (error) {
+        console.error('Failed to fetch details:', error);
+        let errorMessage = 'Failed to load record details. Please try again.';
+        
+        if (error.message.includes('Server error: Record not found')) {
+          errorMessage = `No ${entityType.slice(0, -1)} found with ID: ${id}`;
+        }
+        
+        modalBody.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-exclamation-triangle" style="color: var(--danger);"></i>
+            <h3>Error</h3>
+            <p>${errorMessage}</p>
+            <button class="btn btn-primary" onclick="viewDetails('${entityType}', '${id}')">
+              <i class="fas fa-redo"></i> Retry
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('detail-modal').classList.remove('active');
+    }
+
+    function exportResults(entityType) {
+      const results = currentResults[entityType] || [];
+      if (results.length === 0) {
+        alert('No results to export. Please perform a search first.');
+        return;
+      }
+
+      const csvContent = generateCSV(entityType, results);
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${entityType}_export_${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    }
+
+    function generateCSV(entityType, data) {
+      const columns = getTableColumns(entityType);
+      const headers = columns.map(col => col.label).join(',');
+      
+      const rows = data.map(item => {
+        return columns.map(col => {
+          const value = item[col.key] || '';
+          return `"${String(value).replace(/"/g, '""')}"`;
+        }).join(',');
+      });
+
+      return headers + '\n' + rows.join('\n');
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('detail-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'detail-modal') {
+        closeModal();
+      }
+    });
+
+    // Handle Enter key in search forms
+    document.querySelectorAll('.form-input, .form-select').forEach(input => {
+      input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          searchRecords(currentTab);
+        }
+      });
+    });
+
+    // Initialize the application
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('Hospital Management Query Interface loaded successfully');
+    });
+        function logout() {
+  
+    // Redirect to login page
+    window.location.href = 'login.html';
+    }
+
+  </script>
+</body>
+</html>

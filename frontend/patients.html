@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Patient Management</title>
+
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #0891b2;
+      --success: #059669;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --background: #f8fafc;
+      --surface: #ffffff;
+      --surface-hover: #f1f5f9;
+      --text-primary: #0f172a;
+      --text-secondary: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --radius: 0.75rem;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--background);
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding-top: 4rem;
+    }
+
+    /* Navigation Bar */
+    .navbar {
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 4rem;
+    }
+    .feature-content {
+      padding: 1.5rem;
+    }
+
+    .feature-btn {
+      width: 100%;
+      padding: 0.875rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .feature-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .logout-btn {
+      background: var(--danger);
+    }
+
+    .logout-btn:hover {
+      background: #b91c1c;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+
+    .nav-logo i {
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .nav-link:hover {
+      color: var(--primary);
+    }
+
+    .nav-link.active {
+      color: var(--primary);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: var(--transition);
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+    }
+
+    /* Page Header */
+    .page-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      padding: 3rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+      opacity: 0.3;
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .header-container h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .header-container h1 i {
+      font-size: 2rem;
+    }
+
+    .header-container p {
+      font-size: 1.125rem;
+      opacity: 0.9;
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+
+    .management-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      animation: slideUp 0.6s ease-out;
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, var(--surface-hover) 0%, var(--surface) 100%);
+      padding: 2rem;
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-title i {
+      font-size: 2rem;
+      color: var(--primary);
+      background: rgba(37, 99, 235, 0.1);
+      padding: 1rem;
+      border-radius: 1rem;
+    }
+
+    .card-title h2 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .card-description {
+      color: var(--text-secondary);
+      font-size: 1rem;
+    }
+
+    .card-content {
+      padding: 2rem;
+    }
+
+    .form-section {
+      margin-bottom: 2rem;
+    }
+
+    .form-section h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .form-section h3 i {
+      color: var(--primary);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 0.875rem;
+    }
+
+    .form-group label i {
+      color: var(--primary);
+      width: 16px;
+    }
+
+    .form-input {
+      padding: 1rem;
+      border: 2px solid var(--border);
+      border-radius: 0.5rem;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: var(--transition);
+      background: var(--surface);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .form-input:hover {
+      border-color: var(--text-secondary);
+    }
+
+    .form-input::placeholder {
+      color: var(--text-secondary);
+    }
+
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      font-size: 0.95rem;
+      box-shadow: var(--shadow);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: var(--secondary);
+      color: white;
+    }
+
+    .btn-warning {
+      background: var(--warning);
+      color: white;
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .output-section {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 2px solid var(--border);
+    }
+
+    .output-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .output-header i {
+      color: var(--primary);
+    }
+
+    .output-content {
+      background: var(--surface-hover);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--primary);
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      min-height: 80px;
+      white-space: pre-wrap;
+      line-height: 1.5;
+    }
+
+    .output-content.success {
+      border-left-color: var(--success);
+      background: rgba(5, 150, 105, 0.05);
+    }
+
+    .output-content.error {
+      border-left-color: var(--danger);
+      background: rgba(220, 38, 38, 0.05);
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 2rem 0;
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    .footer-text {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-menu {
+        display: none;
+      }
+
+      .header-container h1 {
+        font-size: 2rem;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .button-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card-content {
+        padding: 1.5rem;
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="landing.html" class="nav-logo">
+        <i class="fas fa-hospital-alt"></i>
+        MediCare System
+      </a>
+      <ul class="nav-menu">
+        <li><a href="landing.html" class="nav-link">Home</a></li>
+        <li><a href="doctors.html" class="nav-link">Doctors</a></li>
+        <li><a href="appointments.html" class="nav-link">Appointments</a></li>
+        <li><a href="pharmacy.html" class="nav-link">Pharmacy</a></li>
+        <li><a href="staff.html" class="nav-link">Staff</a></li>
+        <li><a href="query.html" class="nav-link">Query</a></li>
+         <li><a href="patients.html" class="nav-link active">Patients</a></li>
+        <div class="feature-content">
+          <button class="feature-btn logout-btn" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+            Logout
+          </button>
+        </div>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="header-container">
+      <h1>
+        <i class="fas fa-procedures"></i>
+        Patient Management
+      </h1>
+      <p>Manage patient profiles, health records, and basic details</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="management-card">
+      <div class="card-header">
+        <div class="card-title">
+          <i class="fas fa-procedures"></i>
+          <h2>Patient Information System</h2>
+        </div>
+        <p class="card-description">Add, update, search, and manage patient records</p>
+      </div>
+
+      <div class="card-content">
+        <div class="form-section">
+          <h3><i class="fas fa-edit"></i> Patient Details</h3>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="patId"><i class="fas fa-id-card"></i> Patient ID</label>
+              <input id="patId" class="form-input" placeholder="Enter unique patient ID" type="text" />
+            </div>
+            <div class="form-group">
+              <label for="patName"><i class="fas fa-user"></i> Full Name</label>
+              <input id="patName" class="form-input" placeholder="Enter patient's full name" type="text" />
+            </div>
+            <div class="form-group">
+              <label for="patAge"><i class="fas fa-hourglass-half"></i> Age</label>
+              <input id="patAge" class="form-input" placeholder="Enter age" type="number" />
+            </div>
+            <div class="form-group">
+              <label for="patGender"><i class="fas fa-venus-mars"></i> Gender</label>
+              <select id="patGender" class="form-input">
+                <option value="">Select gender</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3><i class="fas fa-cogs"></i> Actions</h3>
+          <div class="button-grid">
+            <button onclick="createPatient()" class="btn btn-primary"><i class="fas fa-plus"></i> Add New Patient</button>
+            <button onclick="getPatient()" class="btn btn-secondary"><i class="fas fa-search"></i> Search Patient</button>
+            <button onclick="updatePatient()" class="btn btn-warning"><i class="fas fa-edit"></i> Update Info</button>
+            <button onclick="deletePatient()" class="btn btn-danger"><i class="fas fa-trash"></i> Remove Patient</button>
+          </div>
+        </div>
+
+        <div class="output-section">
+          <div class="output-header">
+            <i class="fas fa-terminal"></i>
+            <span>System Response</span>
+          </div>
+          <div id="patientOutput" class="output-content">
+            Ready to manage patient records.
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Patients Display Card -->
+  <div style="max-width:600px; margin:20px auto; border:2px solid #007bff; border-radius:10px; background:#e9f2ff;">
+    <div style="padding:25px 30px; border-bottom:1px solid #007bff; background:#d0e7ff; color:#004085;">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <i class="fas fa-procedures" style="font-size:2rem;"></i>
+        <h2 style="margin:0;">Patients</h2>
+      </div>
+      <p style="font-size:1.1rem;">View and manage registered patients</p>
+    </div>
+    <div id="patientListContainer" style="padding:25px 30px;">
+      <div style="display:flex; align-items:center; gap:15px; font-size:1.2rem; color:#007bff;">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Loading patients...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-text">
+      <i class="fas fa-heart" style="color: var(--danger);"></i>
+      Healthcare Management System - Providing Quality Care
+    </div>
+  </footer>
+
+<script>
+  const baseURL = "http://localhost:8080";
+
+  async function createPatient() {
+    const data = {
+      id: patId.value,
+      name: patName.value,
+      age: parseInt(patAge.value),
+      gender: patGender.value
+    };
+    if (!data.id || !data.name || isNaN(data.age) || !data.gender) {
+      patientOutput.className = "output-content error";
+      patientOutput.innerText = "Error: Please fill in all fields.";
+      return;
+    }
+    patientOutput.className = "output-content";
+    patientOutput.innerText = "Creating patient profile...";
+    try {
+      const res = await fetch(`${baseURL}/patients`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      const msg = await res.text();
+      patientOutput.className = res.ok ? "output-content success" : "output-content error";
+      patientOutput.innerText = msg;
+      if (res.ok) {
+        patId.value = '';
+        patName.value = '';
+        patAge.value = '';
+        patGender.value = '';
+      }
+    } catch (err) {
+      patientOutput.className = "output-content error";
+      patientOutput.innerText = `Network Error: ${err.message}`;
+    }
+  }
+
+  async function getPatient() {
+    if (!patId.value) {
+      patientOutput.className = "output-content error";
+      patientOutput.innerText = "Error: Enter Patient ID to search.";
+      return;
+    }
+    patientOutput.className = "output-content";
+    patientOutput.innerText = "Searching patient...";
+    try {
+      const res = await fetch(`${baseURL}/patients/${patId.value}`);
+      const data = await res.json();
+      patName.value = data.name;
+      patAge.value = data.age;
+      patGender.value = data.gender;
+      patientOutput.className = "output-content success";
+      patientOutput.innerText = "Patient found.";
+    } catch (err) {
+      patientOutput.className = "output-content error";
+      patientOutput.innerText = `Error: ${err.message}`;
+    }
+  }
+
+  async function updatePatient() {
+    const data = {
+      id: patId.value,
+      name: patName.value,
+      age: parseInt(patAge.value),
+      gender: patGender.value
+    };
+    if (!data.id || !data.name || isNaN(data.age) || !data.gender) {
+      patientOutput.className = "output-content error";
+      patientOutput.innerText = "Error: All fields required.";
+      return;
+    }
+    patientOutput.className = "output-content";
+    patientOutput.innerText = "Updating patient...";
+    try {
+      const res = await fetch(`${baseURL}/patients/${patId.value}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      const msg = await res.text();
+      patientOutput.className = res.ok ? "output-content success" : "output-content error";
+      patientOutput.innerText = msg;
+    } catch (err) {
+      patientOutput.className = "output-content error";
+      patientOutput.innerText = `Network Error: ${err.message}`;
+    }
+  }
+
+  async function deletePatient() {
+    if (!patId.value) {
+      patientOutput.className = "output-content error";
+      patientOutput.innerText = "Error: Enter Patient ID to delete.";
+      return;
+    }
+    if (!confirm(`Delete patient with ID: ${patId.value}?`)) return;
+    patientOutput.className = "output-content";
+    patientOutput.innerText = "Deleting patient...";
+    try {
+      const res = await fetch(`${baseURL}/patients/${patId.value}`, { method: "DELETE" });
+      const msg = await res.text();
+      patientOutput.className = res.ok ? "output-content success" : "output-content error";
+      patientOutput.innerText = msg;
+      if (res.ok) {
+        patId.value = '';
+        patName.value = '';
+        patAge.value = '';
+        patGender.value = '';
+      }
+    } catch (err) {
+      patientOutput.className = "output-content error";
+      patientOutput.innerText = `Network Error: ${err.message}`;
+    }
+  }
+
+  async function loadAndDisplayPatients() {
+  const container = document.getElementById("patientListContainer");
+  if (!container) return console.error("Container element not found");
+
+  container.innerHTML = `
+    <div style="display:flex; align-items:center; gap:10px; color:#007bff; font-size:1.1rem;">
+      <i class="fas fa-spinner fa-spin" style="font-size:1.5rem;"></i>
+      <p>Loading patients...</p>
+    </div>
+  `;
+
+  try {
+    const res = await fetch(`${baseURL}/patients`);
+    if (!res.ok) throw new Error("Failed to fetch patients");
+
+    let patientsRaw = await res.json();
+    let patients = patientsRaw.map(item => typeof item === "string" ? JSON.parse(item) : item);
+
+    if (patients.length === 0) {
+      container.innerHTML = "<p>No patients found.</p>";
+      return;
+    }
+
+    let tableHTML = `
+      <table style="width:500px; margin: 15px auto; border-collapse: collapse; font-family: Arial, sans-serif;">
+        <thead>
+          <tr style="background-color: #c3e6cb; color: #155724;">
+            <th style="border: 1px solid #28a745; padding: 10px; text-align: left;">ID</th>
+            <th style="border: 1px solid #28a745; padding: 10px; text-align: left;">Name</th>
+            <th style="border: 1px solid #28a745; padding: 10px; text-align: left;">Illness</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    patients.forEach(patient => {
+      tableHTML += `
+        <tr style="border: 1px solid #28a745;">
+          <td style="border: 1px solid #28a745; padding: 10px;">${patient.id || "N/A"}</td>
+          <td style="border: 1px solid #28a745; padding: 10px;">${patient.name || "N/A"}</td>
+          <td style="border: 1px solid #28a745; padding: 10px;">${patient.illness || "N/A"}</td>
+        </tr>
+      `;
+    });
+
+    tableHTML += "</tbody></table>";
+    container.innerHTML = tableHTML;
+
+  } catch (error) {
+    container.innerHTML = `<p style="color:red;">Error loading patients: ${error.message}</p>`;
+  }
+}
+
+  document.addEventListener("DOMContentLoaded", () => {
+    loadAndDisplayPatients();
+  });
+
+  function logout() {
+    window.location.href = 'login.html';
+  }
+</script>
+
+</body>
+</html>

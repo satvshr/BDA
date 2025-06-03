@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🏥 Hospital Management System - Authentication</title>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Modern CSS Variables */
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #0891b2;
+      --success: #059669;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --background: #f8fafc;
+      --surface: #ffffff;
+      --surface-hover: #f1f5f9;
+      --text-primary: #0f172a;
+      --text-secondary: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --radius: 0.75rem;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--background);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Navigation Bar */
+    .navbar {
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 4rem;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+
+    .nav-logo i {
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+      cursor: pointer;
+    }
+
+    .nav-link:hover {
+      color: var(--primary);
+    }
+
+    .nav-link.active {
+      color: var(--primary);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: var(--transition);
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+    }
+
+    .nav-button {
+      background: var(--primary);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: var(--radius);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+    }
+
+    .nav-button:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* Mobile Menu Toggle */
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+
+    /* Auth Container */
+    .auth-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6rem 1.5rem 2rem;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .auth-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+      opacity: 0.3;
+    }
+
+    .auth-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      width: 100%;
+      max-width: 450px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .auth-header {
+      background: linear-gradient(135deg, var(--surface-hover) 0%, var(--surface) 100%);
+      padding: 2rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .auth-header h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .auth-header h1 i {
+      color: var(--primary);
+      font-size: 2rem;
+    }
+
+    .auth-header p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .auth-toggle {
+      display: flex;
+      background: var(--surface-hover);
+      border-radius: 0.5rem;
+      padding: 0.25rem;
+      margin: 1.5rem 0;
+    }
+
+    .auth-toggle button {
+      flex: 1;
+      padding: 0.75rem;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-weight: 600;
+      border-radius: 0.25rem;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .auth-toggle button.active {
+      background: var(--surface);
+      color: var(--primary);
+      box-shadow: var(--shadow);
+    }
+
+    .auth-content {
+      padding: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+    }
+
+    .form-group label i {
+      color: var(--primary);
+      width: 16px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.875rem;
+      border: 2px solid var(--border);
+      border-radius: 0.5rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      transition: var(--transition);
+      background: var(--surface);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .form-input:hover {
+      border-color: var(--text-secondary);
+    }
+
+    .form-input::placeholder {
+      color: var(--text-secondary);
+    }
+
+    .form-input.error {
+      border-color: var(--danger);
+    }
+
+    .error-message {
+      color: var(--danger);
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .success-message {
+      color: var(--success);
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .password-strength {
+      margin-top: 0.5rem;
+    }
+
+    .strength-bar {
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 0.25rem;
+    }
+
+    .strength-fill {
+      height: 100%;
+      transition: var(--transition);
+      border-radius: 2px;
+    }
+
+    .strength-weak { background: var(--danger); }
+    .strength-fair { background: var(--warning); }
+    .strength-good { background: var(--secondary); }
+    .strength-strong { background: var(--success); }
+
+    .strength-text {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+
+    .role-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .role-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+      border: 2px solid var(--border);
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+    }
+
+    .role-option:hover {
+      border-color: var(--primary);
+      background: rgba(37, 99, 235, 0.05);
+    }
+
+    .role-option.selected {
+      border-color: var(--primary);
+      background: rgba(37, 99, 235, 0.1);
+    }
+
+    .role-option i {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .role-option span {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 1rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .submit-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .submit-btn:disabled {
+      background: var(--text-secondary);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Dashboard Styles */
+    .dashboard {
+      display: none;
+      padding-top: 4rem;
+    }
+
+    .dashboard.active {
+      display: block;
+    }
+
+    .dashboard-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 2rem 0;
+    }
+
+    .dashboard-header .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .dashboard-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .dashboard-subtitle {
+      color: var(--text-secondary);
+      font-size: 1.125rem;
+    }
+
+    .dashboard-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: var(--transition);
+      border: 1px solid var(--border);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .feature-header {
+      background: linear-gradient(135deg, var(--surface-hover) 0%, var(--surface) 100%);
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .feature-title {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-title i {
+      font-size: 1.5rem;
+      color: var(--primary);
+      background: rgba(37, 99, 235, 0.1);
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+    }
+
+    .feature-title h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .feature-description {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .feature-content {
+      padding: 1.5rem;
+    }
+
+    .feature-btn {
+      width: 100%;
+      padding: 0.875rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .feature-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .logout-btn {
+      background: var(--danger);
+    }
+
+    .logout-btn:hover {
+      background: #b91c1c;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .nav-menu {
+        display: none;
+      }
+
+      .mobile-toggle {
+        display: block;
+      }
+
+      .auth-container {
+        padding: 5rem 1rem 2rem;
+      }
+
+      .auth-card {
+        max-width: 100%;
+      }
+
+      .role-selector {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard-title {
+        font-size: 1.5rem;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Hidden class */
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo">
+        <i class="fas fa-hospital"></i>
+            MediCare System
+      </a>
+      <ul class="nav-menu" id="navMenu">
+     
+      </ul>
+      <button class="nav-button" id="authBtn" onclick="showAuth()">Login</button>
+      <button class="mobile-toggle">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Authentication Section -->
+  <section id="authSection" class="auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <h1>
+          <i class="fas fa-user-md"></i>
+          Hospital Access
+        </h1>
+        <p>Secure access to hospital management system</p>
+        
+        <div class="auth-toggle">
+          <button type="button" class="active" onclick="toggleAuth('login')">Login</button>
+          <button type="button" onclick="toggleAuth('signup')">Sign Up</button>
+        </div>
+      </div>
+
+      <div class="auth-content">
+        <!-- Login Form -->
+        <form id="loginForm" class="auth-form">
+          <div class="form-group">
+            <label for="loginUsername">
+              <i class="fas fa-user"></i>
+              Username
+            </label>
+            <input type="text" id="loginUsername" class="form-input" placeholder="Enter your username" required>
+            <div class="error-message hidden" id="loginUsernameError">
+              <i class="fas fa-exclamation-circle"></i>
+              <span></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="loginPassword">
+              <i class="fas fa-lock"></i>
+              Password
+            </label>
+            <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password" required>
+            <div class="error-message hidden" id="loginPasswordError">
+              <i class="fas fa-exclamation-circle"></i>
+              <span></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>
+              <i class="fas fa-user-tag"></i>
+              Role
+            </label>
+            <div class="role-selector">
+              <div class="role-option" data-role="admin" onclick="selectRole('admin', 'login')">
+                <i class="fas fa-user-shield"></i>
+                <span>Admin</span>
+              </div>
+              <div class="role-option" data-role="doctor" onclick="selectRole('doctor', 'login')">
+                <i class="fas fa-user-md"></i>
+                <span>Doctor</span>
+              </div>
+            </div>
+            <div class="error-message hidden" id="loginRoleError">
+              <i class="fas fa-exclamation-circle"></i>
+              <span>Please select a role</span>
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn">
+            <i class="fas fa-sign-in-alt"></i>
+            Login
+          </button>
+        </form>
+
+        <!-- Signup Form -->
+        <form id="signupForm" class="auth-form hidden">
+          <div class="form-group">
+            <label for="signupUsername">
+              <i class="fas fa-user"></i>
+              Username
+            </label>
+            <input type="text" id="signupUsername" class="form-input" placeholder="Choose a username" required>
+            <div class="error-message hidden" id="signupUsernameError">
+              <i class="fas fa-exclamation-circle"></i>
+              <span></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="signupEmail">
+              <i class="fas fa-envelope"></i>
+              Email
+            </label>
+            <input type="email" id="signupEmail" class="form-input" placeholder="Enter your email" required>
+            <div class="error-message hidden" id="signupEmailError">
+              <i class="fas fa-exclamation-circle"></i>
+              <span></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="signupPassword">
+              <i class="fas fa-lock"></i>
+              Password
+            </label>
+            <input type="password" id="signupPassword" class="form-input" placeholder="Create a password" required>
+            <div class="password-strength">
+              <div class="strength-bar">
+                <div class="strength-fill" id="strengthFill"></div>
+              </div>
+              <div class="strength-text" id="strengthText">Password strength: Weak</div>
+            </div>
+            <div class="error-message hidden" id="signupPasswordError">
+              <i class="fas fa-exclamation-circle"></i>
+              <span></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="signupConfirmPassword">
+              <i class="fas fa-lock"></i>
+              Confirm Password
+            </label>
+            <input type="password" id="signupConfirmPassword" class="form-input" placeholder="Confirm your password" required>
+            <div class="error-message hidden" id="signupConfirmPasswordError">
+              <i class="fas fa-exclamation-circle"></i>
+              <span></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>
+              <i class="fas fa-user-tag"></i>
+              Role
+            </label>
+            <div class="role-selector">
+              <div class="role-option" data-role="admin" onclick="selectRole('admin', 'signup')">
+                <i class="fas fa-user-shield"></i>
+                <span>Admin</span>
+              </div>
+              <div class="role-option" data-role="doctor" onclick="selectRole('doctor', 'signup')">
+                <i class="fas fa-user-md"></i>
+                <span>Doctor</span>
+              </div>
+            </div>
+            <div class="error-message hidden" id="signupRoleError">
+              <i class="fas fa-exclamation-circle"></i>
+              <span>Please select a role</span>
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn">
+            <i class="fas fa-user-plus"></i>
+            Sign Up
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dashboard Section -->
+  <section id="dashboardSection" class="dashboard">
+    <div class="dashboard-header">
+      <div class="container">
+        <h1 class="dashboard-title">Welcome to Hospital Management System</h1>
+        <p class="dashboard-subtitle">Manage hospital operations efficiently and securely</p>
+      </div>
+    </div>
+
+    <div class="dashboard-content">
+      <div class="feature-grid">
+        <div class="feature-card admin-only">
+          <div class="feature-header">
+            <div class="feature-title">
+              <i class="fas fa-user-md"></i>
+              <h3>Doctor Management</h3>
+            </div>
+            <p class="feature-description">Manage doctor profiles, schedules, and specializations</p>
+          </div>
+          <div class="feature-content">
+            <button class="feature-btn">
+              <i class="fas fa-plus"></i>
+              Manage Doctors
+            </button>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-header">
+            <div class="feature-title">
+              <i class="fas fa-calendar-alt"></i>
+              <h3>Appointments</h3>
+            </div>
+            <p class="feature-description">Schedule and manage patient appointments</p>
+          </div>
+          <div class="feature-content">
+            <button class="feature-btn">
+              <i class="fas fa-calendar-plus"></i>
+              View Appointments
+            </button>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-header">
+            <div class="feature-title">
+              <i class="fas fa-pills"></i>
+              <h3>Pharmacy</h3>
+            </div>
+            <p class="feature-description">Manage medications and prescriptions</p>
+          </div>
+          <div class="feature-content">
+            <button class="feature-btn">
+              <i class="fas fa-prescription-bottle"></i>
+              Pharmacy System
+            </button>
+          </div>
+        </div>
+
+        <div class="feature-card admin-only">
+          <div class="feature-header">
+            <div class="feature-title">
+              <i class="fas fa-users"></i>
+              <h3>Staff Management</h3>
+            </div>
+            <p class="feature-description">Manage hospital staff and their roles</p>
+          </div>
+          <div class="feature-content">
+            <button class="feature-btn">
+              <i class="fas fa-user-plus"></i>
+              Manage Staff
+            </button>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-header">
+            <div class="feature-title">
+              <i class="fas fa-search"></i>
+              <h3>Query System</h3>
+            </div>
+            <p class="feature-description">Search and query hospital data</p>
+          </div>
+          <div class="feature-content">
+            <button class="feature-btn">
+              <i class="fas fa-database"></i>
+              Query Database
+            </button>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-header">
+            <div class="feature-title">
+              <i class="fas fa-sign-out-alt"></i>
+              <h3>Logout</h3>
+            </div>
+            <p class="feature-description">Securely logout from the system</p>
+          </div>
+          <div class="feature-content">
+            <button class="feature-btn logout-btn" onclick="logout()">
+              <i class="fas fa-sign-out-alt"></i>
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Application State
+    let currentMode = 'login';
+    let selectedRole = {
+      login: null,
+      signup: null
+    };
+    let currentUser = null;
+
+    // Initialize the application
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load user session if exists
+      const savedUser = localStorage.getItem('hospitalUser');
+      if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+        showDashboard();
+      }
+
+      // Setup form event listeners
+      setupFormListeners();
+      
+      // Setup password strength indicator
+      setupPasswordStrength();
+    });
+
+    // Toggle between login and signup
+    function toggleAuth(mode) {
+      currentMode = mode;
+      const loginForm = document.getElementById('loginForm');
+      const signupForm = document.getElementById('signupForm');
+      const toggleButtons = document.querySelectorAll('.auth-toggle button');
+
+      // Update toggle buttons
+      toggleButtons.forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      // Show/hide forms
+      if (mode === 'login') {
+        loginForm.classList.remove('hidden');
+        signupForm.classList.add('hidden');
+      } else {
+        loginForm.classList.add('hidden');
+        signupForm.classList.remove('hidden');
+      }
+
+      // Clear form errors
+      clearFormErrors();
+    }
+
+    // Role selection
+    function selectRole(role, formType) {
+      selectedRole[formType] = role;
+      
+      // Update visual selection
+      const roleOptions = document.querySelectorAll(`#${formType}Form .role-option`);
+      roleOptions.forEach(option => {
+        option.classList.remove('selected');
+        if (option.dataset.role === role) {
+          option.classList.add('selected');
+        }
+      });
+
+      // Clear role error
+      const errorElement = document.getElementById(`${formType}RoleError`);
+      if (errorElement) {
+        errorElement.classList.add('hidden');
+      }
+    }
+
+    // Setup form event listeners
+    function setupFormListeners() {
+      const loginForm = document.getElementById('loginForm');
+      const signupForm = document.getElementById('signupForm');
+
+      loginForm.addEventListener('submit', handleLogin);
+      signupForm.addEventListener('submit', handleSignup);
+
+      // Real-time validation
+      const inputs = document.querySelectorAll('.form-input');
+      inputs.forEach(input => {
+        input.addEventListener('blur', validateField);
+        input.addEventListener('input', clearFieldError);
+      });
+    }
+
+    // Setup password strength indicator
+    function setupPasswordStrength() {
+      const passwordInput = document.getElementById('signupPassword');
+      const strengthFill = document.getElementById('strengthFill');
+      const strengthText = document.getElementById('strengthText');
+
+      passwordInput.addEventListener('input', function() {
+        const password = this.value;
+        const strength = calculatePasswordStrength(password);
+        
+        // Update strength bar
+        strengthFill.style.width = `${strength.percentage}%`;
+        strengthFill.className = `strength-fill strength-${strength.level}`;
+        
+        // Update strength text
+        strengthText.textContent = `Password strength: ${strength.text}`;
+      });
+    }
+
+    // Calculate password strength
+    function calculatePasswordStrength(password) {
+      let score = 0;
+      const checks = {
+        length: password.length >= 8,
+        lowercase: /[a-z]/.test(password),
+        uppercase: /[A-Z]/.test(password),
+        numbers: /\d/.test(password),
+        special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+      };
+
+      score = Object.values(checks).filter(Boolean).length;
+
+      const levels = {
+        0: { level: 'weak', text: 'Weak', percentage: 20 },
+        1: { level: 'weak', text: 'Weak', percentage: 20 },
+        2: { level: 'fair', text: 'Fair', percentage: 40 },
+        3: { level: 'good', text: 'Good', percentage: 60 },
+        4: { level: 'good', text: 'Good', percentage: 80 },
+        5: { level: 'strong', text: 'Strong', percentage: 100 }
+      };
+
+      return levels[score] || levels[0];
+    }
+
+    // Handle login
+   function handleLogin(event) {
+  event.preventDefault();
+
+  const username = document.getElementById('loginUsername').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const role = selectedRole.login;
+
+  fetch('http://localhost:8080/users')
+    .then(res => {
+      if (!res.ok) throw new Error('Failed to fetch users');
+      return res.json();
+    })
+    .then(users => {
+      // parse each JSON string to object
+      const parsedUsers = users.map(u => JSON.parse(u));
+
+      const user = parsedUsers.find(u =>
+        u.username === username &&
+        u.password === password &&
+        u.role === role
+      );
+
+      console.log(user);
+
+      if (user) {
+        currentUser = user;
+        localStorage.setItem('hospitalUser', JSON.stringify(user));
+        showSuccessMessage('Login successful! Redirecting...');
+        setTimeout(() => showDashboard(), 1500);
+        setTimeout(() => {
+    if (user.role === 'admin') {
+        window.location.href = 'landing.html';
+        } else if (user.role === 'doctor') {
+        window.location.href = 'landing_doctor.html';
+       
+        } else {
+        showDashboard();  // fallback or default dashboard
+        }
+
+  }, 1500);
+      } else {
+        showError('loginPassword', 'Invalid credentials or role mismatch');
+      }
+    })
+    .catch(err => {
+      showError('loginPassword', 'Login failed: ' + err.message);
+    });
+}
+
+    // Handle signup
+    function handleSignup(event) {
+  event.preventDefault();
+
+  if (!validateSignupForm()) return;
+
+  const username = document.getElementById('signupUsername').value;
+  const email = document.getElementById('signupEmail').value;
+  const password = document.getElementById('signupPassword').value;
+  const role = selectedRole.signup;
+
+  fetch('http://localhost:8080/users/signup', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      id: Date.now().toString(),
+      username,
+      email,
+      password,
+      role
+    })
+  })
+    .then(res => {
+      if (res.ok) return res.text();
+      throw new Error('Signup failed');
+    })
+    .then(message => {
+      showSuccessMessage(message);
+      setTimeout(() => toggleAuth('login'), 1500);
+    })
+    .catch(err => {
+      showError('signupUsername', err.message);
+    });
+}
+
+    function validateSignupForm() {
+      let isValid = true;
+
+      // Username validation
+      const username = document.getElementById('signupUsername').value.trim();
+      if (!username) {
+        showError('signupUsername', 'Username is required');
+        isValid = false;
+      } else if (username.length < 3) {
+        showError('signupUsername', 'Username must be at least 3 characters');
+        isValid = false;
+      }
+
+      // Email validation
+      const email = document.getElementById('signupEmail').value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email) {
+        showError('signupEmail', 'Email is required');
+        isValid = false;
+      } else if (!emailRegex.test(email)) {
+        showError('signupEmail', 'Please enter a valid email address');
+        isValid = false;
+      }
+
+      // Password validation
+      const password = document.getElementById('signupPassword').value;
+      if (!password) {
+        showError('signupPassword', 'Password is required');
+        isValid = false;
+      } else if (password.length < 8) {
+        showError('signupPassword', 'Password must be at least 8 characters');
+        isValid = false;
+      }
+
+      // Confirm password validation
+      const confirmPassword = document.getElementById('signupConfirmPassword').value;
+      if (!confirmPassword) {
+        showError('signupConfirmPassword', 'Please confirm your password');
+        isValid = false;
+      } else if (password !== confirmPassword) {
+        showError('signupConfirmPassword', 'Passwords do not match');
+        isValid = false;
+      }
+
+      // Role validation
+      if (!selectedRole.signup) {
+        document.getElementById('signupRoleError').classList.remove('hidden');
+        isValid = false;
+      }
+
+      return isValid;
+    }
+
+    function validateField(event) {
+      const field = event.target;
+      const fieldId = field.id;
+      const value = field.value.trim();
+
+      clearFieldError(event);
+
+      switch (fieldId) {
+        case 'signupUsername':
+          if (value && value.length < 3) {
+            showError(fieldId, 'Username must be at least 3 characters');
+          }
+          break;
+        case 'signupEmail':
+          if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+            showError(fieldId, 'Please enter a valid email address');
+          }
+          break;
+        case 'signupPassword':
+          if (value && value.length < 8) {
+            showError(fieldId, 'Password must be at least 8 characters');
+          }
+          break;
+        case 'signupConfirmPassword':
+          const password = document.getElementById('signupPassword').value;
+          if (value && value !== password) {
+            showError(fieldId, 'Passwords do not match');
+          }
+          break;
+      }
+    }
+
+    // Utility functions
+    function showError(fieldId, message) {
+      const field = document.getElementById(fieldId);
+      const errorElement = document.getElementById(fieldId + 'Error');
+      
+      if (field) field.classList.add('error');
+      if (errorElement) {
+        errorElement.querySelector('span').textContent = message;
+        errorElement.classList.remove('hidden');
+      }
+    }
+
+    function clearFieldError(event) {
+      const field = event.target;
+      const fieldId = field.id;
+      const errorElement = document.getElementById(fieldId + 'Error');
+      
+      field.classList.remove('error');
+      if (errorElement) {
+        errorElement.classList.add('hidden');
+      }
+    }
+
+    function clearFormErrors() {
+      const errorElements = document.querySelectorAll('.error-message');
+      const inputElements = document.querySelectorAll('.form-input');
+      
+      errorElements.forEach(el => el.classList.add('hidden'));
+      inputElements.forEach(el => el.classList.remove('error'));
+    }
+
+    function showSuccessMessage(message) {
+      // Create temporary success message
+      const successDiv = document.createElement('div');
+      successDiv.className = 'success-message';
+      successDiv.innerHTML = `<i class="fas fa-check-circle"></i><span>${message}</span>`;
+      successDiv.style.textAlign = 'center';
+      successDiv.style.padding = '1rem';
+      successDiv.style.marginBottom = '1rem';
+      successDiv.style.background = 'rgba(5, 150, 105, 0.1)';
+      successDiv.style.borderRadius = '0.5rem';
+      successDiv.style.border = '1px solid var(--success)';
+
+      const authContent = document.querySelector('.auth-content');
+      authContent.insertBefore(successDiv, authContent.firstChild);
+
+      setTimeout(() => {
+        successDiv.remove();
+      }, 3000);
+    }
+
+    function getStoredUsers() {
+      const users = localStorage.getItem('hospitalUsers');
+      return users ? JSON.parse(users) : [];
+    }
+
+    // Dashboard functions
+    function showDashboard() {
+      document.getElementById('authSection').style.display = 'none';
+      document.getElementById('dashboardSection').classList.add('active');
+      document.getElementById('authBtn').textContent = 'Logout';
+      document.getElementById('authBtn').onclick = logout;
+
+      // Update navigation based on role
+      updateNavigationForRole();
+    }
+
+    function showAuth() {
+      document.getElementById('authSection').style.display = 'flex';
+      document.getElementById('dashboardSection').classList.remove('active');
+    }
+
+    function updateNavigationForRole() {
+      const adminOnlyElements = document.querySelectorAll('.admin-only');
+      
+      if (currentUser && currentUser.role === 'admin') {
+        adminOnlyElements.forEach(el => el.style.display = 'flex');
+      } else {
+        adminOnlyElements.forEach(el => el.style.display = 'none');
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('hospitalUser');
+      currentUser = null;
+      selectedRole = { login: null, signup: null };
+      
+      // Reset forms
+      document.getElementById('loginForm').reset();
+      document.getElementById('signupForm').reset();
+      clearFormErrors();
+      
+      // Reset role selections
+      document.querySelectorAll('.role-option').forEach(option => {
+        option.classList.remove('selected');
+      });
+
+      // Reset navigation
+      document.getElementById('authBtn').textContent = 'Login';
+      document.getElementById('authBtn').onclick = showAuth;
+      
+      // Show auth section
+      showAuth();
+    }
+
+    // Navigation handlers
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Update active state
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+        
+        // Handle page navigation (placeholder)
+        const page = this.dataset.page;
+        console.log(`Navigating to ${page} page`);
+        
+        // You can add actual page routing logic here
+      });
+    });
+  </script>
+</body>
+</html>
