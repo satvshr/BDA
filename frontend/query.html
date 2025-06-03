@@ -9,25 +9,29 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
+    /* Dark Mode CSS Schema */
     :root {
-      --primary: #2563eb;
-      --primary-dark: #1d4ed8;
-      --secondary: #0891b2;
-      --success: #059669;
-      --warning: #d97706;
-      --danger: #dc2626;
-      --background: #f8fafc;
-      --surface: #ffffff;
-      --surface-hover: #f1f5f9;
-      --text-primary: #0f172a;
-      --text-secondary: #64748b;
-      --border: #e2e8f0;
-      --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-      --radius: 0.75rem;
+      --primary: #6366f1; /* Indigo 500 */
+      --primary-dark: #4f46e5; /* Indigo 600 */
+      --secondary: #ec4899; /* Pink 500 */
+      --accent: #10b981; /* Emerald 500 */
+      --warning: #f59e0b; /* Amber 500 */
+      --danger: #ef4444; /* Red 500 */
+      --background: #0f172a; /* Slate 900 */
+      --surface: #1e293b; /* Slate 800 */
+      --surface-light: #334155; /* Slate 700 */
+      --surface-hover: #475569; /* Slate 600 */
+      --text-primary: #f8fafc; /* Slate 50 */
+      --text-secondary: #cbd5e1; /* Slate 300 */
+      --text-muted: #94a3b8; /* Slate 400 */
+      --border: #334155; /* Slate 700 */
+      --glow: 0 0 20px rgba(99, 102, 241, 0.3);
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --radius: 0.75rem; /* Adjusted for consistency with existing elements */
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -38,7 +42,7 @@
     }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: var(--background);
       color: var(--text-primary);
       line-height: 1.6;
@@ -806,14 +810,14 @@
     <div class="nav-container">
       <a href="landing.html" class="nav-logo">
         <i class="fas fa-hospital-alt"></i>
-        MediCare System
+        Booky System
       </a>
       
       <ul class="nav-menu">
         <li><a href="landing.html" class="nav-link">Home</a></li>
-        <li><a href="doctors.html" class="nav-link ">Doctors</a></li>
-        <li><a href="appointments.html" class="nav-link ">Appointments</a></li>
-        <li><a href="pharmacy.html" class="nav-link ">Pharmacy</a></li>
+        <li><a href="doctors.html" class="nav-link ">Librarian</a></li>
+        <li><a href="appointments.html" class="nav-link ">Book issue requests</a></li>
+        <li><a href="pharmacy.html" class="nav-link ">Inventory</a></li>
         <li><a href="staff.html" class="nav-link ">Staff</a></li>
            <li><a href="query.html" class="nav-link active">Query</a></li>
            <div class="feature-content">
@@ -853,19 +857,19 @@
       <div class="tab-navigation">
         <button class="tab-button active" data-tab="doctors">
           <i class="fas fa-user-md"></i>
-          Doctors
+          Librarian
         </button>
         <button class="tab-button" data-tab="appointments">
           <i class="fas fa-calendar-check"></i>
-          Appointments
+          Book issue requests
         </button>
         <button class="tab-button" data-tab="staff">
           <i class="fas fa-users"></i>
-          Staff
+          Library staff
         </button>
         <button class="tab-button" data-tab="pharmacy">
           <i class="fas fa-pills"></i>
-          Pharmacy
+          Book inventory
         </button>
       </div>
 
@@ -873,7 +877,7 @@
       <div class="tab-content active" id="doctors-tab">
         <div class="search-section">
           <div class="search-header">
-            <h3><i class="fas fa-filter"></i> Doctor Search Filters</h3>
+            <h3><i class="fas fa-filter"></i> Librarian Search Filters</h3>
             <div style="display: flex; gap: 1rem; align-items: center;">
       
               <button class="btn btn-sm btn-secondary" onclick="clearFilters('doctors')">
@@ -883,29 +887,27 @@
           </div>
           <form class="form-grid" id="doctor-search-form">
             <div class="form-group">
-              <label for="doctor-id"><i class="fas fa-id-card"></i> Doctor ID</label>
+              <label for="doctor-id"><i class="fas fa-id-card"></i> Librarian ID</label>
               <input type="text" id="doctor-id" class="form-input" placeholder="DOC001 ">
             </div>
             <div class="form-group">
-              <label for="doctor-name"><i class="fas fa-user"></i> Doctor Name</label>
+              <label for="doctor-name"><i class="fas fa-user"></i> Librarian Name</label>
               <input type="text" id="doctor-name" class="form-input" placeholder="Kirti ">
             </div>
             <div class="form-group">
-              <label for="doctor-specialty"><i class="fas fa-stethoscope"></i> Specialty</label>
+              <label for="doctor-specialty"><i class="fas fa-stethoscope"></i> Branch</label>
               <select id="doctor-specialty" class="form-select">
-                <option value="">All Specialties</option>
-                <option value="Cardiology">Cardiology</option>
-                <option value="Surgery">Surgery</option>
-                <option value="Pediatrics">Pediatrics</option>
-                <option value="Neurology">Neurology</option>
-                <option value="Orthopedics">Orthopedics</option>
+                <option value="">All branches</option>
+                <option value="Cardiology">English Department</option>
+                <option value="Surgery">Science Department</option>
+                <option value="Pediatrics">Art and Culture Department</option>
               </select>
             </div>
           </form>
           <div class="button-grid">
-            <button class="btn btn-primary" onclick="searchRecords('doctors')">
+            <!-- <button class="btn btn-primary" onclick="searchRecords('doctors')">
               <i class="fas fa-search"></i> Search Doctors
-            </button>
+            </button> -->
             <button class="btn btn-success" onclick="exportResults('doctors')">
               <i class="fas fa-download"></i> Export Results
             </button>
@@ -925,7 +927,7 @@
       <div class="tab-content" id="appointments-tab">
         <div class="search-section">
           <div class="search-header">
-            <h3><i class="fas fa-filter"></i> Appointment Search Filters</h3>
+            <h3><i class="fas fa-filter"></i> Book issue requests Search Filters</h3>
             <div style="display: flex; gap: 1rem; align-items: center;">
            
               <button class="btn btn-sm btn-secondary" onclick="clearFilters('appointments')">
@@ -935,15 +937,15 @@
           </div>
           <form class="form-grid" id="appointment-search-form">
             <div class="form-group">
-              <label for="appointment-id"><i class="fas fa-id-card"></i> Appointment ID</label>
+              <label for="appointment-id"><i class="fas fa-id-card"></i> Request ID</label>
               <input type="text" id="appointment-id" class="form-input" placeholder="APT001">
             </div>
             <div class="form-group">
-              <label for="appointment-patient-id"><i class="fas fa-user"></i> Patient ID</label>
+              <label for="appointment-patient-id"><i class="fas fa-user"></i> User ID</label>
               <input type="text" id="appointment-patient-id" class="form-input" placeholder="PAT001 ">
             </div>
             <div class="form-group">
-              <label for="appointment-doctor-id"><i class="fas fa-user-md"></i> Doctor ID</label>
+              <label for="appointment-doctor-id"><i class="fas fa-user-md"></i> Book ID</label>
               <input type="text" id="appointment-doctor-id" class="form-input" placeholder="DOC001 ">
             </div>
             <div class="form-group">

@@ -9,25 +9,29 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
+    /* Dark Mode CSS Schema */
     :root {
-      --primary: #2563eb;
-      --primary-dark: #1d4ed8;
-      --secondary: #0891b2;
-      --success: #059669;
-      --warning: #d97706;
-      --danger: #dc2626;
-      --background: #f8fafc;
-      --surface: #ffffff;
-      --surface-hover: #f1f5f9;
-      --text-primary: #0f172a;
-      --text-secondary: #64748b;
-      --border: #e2e8f0;
-      --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-      --radius: 0.75rem;
+      --primary: #6366f1; /* Indigo 500 */
+      --primary-dark: #4f46e5; /* Indigo 600 */
+      --secondary: #ec4899; /* Pink 500 */
+      --accent: #10b981; /* Emerald 500 */
+      --warning: #f59e0b; /* Amber 500 */
+      --danger: #ef4444; /* Red 500 */
+      --background: #0f172a; /* Slate 900 */
+      --surface: #1e293b; /* Slate 800 */
+      --surface-light: #334155; /* Slate 700 */
+      --surface-hover: #475569; /* Slate 600 */
+      --text-primary: #f8fafc; /* Slate 50 */
+      --text-secondary: #cbd5e1; /* Slate 300 */
+      --text-muted: #94a3b8; /* Slate 400 */
+      --border: #334155; /* Slate 700 */
+      --glow: 0 0 20px rgba(99, 102, 241, 0.3);
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --radius: 0.75rem; /* Adjusted for consistency with existing elements */
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -518,15 +522,15 @@
   <nav class="navbar">
     <div class="nav-container">
       <a href="landing.html" class="nav-logo">
-        <i class="fas fa-hospital-alt"></i>
-        MediCare System
+        <i class="fas fa-book"></i>
+        Booky System
       </a>
       
       <ul class="nav-menu">
         <li><a href="landing.html" class="nav-link">Home</a></li>
-        <li><a href="doctors.html" class="nav-link">Doctors</a></li>
-        <li><a href="appointments.html" class="nav-link active">Appointments</a></li>
-        <li><a href="pharmacy.html" class="nav-link ">Pharmacy</a></li>
+        <li><a href="doctors.html" class="nav-link">Librarian</a></li>
+        <li><a href="appointments.html" class="nav-link active">Book Issue Requests</a></li>
+        <li><a href="pharmacy.html" class="nav-link ">Inventory</a></li>
         <li><a href="staff.html" class="nav-link ">Staff</a></li>
         <li><a href="query.html" class="nav-link ">Query</a></li>
         <div class="feature-content">
@@ -542,10 +546,10 @@
   <section class="page-header">
     <div class="header-container">
       <h1>
-        <i class="fas fa-calendar-alt"></i>
-        Appointment Management
+        <i class="fas fa-book"></i>
+        Book Issue Requests
       </h1>
-      <p>Schedule, manage, and track patient appointments with healthcare providers</p>
+      <!-- <p>Request, manage, and track book issues from the library</p> -->
     </div>
   </section>
 
@@ -556,12 +560,12 @@
       <div class="quick-action" onclick="setTodaysDate()">
         <i class="fas fa-calendar-day"></i>
         <h4>Today's Date</h4>
-        <p>Set appointment for today</p>
+        <p>Set issue date to today</p>
       </div>
-      <div class="quick-action" onclick="setTomorrowDate()">
+      <div class="quick-action" onclick="setReturnDate()">
         <i class="fas fa-calendar-plus"></i>
-        <h4>Tomorrow</h4>
-        <p>Schedule for next day</p>
+        <h4>Return Date +7</h4>
+        <p>Set return date to 7 days from today</p>
       </div>
       <div class="quick-action" onclick="clearForm()">
         <i class="fas fa-eraser"></i>
@@ -573,76 +577,76 @@
     <div class="management-card">
       <div class="card-header">
         <div class="card-title">
-          <i class="fas fa-calendar-alt"></i>
-          <h2>Appointment Scheduling System</h2>
+          <i class="fas fa-book"></i>
+          <h2>Book Issue Request System</h2>
         </div>
-        <p class="card-description">Book, update, search, and manage patient appointments with medical staff</p>
+        <p class="card-description">Request, update, search, and manage book issues from the library</p>
       </div>
       
       <div class="card-content">
         <div class="form-section">
           <h3>
             <i class="fas fa-info-circle"></i>
-            Appointment Information
+            Book Issue Information
           </h3>
           
           <div class="form-grid">
             <div class="form-group">
-              <label for="aptId">
+              <label for="reqId">
                 <i class="fas fa-hashtag"></i>
-                Appointment ID
+                Request ID
               </label>
               <input 
-                id="aptId" 
+                id="reqId" 
                 class="form-input" 
-                placeholder="Enter unique appointment ID" 
+                placeholder="Enter unique request ID" 
                 type="text"
               />
             </div>
             
             <div class="form-group">
-              <label for="aptPatient">
-                <i class="fas fa-user-injured"></i>
-                Patient ID
+              <label for="userId">
+                <i class="fas fa-user"></i>
+                User ID
               </label>
               <input 
-                id="aptPatient" 
+                id="userId" 
                 class="form-input" 
-                placeholder="Enter patient ID" 
+                placeholder="Enter user ID" 
                 type="text"
               />
             </div>
             <div class="form-group">
-              <label for="aptDoctor">
-                <i class="fas fa-user-md"></i>
-                Doctor ID
+              <label for="bookId">
+                <i class="fas fa-book"></i>
+                Book ID
               </label>
-                 <select id="aptDoctor" class="form-input">
-  <option value="">Select a Doctor</option>
-</select>
+              <input 
+                id="bookId" 
+                class="form-input" 
+                placeholder="Enter book ID" 
+                type="text"
+              />
             </div>
-         
-            
             <div class="form-group">
-              <label for="aptDate">
+              <label for="issueDate">
                 <i class="fas fa-calendar"></i>
-                Appointment Date
+                Issue Date
               </label>
               <input 
-                id="aptDate" 
+                id="issueDate" 
                 type="date" 
                 class="form-input"
               />
             </div>
-            
             <div class="form-group">
-              <label for="aptTime">
-                <i class="fas fa-clock"></i>
-                Appointment Time
+              <label for="returnDate">
+                <i class="fas fa-calendar-check"></i>
+                Return Date
               </label>
               <input 
-                id="aptTime" 
-                type="time" 
+                id="returnDate" 
+                type="date" 
                 class="form-input"
               />
             </div>
@@ -656,21 +660,21 @@
           </h3>
           
           <div class="button-grid">
-            <button onclick="createAppointment()" class="btn btn-primary">
-              <i class="fas fa-calendar-plus"></i>
-              Book Appointment
+            <button onclick="createRequest()" class="btn btn-primary">
+              <i class="fas fa-paper-plane"></i>
+              Submit Request
             </button>
-            <button onclick="getAppointment()" class="btn btn-secondary">
+            <button onclick="getRequest()" class="btn btn-secondary">
               <i class="fas fa-search"></i>
-              Find Appointment
+              Find Request
             </button>
-            <button onclick="updateAppointment()" class="btn btn-warning">
+            <button onclick="updateRequest()" class="btn btn-warning">
               <i class="fas fa-edit"></i>
               Update Details
             </button>
-            <button onclick="deleteAppointment()" class="btn btn-danger">
-              <i class="fas fa-calendar-times"></i>
-              Cancel Appointment
+            <button onclick="deleteRequest()" class="btn btn-danger">
+              <i class="fas fa-times"></i>
+              Cancel Request
             </button>
           </div>
         </div>
@@ -680,26 +684,26 @@
             <i class="fas fa-terminal"></i>
             <span>System Response</span>
           </div>
-          <div id="appointmentOutput" class="output-content">
-            Ready to manage appointments. Please fill in the required fields and select an action.
+          <div id="requestOutput" class="output-content">
+            Ready to manage book issue requests. Please fill in the required fields and select an action.
           </div>
         </div>
       </div>
     </div>
   </main>
-<!-- Appointment Display Card -->
+<!-- Book Issue Display Card -->
 <div class="appointment-display-card">
   <div class="card-header">
     <div class="card-title">
-      <i class="fas fa-calendar-check"></i>
-      <h2>Appointments</h2>
+      <i class="fas fa-book"></i>
+      <h2>Book Issue Requests</h2>
     </div>
-    <p class="card-description">View and manage all scheduled appointments</p>
+    <p class="card-description">View and manage all book issue requests</p>
   </div>
-  <div class="card-content" id="appointmentListContainer">
+  <div class="card-content" id="requestListContainer">
     <div class="loading">
       <i class="fas fa-spinner fa-spin"></i>
-      <p>Loading appointments...</p>
+      <p>Loading requests...</p>
     </div>
   </div>
 </div>
@@ -791,435 +795,194 @@
   <footer class="footer">
     <div class="footer-text">
       <i class="fas fa-heart" style="color: var(--danger);"></i>
-      Healthcare Management System - Providing Quality Care
+      Book Issue Request System - Empowering Readers
     </div>
   </footer>
 
-  <!-- <script>
-    const baseURL = "http://localhost:8080";
-
-    // === Utility Functions ===
-    function setTodaysDate() {
-      const today = new Date();
-      aptDate.value = today.toISOString().split('T')[0];
-    }
-
-    function setTomorrowDate() {
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      aptDate.value = tomorrow.toISOString().split('T')[0];
-    }
-
-    function clearForm() {
-      aptId.value = '';
-      aptPatient.value = '';
-      aptDoctor.value = '';
-      aptDate.value = '';
-      aptTime.value = '';
-      appointmentOutput.className = "output-content";
-      appointmentOutput.innerText = "Form cleared. Ready to manage appointments.";
-    }
-    
-    // === Appointment Functions ===
-    async function createAppointment() {
-      const data = {
-        id: aptId.value,
-        patientId: aptPatient.value,
-     
-        date: aptDate.value,
-        time: aptTime.value
-      };
-      
-      if (!data.id || !data.patientId || !data.doctorId || !data.date || !data.time) {
-        appointmentOutput.className = "output-content error";
-        appointmentOutput.innerText = "Error: Please fill in all required fields (ID, Patient ID, Doctor ID, Date, and Time)";
-        return;
-      }
-      
-      appointmentOutput.className = "output-content";
-      appointmentOutput.innerText = "Booking appointment...";
-      
-      try {
-        const res = await fetch(`${baseURL}/appointments`, {
-          method: "POST", 
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        });
-        
-        const responseText = await res.text();
-        appointmentOutput.className = res.ok ? "output-content success" : "output-content error";
-        appointmentOutput.innerText = responseText;
-        
-        // Clear form on success
-        if (res.ok) {
-          clearForm();
-        }
-      } catch (error) {
-        appointmentOutput.className = "output-content error";
-        appointmentOutput.innerText = `Network Error: ${error.message}`;
-      }
-    }
-
-    async function getAppointment() {
-      if (!aptId.value) {
-        appointmentOutput.className = "output-content error";
-        appointmentOutput.innerText = "Error: Please enter an Appointment ID to search";
-        return;
-      }
-      
-      appointmentOutput.className = "output-content";
-      appointmentOutput.innerText = "Searching for appointment...";
-      
-      try {
-        const res = await fetch(`${baseURL}/appointments/${aptId.value}`);
-        const responseText = await res.text();
-        appointmentOutput.className = res.ok ? "output-content success" : "output-content error";
-        appointmentOutput.innerText = responseText;
-      } catch (error) {
-        appointmentOutput.className = "output-content error";
-        appointmentOutput.innerText = `Network Error: ${error.message}`;
-      }
-    }
-
-    async function updateAppointment() {
-      const data = {
-        id: aptId.value,
-        patientId: aptPatient.value,
-        doctorId: aptDoctor.value,
-        date: aptDate.value,
-        time: aptTime.value
-      };
-      
-      if (!data.id || !data.patientId || !data.doctorId || !data.date || !data.time) {
-        appointmentOutput.className = "output-content error";
-        appointmentOutput.innerText = "Error: Please fill in all required fields (ID, Patient ID, Doctor ID, Date, and Time)";
-        return;
-      }
-      
-      appointmentOutput.className = "output-content";
-      appointmentOutput.innerText = "Updating appointment details...";
-      
-      try {
-        const res = await fetch(`${baseURL}/appointments/${aptId.value}`, {
-          method: "PUT", 
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        });
-        
-        const responseText = await res.text();
-        appointmentOutput.className = res.ok ? "output-content success" : "output-content error";
-        appointmentOutput.innerText = responseText;
-      } catch (error) {
-        appointmentOutput.className = "output-content error";
-        appointmentOutput.innerText = `Network Error: ${error.message}`;
-      }
-    }
-
-    async function deleteAppointment() {
-      if (!aptId.value) {
-        appointmentOutput.className = "output-content error";
-        appointmentOutput.innerText = "Error: Please enter an Appointment ID to cancel";
-        return;
-      }
-      
-      if (!confirm(`Are you sure you want to cancel appointment with ID: ${aptId.value}?`)) {
-        return;
-      }
-      
-      appointmentOutput.className = "output-content";
-      appointmentOutput.innerText = "Cancelling appointment...";
-      
-      try {
-        const res = await fetch(`${baseURL}/appointments/${aptId.value}`, { 
-          method: "DELETE" 
-        });
-        
-        const responseText = await res.text();
-        appointmentOutput.className = res.ok ? "output-content success" : "output-content error";
-        appointmentOutput.innerText = responseText;
-        
-        // Clear form on success
-        if (res.ok) {
-          clearForm();
-        }
-      } catch (error) {
-        appointmentOutput.className = "output-content error";
-        appointmentOutput.innerText = `Network Error: ${error.message}`;
-      }
-    }
-
-    // Set minimum date to today
-    document.addEventListener('DOMContentLoaded', function() {
-      const today = new Date().toISOString().split('T')[0];
-      document.getElementById('aptDate').setAttribute('min', today);
-    });
-  </script> -->
   <script>
   const baseURL = "http://localhost:8080";
     
-  // === Populate Doctor Dropdown ===
-  async function populateDoctorDropdown() {
-  try {
-    const res = await fetch(`${baseURL}/doctors`);
-    if (!res.ok) throw new Error("Failed to fetch doctors");
-
-    const doctorsRaw = await res.json();
-
-    // Parse each JSON string into an object
-    const doctors = doctorsRaw.map(docStr => JSON.parse(docStr));
-
-    console.log("Parsed doctors:", doctors); // Check parsed structure
-
-    const doctorSelect = document.getElementById("aptDoctor");
-    doctorSelect.innerHTML = `<option value="">Select a Doctor</option>`;
-
-    doctors.forEach(doctor => {
-      const option = document.createElement("option");
-      option.value = doctor.id;          // id property as string
-      option.text = doctor.name || "Unnamed Doctor";
-      doctorSelect.appendChild(option);
-    });
-  } catch (error) {
-    console.error("Error loading doctors:", error);
-  }
-}
-
-    async function loadAndDisplayAppointments() {
-  const container = document.getElementById("appointmentListContainer");
-  container.innerHTML = `
-    <div class="loading">
-      <i class="fas fa-spinner fa-spin"></i>
-      <p>Loading appointments...</p>
-    </div>
-  `;
-
-  try {
-    const res = await fetch(`${baseURL}/appointments`);
-    if (!res.ok) throw new Error("Failed to fetch appointments");
-
-    // Assuming your API returns an array of JSON strings for each appointment
-    let appointmentsRaw = await res.json();
-
-    // Parse each appointment JSON string into object
-    let appointments = appointmentsRaw.map(item => {
-      if (typeof item === "string") {
-        return JSON.parse(item);
-      }
-      return item;
-    });
-
-    if (appointments.length === 0) {
-      container.innerHTML = "<p>No appointments found.</p>";
-      return;
-    }
-
-    // Build the table HTML
-    let tableHTML = `
-      <table class="appointment-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Patient ID</th>
-            <th>Doctor ID</th>
-            <th>Date</th>
-            <th>Time</th>
-          </tr>
-        </thead>
-        <tbody>
-    `;
-
-    appointments.forEach(apt => {
-      tableHTML += `
-        <tr>
-          <td>${apt.id || "N/A"}</td>
-          <td>${apt.patientId || "N/A"}</td>
-          <td>${apt.doctorId || "N/A"}</td>
-          <td>${apt.date || "N/A"}</td>
-          <td>${apt.time || "N/A"}</td>
-        </tr>
-      `;
-    });
-
-    tableHTML += "</tbody></table>";
-
-    container.innerHTML = tableHTML;
-
-  } catch (error) {
-    container.innerHTML = `<p style="color:red;">Error loading appointments: ${error.message}</p>`;
-  }
-}
-
-// Call this on page load to populate appointments list
-document.addEventListener('DOMContentLoaded', () => {
-  loadAndDisplayAppointments();
-  populateDoctorDropdown(); // your existing function
-});
-
   // === Utility Functions ===
   function setTodaysDate() {
     const today = new Date();
-    aptDate.value = today.toISOString().split('T')[0];
+    issueDate.value = today.toISOString().split('T')[0];
   }
-
-  function setTomorrowDate() {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    aptDate.value = tomorrow.toISOString().split('T')[0];
+  function setReturnDate() {
+    const today = new Date();
+    today.setDate(today.getDate() + 7);
+    returnDate.value = today.toISOString().split('T')[0];
   }
-
   function clearForm() {
-    aptId.value = '';
-    aptPatient.value = '';
-    aptDoctor.value = '';
-    aptDate.value = '';
-    aptTime.value = '';
-    appointmentOutput.className = "output-content";
-    appointmentOutput.innerText = "Form cleared. Ready to manage appointments.";
+    reqId.value = '';
+    userId.value = '';
+    bookId.value = '';
+    issueDate.value = '';
+    returnDate.value = '';
+    requestOutput.className = "output-content";
+    requestOutput.innerText = "Form cleared. Ready to manage book issue requests.";
   }
-
-  // === Appointment Functions ===
-  async function createAppointment() {
+  // === Book Issue Request Functions ===
+  async function createRequest() {
     const data = {
-      id: aptId.value,
-      patientId: aptPatient.value,
-      doctorId: aptDoctor.value,
-      date: aptDate.value,
-      time: aptTime.value
+      id: reqId.value,
+      userId: userId.value,
+      bookId: bookId.value,
+      issueDate: issueDate.value,
+      returnDate: returnDate.value
     };
-
-    if (!data.id || !data.patientId || !data.doctorId || !data.date || !data.time) {
-      appointmentOutput.className = "output-content error";
-      appointmentOutput.innerText = "Error: Please fill in all required fields (ID, Patient ID, Doctor ID, Date, and Time)";
+    if (!data.id || !data.userId || !data.bookId || !data.issueDate || !data.returnDate) {
+      requestOutput.className = "output-content error";
+      requestOutput.innerText = "Error: Please fill in all required fields (Request ID, User ID, Book ID, Issue Date, and Return Date)";
       return;
     }
-
-    appointmentOutput.className = "output-content";
-    appointmentOutput.innerText = "Booking appointment...";
-
+    requestOutput.className = "output-content";
+    requestOutput.innerText = "Submitting request...";
     try {
-      const res = await fetch(`${baseURL}/appointments`, {
+      const res = await fetch(`${baseURL}/book-requests`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
       });
-
       const responseText = await res.text();
-      appointmentOutput.className = res.ok ? "output-content success" : "output-content error";
-      appointmentOutput.innerText = responseText;
-
-      // Clear form on success
+      requestOutput.className = res.ok ? "output-content success" : "output-content error";
+      requestOutput.innerText = responseText;
       if (res.ok) {
         clearForm();
+        loadAndDisplayRequests();
       }
     } catch (error) {
-      appointmentOutput.className = "output-content error";
-      appointmentOutput.innerText = `Network Error: ${error.message}`;
+      requestOutput.className = "output-content error";
+      requestOutput.innerText = `Network Error: ${error.message}`;
     }
   }
-
-  async function getAppointment() {
-    if (!aptId.value) {
-      appointmentOutput.className = "output-content error";
-      appointmentOutput.innerText = "Error: Please enter an Appointment ID to search";
+  async function getRequest() {
+    if (!reqId.value) {
+      requestOutput.className = "output-content error";
+      requestOutput.innerText = "Error: Please enter a Request ID to search";
       return;
     }
-
-    appointmentOutput.className = "output-content";
-    appointmentOutput.innerText = "Searching for appointment...";
-
+    requestOutput.className = "output-content";
+    requestOutput.innerText = "Searching for request...";
     try {
-      const res = await fetch(`${baseURL}/appointments/${aptId.value}`);
+      const res = await fetch(`${baseURL}/book-requests/${reqId.value}`);
       const responseText = await res.text();
-      appointmentOutput.className = res.ok ? "output-content success" : "output-content error";
-      appointmentOutput.innerText = responseText;
+      requestOutput.className = res.ok ? "output-content success" : "output-content error";
+      requestOutput.innerText = responseText;
     } catch (error) {
-      appointmentOutput.className = "output-content error";
-      appointmentOutput.innerText = `Network Error: ${error.message}`;
+      requestOutput.className = "output-content error";
+      requestOutput.innerText = `Network Error: ${error.message}`;
     }
   }
-
-  async function updateAppointment() {
+  async function updateRequest() {
     const data = {
-      id: aptId.value,
-      patientId: aptPatient.value,
-      doctorId: aptDoctor.value,
-      date: aptDate.value,
-      time: aptTime.value
+      id: reqId.value,
+      userId: userId.value,
+      bookId: bookId.value,
+      issueDate: issueDate.value,
+      returnDate: returnDate.value
     };
-
-    if (!data.id || !data.patientId || !data.doctorId || !data.date || !data.time) {
-      appointmentOutput.className = "output-content error";
-      appointmentOutput.innerText = "Error: Please fill in all required fields (ID, Patient ID, Doctor ID, Date, and Time)";
+    if (!data.id || !data.userId || !data.bookId || !data.issueDate || !data.returnDate) {
+      requestOutput.className = "output-content error";
+      requestOutput.innerText = "Error: Please fill in all required fields (Request ID, User ID, Book ID, Issue Date, and Return Date)";
       return;
     }
-
-    appointmentOutput.className = "output-content";
-    appointmentOutput.innerText = "Updating appointment details...";
-
+    requestOutput.className = "output-content";
+    requestOutput.innerText = "Updating request details...";
     try {
-      const res = await fetch(`${baseURL}/appointments/${aptId.value}`, {
+      const res = await fetch(`${baseURL}/book-requests/${reqId.value}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
       });
-
       const responseText = await res.text();
-      appointmentOutput.className = res.ok ? "output-content success" : "output-content error";
-      appointmentOutput.innerText = responseText;
+      requestOutput.className = res.ok ? "output-content success" : "output-content error";
+      requestOutput.innerText = responseText;
     } catch (error) {
-      appointmentOutput.className = "output-content error";
-      appointmentOutput.innerText = `Network Error: ${error.message}`;
+      requestOutput.className = "output-content error";
+      requestOutput.innerText = `Network Error: ${error.message}`;
     }
   }
-
-  async function deleteAppointment() {
-    if (!aptId.value) {
-      appointmentOutput.className = "output-content error";
-      appointmentOutput.innerText = "Error: Please enter an Appointment ID to cancel";
+  async function deleteRequest() {
+    if (!reqId.value) {
+      requestOutput.className = "output-content error";
+      requestOutput.innerText = "Error: Please enter a Request ID to cancel";
       return;
     }
-
-    if (!confirm(`Are you sure you want to cancel appointment with ID: ${aptId.value}?`)) {
+    if (!confirm(`Are you sure you want to cancel request with ID: ${reqId.value}?`)) {
       return;
     }
-
-    appointmentOutput.className = "output-content";
-    appointmentOutput.innerText = "Cancelling appointment...";
-
+    requestOutput.className = "output-content";
+    requestOutput.innerText = "Cancelling request...";
     try {
-      const res = await fetch(`${baseURL}/appointments/${aptId.value}`, {
+      const res = await fetch(`${baseURL}/book-requests/${reqId.value}`, {
         method: "DELETE"
       });
-
       const responseText = await res.text();
-      appointmentOutput.className = res.ok ? "output-content success" : "output-content error";
-      appointmentOutput.innerText = responseText;
-
-      // Clear form on success
+      requestOutput.className = res.ok ? "output-content success" : "output-content error";
+      requestOutput.innerText = responseText;
       if (res.ok) {
         clearForm();
+        loadAndDisplayRequests();
       }
     } catch (error) {
-      appointmentOutput.className = "output-content error";
-      appointmentOutput.innerText = `Network Error: ${error.message}`;
+      requestOutput.className = "output-content error";
+      requestOutput.innerText = `Network Error: ${error.message}`;
     }
   }
-
-  // Set minimum date to today and populate doctor dropdown on page load
-  document.addEventListener('DOMContentLoaded', function() {
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('aptDate').setAttribute('min', today);
-
-    // Populate doctor dropdown
-    populateDoctorDropdown();
+  async function loadAndDisplayRequests() {
+    const container = document.getElementById("requestListContainer");
+    container.innerHTML = `
+      <div class="loading">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Loading requests...</p>
+      </div>
+    `;
+    try {
+      const res = await fetch(`${baseURL}/book-requests`);
+      if (!res.ok) throw new Error("Failed to fetch requests");
+      let requestsRaw = await res.json();
+      let requests = requestsRaw.map(item => typeof item === "string" ? JSON.parse(item) : item);
+      if (requests.length === 0) {
+        container.innerHTML = "<p>No book issue requests found.</p>";
+        return;
+      }
+      let tableHTML = `
+        <table class="appointment-table">
+          <thead>
+            <tr>
+              <th>Request ID</th>
+              <th>User ID</th>
+              <th>Book ID</th>
+              <th>Issue Date</th>
+              <th>Return Date</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+      requests.forEach(req => {
+        tableHTML += `
+          <tr>
+            <td>${req.id || "N/A"}</td>
+            <td>${req.userId || "N/A"}</td>
+            <td>${req.bookId || "N/A"}</td>
+            <td>${req.issueDate || "N/A"}</td>
+            <td>${req.returnDate || "N/A"}</td>
+          </tr>
+        `;
+      });
+      tableHTML += "</tbody></table>";
+      container.innerHTML = tableHTML;
+    } catch (error) {
+      container.innerHTML = `<p style="color:red;">Error loading requests: ${error.message}</p>`;
+    }
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    loadAndDisplayRequests();
   });
-      function logout() {
-  
-  // Redirect to login page
-  window.location.href = 'login.html';
-}
-
-</script>
+  function logout() {
+    window.location.href = 'login.html';
+  }
+  </script>
 
 </body>
 </html>

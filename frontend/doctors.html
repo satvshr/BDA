@@ -9,25 +9,29 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
+    /* Dark Mode CSS Schema */
     :root {
-      --primary: #2563eb;
-      --primary-dark: #1d4ed8;
-      --secondary: #0891b2;
-      --success: #059669;
-      --warning: #d97706;
-      --danger: #dc2626;
-      --background: #f8fafc;
-      --surface: #ffffff;
-      --surface-hover: #f1f5f9;
-      --text-primary: #0f172a;
-      --text-secondary: #64748b;
-      --border: #e2e8f0;
-      --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-      --radius: 0.75rem;
+      --primary: #6366f1; /* Indigo 500 */
+      --primary-dark: #4f46e5; /* Indigo 600 */
+      --secondary: #ec4899; /* Pink 500 */
+      --accent: #10b981; /* Emerald 500 */
+      --warning: #f59e0b; /* Amber 500 */
+      --danger: #ef4444; /* Red 500 */
+      --background: #0f172a; /* Slate 900 */
+      --surface: #1e293b; /* Slate 800 */
+      --surface-light: #334155; /* Slate 700 */
+      --surface-hover: #475569; /* Slate 600 */
+      --text-primary: #f8fafc; /* Slate 50 */
+      --text-secondary: #cbd5e1; /* Slate 300 */
+      --text-muted: #94a3b8; /* Slate 400 */
+      --border: #334155; /* Slate 700 */
+      --glow: 0 0 20px rgba(99, 102, 241, 0.3);
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --radius: 0.75rem; /* Adjusted for consistency with existing elements */
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -409,13 +413,13 @@
     }
 
     .output-content.success {
-      border-left-color: var(--success);
-      background: rgba(5, 150, 105, 0.05);
+      border-left-color: var(--accent);
+      background: rgba(16, 185, 129, 0.05);
     }
 
     .output-content.error {
       border-left-color: var(--danger);
-      background: rgba(220, 38, 38, 0.05);
+      background: rgba(239, 68, 68, 0.05);
     }
 
     /* Footer */
@@ -475,14 +479,14 @@
     <div class="nav-container">
       <a href="landing.html" class="nav-logo">
         <i class="fas fa-hospital-alt"></i>
-        MediCare System
+        Booky System
       </a>
       
       <ul class="nav-menu">
         <li><a href="landing.html" class="nav-link">Home</a></li>
-        <li><a href="doctors.html" class="nav-link active">Doctors</a></li>
-        <li><a href="appointments.html" class="nav-link ">Appointments</a></li>
-        <li><a href="pharmacy.html" class="nav-link ">Pharmacy</a></li>
+        <li><a href="doctors.html" class="nav-link active">Librarian</a></li>
+        <li><a href="appointments.html" class="nav-link ">Book issue requests</a></li>
+        <li><a href="pharmacy.html" class="nav-link ">Inventory</a></li>
         <li><a href="staff.html" class="nav-link ">Staff</a></li>
         <li><a href="query.html" class="nav-link ">Query</a></li>
         <div class="feature-content">
@@ -499,9 +503,9 @@
     <div class="header-container">
       <h1>
         <i class="fas fa-user-md"></i>
-        Doctor Management
+        Librarian Management
       </h1>
-      <p>Manage doctor profiles, specialties, and medical staff information</p>
+      <!-- <p>Manage Librarian profiles</p> -->
     </div>
   </section>
 
@@ -511,28 +515,28 @@
       <div class="card-header">
         <div class="card-title">
           <i class="fas fa-user-md"></i>
-          <h2>Doctor Information System</h2>
+          <h2>Manage Librarian Information </h2>
         </div>
-        <p class="card-description">Add, update, search, and manage doctor profiles and their medical specialties</p>
+        <p class="card-description">Add, update, search, and manage librarian profiles</p>
       </div>
       
       <div class="card-content">
         <div class="form-section">
           <h3>
             <i class="fas fa-edit"></i>
-            Doctor Details
+             Details
           </h3>
           
           <div class="form-grid">
             <div class="form-group">
               <label for="docId">
                 <i class="fas fa-id-badge"></i>
-                Doctor ID
+                Librarian ID
               </label>
               <input 
                 id="docId" 
                 class="form-input" 
-                placeholder="Enter unique doctor ID" 
+                placeholder="Enter unique ID" 
                 type="text"
               />
             </div>
@@ -545,7 +549,7 @@
               <input 
                 id="docName" 
                 class="form-input" 
-                placeholder="Enter doctor's full name" 
+                placeholder="Enter full name" 
                 type="text"
               />
             </div>
@@ -558,7 +562,7 @@
               <input 
                 id="docSpec" 
                 class="form-input" 
-                placeholder="e.g., Cardiology, Neurology, Pediatrics" 
+                placeholder="Enter department" 
                 type="text"
               />
             </div>
@@ -574,19 +578,19 @@
           <div class="button-grid">
             <button onclick="createDoctor()" class="btn btn-primary">
               <i class="fas fa-plus"></i>
-              Add New Doctor
+              Add New
             </button>
             <button onclick="getDoctor()" class="btn btn-secondary">
               <i class="fas fa-search"></i>
-              Search Doctor
+              Search 
             </button>
             <button onclick="updateDoctor()" class="btn btn-warning">
               <i class="fas fa-edit"></i>
-              Update Information
+              Update 
             </button>
             <button onclick="deleteDoctor()" class="btn btn-danger">
               <i class="fas fa-trash"></i>
-              Remove Doctor
+              Remove 
             </button>
           </div>
         </div>
@@ -597,7 +601,7 @@
             <span>System Response</span>
           </div>
           <div id="doctorOutput" class="output-content">
-            Ready to manage doctor information. Please fill in the required fields and select an action.
+            Ready to manage. Please fill in the required fields and select an action.
           </div>
         </div>
       </div>
@@ -617,14 +621,14 @@
   <div style="padding:25px 30px; border-bottom:1px solid #007bff; background:#d0e7ff; color:#004085; display:flex; flex-direction:column; gap:5px;">
     <div style="display:flex; align-items:center; gap:12px; font-weight:700; font-size:1.6rem;">
       <i class="fas fa-user-md" style="font-size:2rem;"></i>
-      <h2 style="margin:0;">Doctors</h2>
+      <h2 style="margin:0;">Librarians</h2>
     </div>
-    <p style="font-size:1.1rem; opacity:0.85; margin:0;">View and manage all registered doctors</p>
+    <p style="font-size:1.1rem; opacity:0.85; margin:0;">View and manage all Librarians</p>
   </div>
   <div id="doctorListContainer" style="padding:25px 30px; min-height:150px; color:#004085;">
     <div style="display:flex; align-items:center; gap:15px; font-size:1.2rem; color:#007bff;">
       <i class="fas fa-spinner fa-spin" style="font-size:1.7rem;"></i>
-      <p>Loading doctors...</p>
+      <p>Loading names...</p>
     </div>
   </div>
 </div>
@@ -636,7 +640,7 @@
   <footer class="footer">
     <div class="footer-text">
       <i class="fas fa-heart" style="color: var(--danger);"></i>
-      Healthcare Management System - Providing Quality Care
+      Library Management System 
     </div>
   </footer>
 
@@ -701,7 +705,7 @@
     let doctors = doctorsRaw.map(item => typeof item === "string" ? JSON.parse(item) : item);
 
     if (doctors.length === 0) {
-      container.innerHTML = "<p>No doctors found.</p>";
+      container.innerHTML = "<p>Not found.</p>";
       return;
     }
 

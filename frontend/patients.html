@@ -6,23 +6,29 @@
   <title>Patient Management</title>
 
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-<style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* Dark Mode CSS Schema */
     :root {
-      --primary: #2563eb;
-      --primary-dark: #1d4ed8;
-      --secondary: #0891b2;
-      --success: #059669;
-      --warning: #d97706;
-      --danger: #dc2626;
-      --background: #f8fafc;
-      --surface: #ffffff;
-      --surface-hover: #f1f5f9;
-      --text-primary: #0f172a;
-      --text-secondary: #64748b;
-      --border: #e2e8f0;
-      --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-      --radius: 0.75rem;
+      --primary: #6366f1; /* Indigo 500 */
+      --primary-dark: #4f46e5; /* Indigo 600 */
+      --secondary: #ec4899; /* Pink 500 */
+      --accent: #10b981; /* Emerald 500 */
+      --warning: #f59e0b; /* Amber 500 */
+      --danger: #ef4444; /* Red 500 */
+      --background: #0f172a; /* Slate 900 */
+      --surface: #1e293b; /* Slate 800 */
+      --surface-light: #334155; /* Slate 700 */
+      --surface-hover: #475569; /* Slate 600 */
+      --text-primary: #f8fafc; /* Slate 50 */
+      --text-secondary: #cbd5e1; /* Slate 300 */
+      --text-muted: #94a3b8; /* Slate 400 */
+      --border: #334155; /* Slate 700 */
+      --glow: 0 0 20px rgba(99, 102, 241, 0.3);
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --radius: 0.75rem; /* Adjusted for consistency with existing elements */
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -404,13 +410,13 @@
     }
 
     .output-content.success {
-      border-left-color: var(--success);
-      background: rgba(5, 150, 105, 0.05);
+      border-left-color: var(--accent);
+      background: rgba(16, 185, 129, 0.05);
     }
 
     .output-content.error {
       border-left-color: var(--danger);
-      background: rgba(220, 38, 38, 0.05);
+      background: rgba(239, 68, 68, 0.05);
     }
 
     /* Footer */
@@ -471,16 +477,16 @@
     <div class="nav-container">
       <a href="landing.html" class="nav-logo">
         <i class="fas fa-hospital-alt"></i>
-        MediCare System
+        Booky System
       </a>
       <ul class="nav-menu">
         <li><a href="landing.html" class="nav-link">Home</a></li>
-        <li><a href="doctors.html" class="nav-link">Doctors</a></li>
-        <li><a href="appointments.html" class="nav-link">Appointments</a></li>
-        <li><a href="pharmacy.html" class="nav-link">Pharmacy</a></li>
+        <li><a href="doctors.html" class="nav-link">Librarians</a></li>
+        <li><a href="appointments.html" class="nav-link">Book Issue Requests</a></li>
+        <li><a href="pharmacy.html" class="nav-link">Inventory</a></li>
         <li><a href="staff.html" class="nav-link">Staff</a></li>
         <li><a href="query.html" class="nav-link">Query</a></li>
-         <li><a href="patients.html" class="nav-link active">Patients</a></li>
+         <li><a href="patients.html" class="nav-link active">users</a></li>
         <div class="feature-content">
           <button class="feature-btn logout-btn" onclick="logout()">
             <i class="fas fa-sign-out-alt"></i>
@@ -496,9 +502,9 @@
     <div class="header-container">
       <h1>
         <i class="fas fa-procedures"></i>
-        Patient Management
+        User Management
       </h1>
-      <p>Manage patient profiles, health records, and basic details</p>
+      <p>Manage user profiles</p>
     </div>
   </section>
 
@@ -508,18 +514,18 @@
       <div class="card-header">
         <div class="card-title">
           <i class="fas fa-procedures"></i>
-          <h2>Patient Information System</h2>
+          <h2>User Information System</h2>
         </div>
-        <p class="card-description">Add, update, search, and manage patient records</p>
+        <p class="card-description">Add, update, search, and manage records</p>
       </div>
 
       <div class="card-content">
         <div class="form-section">
-          <h3><i class="fas fa-edit"></i> Patient Details</h3>
+          <h3><i class="fas fa-edit"></i> User Details</h3>
 
           <div class="form-grid">
             <div class="form-group">
-              <label for="patId"><i class="fas fa-id-card"></i> Patient ID</label>
+              <label for="patId"><i class="fas fa-id-card"></i> User ID</label>
               <input id="patId" class="form-input" placeholder="Enter unique patient ID" type="text" />
             </div>
             <div class="form-group">
@@ -530,7 +536,7 @@
               <label for="patAge"><i class="fas fa-hourglass-half"></i> Age</label>
               <input id="patAge" class="form-input" placeholder="Enter age" type="number" />
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="patGender"><i class="fas fa-venus-mars"></i> Gender</label>
               <select id="patGender" class="form-input">
                 <option value="">Select gender</option>
@@ -538,17 +544,17 @@
                 <option>Female</option>
                 <option>Other</option>
               </select>
-            </div>
+            </div> -->
           </div>
         </div>
 
         <div class="form-section">
           <h3><i class="fas fa-cogs"></i> Actions</h3>
           <div class="button-grid">
-            <button onclick="createPatient()" class="btn btn-primary"><i class="fas fa-plus"></i> Add New Patient</button>
-            <button onclick="getPatient()" class="btn btn-secondary"><i class="fas fa-search"></i> Search Patient</button>
-            <button onclick="updatePatient()" class="btn btn-warning"><i class="fas fa-edit"></i> Update Info</button>
-            <button onclick="deletePatient()" class="btn btn-danger"><i class="fas fa-trash"></i> Remove Patient</button>
+            <button onclick="createPatient()" class="btn btn-primary"><i class="fas fa-plus"></i> Add New </button>
+            <button onclick="getPatient()" class="btn btn-secondary"><i class="fas fa-search"></i> Search </button>
+            <button onclick="updatePatient()" class="btn btn-warning"><i class="fas fa-edit"></i> Update </button>
+            <button onclick="deletePatient()" class="btn btn-danger"><i class="fas fa-trash"></i> Remove </button>
           </div>
         </div>
 
@@ -558,7 +564,7 @@
             <span>System Response</span>
           </div>
           <div id="patientOutput" class="output-content">
-            Ready to manage patient records.
+            Ready to manage records.
           </div>
         </div>
       </div>
@@ -570,14 +576,14 @@
     <div style="padding:25px 30px; border-bottom:1px solid #007bff; background:#d0e7ff; color:#004085;">
       <div style="display:flex; align-items:center; gap:12px;">
         <i class="fas fa-procedures" style="font-size:2rem;"></i>
-        <h2 style="margin:0;">Patients</h2>
+        <h2 style="margin:0;">Users</h2>
       </div>
-      <p style="font-size:1.1rem;">View and manage registered patients</p>
+      <p style="font-size:1.1rem;">View and manage registered users</p>
     </div>
     <div id="patientListContainer" style="padding:25px 30px;">
       <div style="display:flex; align-items:center; gap:15px; font-size:1.2rem; color:#007bff;">
         <i class="fas fa-spinner fa-spin"></i>
-        <p>Loading patients...</p>
+        <p>Loading ...</p>
       </div>
     </div>
   </div>
@@ -586,7 +592,7 @@
   <footer class="footer">
     <div class="footer-text">
       <i class="fas fa-heart" style="color: var(--danger);"></i>
-      Healthcare Management System - Providing Quality Care
+      Library Management System 
     </div>
   </footer>
 
