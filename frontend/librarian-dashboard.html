@@ -818,6 +818,7 @@
         
         const data = await response.json();
         borrowedBooks = data.map(request => JSON.parse(request));
+        console.log('Loaded borrowed books:', borrowedBooks);
       } catch (error) {
         console.error('Error loading borrowed books:', error);
         borrowedBooks = [];
@@ -831,6 +832,7 @@
       document.getElementById('totalBooks').textContent = totalBooks;
 
       // Borrowed books count
+      console.log('Updating borrowed books count:', borrowedBooks.length);
       document.getElementById('borrowedBooks').textContent = borrowedBooks.length;
 
       // Total members

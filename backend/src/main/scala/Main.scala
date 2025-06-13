@@ -26,10 +26,6 @@ case class Member(id: String, name: String, email: String, phone: String, addres
 case class Book(id: String, title: String, author: String, isbn: String, quantity: Int, available: Int)
 case class User(id: String, username: String, email: String, password: String, role: String)
 
-// Legacy case classes for backward compatibility
-case class Doctor(id: String, name: String, specialty: String)
-case class Appointment(id: String, patientId: String, doctorId: String, date: String, time: String)
-
 object Main {
   def main(args: Array[String]): Unit = {
     implicit val system: ActorSystem = ActorSystem("library-management-system")
@@ -45,10 +41,6 @@ object Main {
     val memberCollection: MongoCollection[Document] = database.getCollection("members")
     val inventoryCollection: MongoCollection[Document] = database.getCollection("inventory")
     val userCollection: MongoCollection[Document] = database.getCollection("users")
-    
-    // Legacy collections for backward compatibility
-    val doctorCollection: MongoCollection[Document] = database.getCollection("doctors")
-    val appointmentCollection: MongoCollection[Document] = database.getCollection("appointments")
 
     // Document conversion functions
     def docFromLibrarian(l: Librarian): Document =
@@ -68,13 +60,6 @@ object Main {
 
     def docFromUser(u: User): Document =
       Document("id" -> u.id, "username" -> u.username, "email" -> u.email, "password" -> u.password, "role" -> u.role)
-
-    // Legacy compatibility functions
-    def docFromDoctor(d: Doctor): Document =
-      Document("id" -> d.id, "name" -> d.name, "specialty" -> d.specialty)
-
-    def docFromAppointment(a: Appointment): Document =
-      Document("id" -> a.id, "patientId" -> a.patientId, "doctorId" -> a.doctorId, "date" -> a.date, "time" -> a.time)
 
     val corsSettings = CorsSettings.defaultSettings.withAllowedMethods(Seq(GET, POST, PUT, DELETE, OPTIONS))
 
@@ -347,133 +332,6 @@ object Main {
                 delete {
                   staffCollection.deleteOne(equal("id", id)).toFuture()
                   complete(StatusCodes.OK, s"Staff $id deleted.")
-                }
-              }
-            )
-          },
-
-          // === Legacy Endpoints for Backward Compatibility ===
-          pathPrefix("doctors") {
-            concat(
-              post {
-                entity(as[Doctor]) { doctor =>
-                  doctorCollection.insertOne(docFromDoctor(doctor)).toFuture()
-                  complete(StatusCodes.Created, s"Doctor ${doctor.name} added.")
-                }
-              },
-              get {
-                path(Segment) { id =>
-                  complete {
-                    doctorCollection.find(equal("id", id)).first().toFuture().map(_.toJson())
-                  }
-                } ~
-                pathEndOrSingleSlash {
-                  complete {
-                    doctorCollection.find().toFuture().map(_.map(_.toJson()))
-                  }
-                }
-              },
-              put {
-                path(Segment) { id =>
-                  entity(as[Doctor]) { updated =>
-                    doctorCollection.updateOne(equal("id", id), combine(
-                      set("name", updated.name),
-                      set("specialty", updated.specialty)
-                    )).toFuture()
-                    complete(StatusCodes.OK, s"Doctor $id updated.")
-                  }
-                }
-              },
-              path(Segment) { id =>
-                delete {
-                  doctorCollection.deleteOne(equal("id", id)).toFuture()
-                  complete(StatusCodes.OK, s"Doctor $id deleted.")
-                }
-              }
-            )
-          },
-
-          pathPrefix("appointments") {
-            concat(
-              post {
-                entity(as[Appointment]) { appt =>
-                  appointmentCollection.insertOne(docFromAppointment(appt)).toFuture()
-                  complete(StatusCodes.Created, s"Appointment ${appt.id} booked.")
-                }
-              },
-              get {
-                path(Segment) { id =>
-                  complete {
-                    appointmentCollection.find(equal("id", id)).first().toFuture().map(_.toJson())
-                  }
-                } ~
-                pathEndOrSingleSlash {
-                  complete {
-                    appointmentCollection.find().toFuture().map(_.map(_.toJson()))
-                  }
-                }
-              },
-              put {
-                path(Segment) { id =>
-                  entity(as[Appointment]) { updated =>
-                    appointmentCollection.updateOne(equal("id", id), combine(
-                      set("patientId", updated.patientId),
-                      set("doctorId", updated.doctorId),
-                      set("date", updated.date),
-                      set("time", updated.time)
-                    )).toFuture()
-                    complete(StatusCodes.OK, s"Appointment $id updated.")
-                  }
-                }
-              },
-              path(Segment) { id =>
-                delete {
-                  appointmentCollection.deleteOne(equal("id", id)).toFuture()
-                  complete(StatusCodes.OK, s"Appointment $id cancelled.")
-                }
-              }
-            )
-          },
-
-          // === Pharmacy endpoint for backward compatibility ===
-          pathPrefix("pharmacy") {
-            concat(
-              post {
-                entity(as[Book]) { book =>
-                  inventoryCollection.insertOne(docFromBook(book)).toFuture()
-                  complete(StatusCodes.Created, s"Item ${book.title} added.")
-                }
-              },
-              get {
-                path(Segment) { id =>
-                  complete {
-                    inventoryCollection.find(equal("id", id)).first().toFuture().map(_.toJson())
-                  }
-                } ~
-                pathEndOrSingleSlash {
-                  complete {
-                    inventoryCollection.find().toFuture().map(_.map(_.toJson()))
-                  }
-                }
-              },
-              put {
-                path(Segment) { id =>
-                  entity(as[Book]) { updated =>
-                    inventoryCollection.updateOne(equal("id", id), combine(
-                      set("title", updated.title),
-                      set("author", updated.author),
-                      set("isbn", updated.isbn),
-                      set("quantity", updated.quantity),
-                      set("available", updated.available)
-                    )).toFuture()
-                    complete(StatusCodes.OK, s"Item $id updated.")
-                  }
-                }
-              },
-              path(Segment) { id =>
-                delete {
-                  inventoryCollection.deleteOne(equal("id", id)).toFuture()
-                  complete(StatusCodes.OK, s"Item $id removed.")
                 }
               }
             )

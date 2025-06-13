@@ -835,6 +835,7 @@ Ready to manage book requests. Please fill in the required fields and select an 
         
         const data = await response.json();
         requests = data.map(request => JSON.parse(request));
+        console.log('Loaded requests:', requests);
         
         renderRequestTable();
         output.className = 'output-content success';
@@ -863,9 +864,11 @@ Ready to manage book requests. Please fill in the required fields and select an 
         if (response.ok) {
           const data = await response.json();
           members = data.map(member => JSON.parse(member));
+          console.log('Loaded members:', members);
         }
       } catch (error) {
         console.error('Error loading members:', error);
+        members = [];
       }
     }
 
@@ -876,9 +879,11 @@ Ready to manage book requests. Please fill in the required fields and select an 
         if (response.ok) {
           const data = await response.json();
           books = data.map(book => JSON.parse(book));
+          console.log('Loaded books:', books);
         }
       } catch (error) {
         console.error('Error loading books:', error);
+        books = [];
       }
     }
 
@@ -889,9 +894,11 @@ Ready to manage book requests. Please fill in the required fields and select an 
         if (response.ok) {
           const data = await response.json();
           librarians = data.map(librarian => JSON.parse(librarian));
+          console.log('Loaded librarians:', librarians);
         }
       } catch (error) {
         console.error('Error loading librarians:', error);
+        librarians = [];
       }
     }
 
