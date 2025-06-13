@@ -3,13 +3,993 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Redirecting to Librarian Management</title>
+  <title>Librarian Management - Library Management System</title>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Dark Mode CSS Schema */
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #ec4899;
+      --accent: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --background: #0f172a;
+      --surface: #1e293b;
+      --surface-light: #334155;
+      --surface-hover: #475569;
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --glow: 0 0 20px rgba(99, 102, 241, 0.3);
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --radius: 0.75rem;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--background);
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding-top: 4rem;
+    }
+
+    /* Navigation Bar */
+    .navbar {
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 4rem;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+
+    .nav-logo i {
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .nav-link:hover {
+      color: var(--primary);
+    }
+
+    .nav-link.active {
+      color: var(--primary);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: var(--transition);
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+    }
+
+    /* Page Header */
+    .page-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      padding: 3rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+      opacity: 0.3;
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .header-container h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .header-container h1 i {
+      font-size: 2rem;
+    }
+
+    .header-container p {
+      font-size: 1.125rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* Management Card */
+    .management-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 2rem;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, var(--surface-light) 0%, var(--surface) 100%);
+      padding: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-title i {
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+
+    .card-title h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .card-description {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .card-content {
+      padding: 2rem;
+    }
+
+    /* Form Styles */
+    .form-section {
+      margin-bottom: 2rem;
+    }
+
+    .form-section h3 {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      color: var(--text-primary);
+      font-size: 1.125rem;
+      font-weight: 600;
+    }
+
+    .form-section h3 i {
+      color: var(--accent);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .form-group label i {
+      color: var(--primary);
+      width: 16px;
+    }
+
+    .form-input {
+      padding: 0.875rem 1rem;
+      background: var(--background);
+      border: 2px solid var(--border);
+      border-radius: 0.5rem;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      transition: var(--transition);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: var(--glow);
+    }
+
+    .form-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* Button Styles */
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .btn {
+      padding: 0.875rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-secondary {
+      background: var(--surface-light);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--surface-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-warning {
+      background: var(--warning);
+      color: white;
+    }
+
+    .btn-warning:hover {
+      background: #d97706;
+      transform: translateY(-1px);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+      transform: translateY(-1px);
+    }
+
+    .btn-success {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #059669;
+      transform: translateY(-1px);
+    }
+
+    /* Output Section */
+    .output-section {
+      margin-top: 2rem;
+      background: var(--background);
+      border-radius: 0.5rem;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .output-header {
+      background: var(--surface-light);
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .output-header i {
+      color: var(--accent);
+    }
+
+    .output-content {
+      padding: 1.5rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      min-height: 60px;
+      white-space: pre-wrap;
+    }
+
+    .output-content.success {
+      color: var(--accent);
+    }
+
+    .output-content.error {
+      color: var(--danger);
+    }
+
+    /* Table Styles */
+    .table-container {
+      background: var(--background);
+      border-radius: 0.5rem;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-top: 1rem;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .data-table th {
+      background: var(--surface-light);
+      color: var(--text-primary);
+      font-weight: 600;
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    .data-table td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .data-table tr:hover {
+      background: var(--surface);
+      cursor: pointer;
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .loading {
+      text-align: center;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .empty-state {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 3rem 1rem;
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    /* Status Badge */
+    .status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+
+    .status-active {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--accent);
+    }
+
+    .status-inactive {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .nav-menu {
+        gap: 1rem;
+      }
+
+      .header-container h1 {
+        font-size: 2rem;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .button-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .container {
+        padding: 1rem;
+      }
+
+      .card-content {
+        padding: 1.5rem;
+      }
+
+      .data-table {
+        font-size: 0.8rem;
+      }
+
+      .data-table th,
+      .data-table td {
+        padding: 0.75rem 0.5rem;
+      }
+    }
+  </style>
 </head>
 <body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <i class="fas fa-book"></i>
+        <span>Library System</span>
+      </a>
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="librarian-dashboard.html" class="nav-link">Dashboard</a></li>
+        <li><a href="librarians.html" class="nav-link active">Librarians</a></li>
+        <li><a href="inventory.html" class="nav-link">Inventory</a></li>
+        <li><a href="members.html" class="nav-link">Members</a></li>
+        <li><a href="book-requests.html" class="nav-link">Book Requests</a></li>
+        <li><a href="query.html" class="nav-link">Query</a></li>
+        <li><button onclick="logout()" class="btn btn-danger">
+          <i class="fas fa-sign-out-alt"></i>
+          Logout
+        </button></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="header-container">
+      <h1>
+        <i class="fas fa-user-graduate"></i>
+        Librarian Management
+      </h1>
+      <p>Manage library staff profiles, specialties, and administrative information</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Librarian Management Form -->
+    <div class="management-card">
+      <div class="card-header">
+        <div class="card-title">
+          <i class="fas fa-user-plus"></i>
+          <h2>Librarian Management</h2>
+        </div>
+        <p class="card-description">Add, update, search, and manage librarian profiles in the system</p>
+      </div>
+
+      <div class="card-content">
+        <div class="form-section">
+          <h3>
+            <i class="fas fa-info-circle"></i>
+            Librarian Information
+          </h3>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="librarianId">
+                <i class="fas fa-hashtag"></i>
+                Librarian ID
+              </label>
+              <input 
+                id="librarianId" 
+                class="form-input" 
+                placeholder="Enter Librarian ID (e.g., LIB001)" 
+                type="text"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="librarianName">
+                <i class="fas fa-user"></i>
+                Full Name
+              </label>
+              <input 
+                id="librarianName" 
+                class="form-input" 
+                placeholder="Enter librarian's full name" 
+                type="text"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="librarianSpecialty">
+                <i class="fas fa-graduation-cap"></i>
+                Specialty/Department
+              </label>
+              <input 
+                id="librarianSpecialty" 
+                class="form-input" 
+                placeholder="Enter specialty (e.g., Reference, Cataloging)" 
+                type="text"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>
+            <i class="fas fa-cogs"></i>
+            Actions
+          </h3>
+
+          <div class="button-grid">
+            <button onclick="addLibrarian()" class="btn btn-primary">
+              <i class="fas fa-plus"></i>
+              Add Librarian
+            </button>
+            <button onclick="searchLibrarian()" class="btn btn-secondary">
+              <i class="fas fa-search"></i>
+              Search Librarian
+            </button>
+            <button onclick="updateLibrarian()" class="btn btn-warning">
+              <i class="fas fa-edit"></i>
+              Update Librarian
+            </button>
+            <button onclick="deleteLibrarian()" class="btn btn-danger">
+              <i class="fas fa-trash"></i>
+              Delete Librarian
+            </button>
+            <button onclick="clearForm()" class="btn btn-secondary">
+              <i class="fas fa-eraser"></i>
+              Clear Form
+            </button>
+            <button onclick="loadAllLibrarians()" class="btn btn-success">
+              <i class="fas fa-sync"></i>
+              Refresh List
+            </button>
+          </div>
+        </div>
+
+        <div class="output-section">
+          <div class="output-header">
+            <i class="fas fa-terminal"></i>
+            <span>System Response</span>
+          </div>
+          <div id="librarianOutput" class="output-content">
+Ready to manage librarians. Please fill in the required fields and select an action.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Librarians Display -->
+    <div class="management-card">
+      <div class="card-header">
+        <div class="card-title">
+          <i class="fas fa-users"></i>
+          <h2>Registered Librarians</h2>
+        </div>
+        <p class="card-description">Complete list of all librarians in the system</p>
+      </div>
+      <div class="card-content">
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Librarian ID</th>
+                <th>Name</th>
+                <th>Specialty</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="librarianTableBody">
+              <tr>
+                <td colspan="4" class="loading">
+                  <i class="fas fa-spinner fa-spin"></i>
+                  Loading librarians...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
   <script>
-    // Temporary redirect to doctors.html until we fully migrate
-    window.location.href = 'doctors.html';
+    // Application State
+    let librarians = [];
+    const API_BASE = 'http://localhost:8080';
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      loadAllLibrarians();
+    });
+
+    // Load all librarians
+    async function loadAllLibrarians() {
+      const output = document.getElementById('librarianOutput');
+      const tableBody = document.getElementById('librarianTableBody');
+      
+      try {
+        output.className = 'output-content';
+        output.textContent = 'Loading librarians...';
+        
+        const response = await fetch(`${API_BASE}/librarians`);
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        librarians = data.map(librarian => {
+          try {
+            return typeof librarian === 'string' ? JSON.parse(librarian) : librarian;
+          } catch (e) {
+            console.error('Error parsing librarian:', librarian, e);
+            return librarian;
+          }
+        });
+        
+        renderLibrarianTable();
+        output.className = 'output-content success';
+        output.textContent = `✓ Successfully loaded ${librarians.length} librarians.`;
+        
+      } catch (error) {
+        console.error('Error loading librarians:', error);
+        output.className = 'output-content error';
+        output.textContent = `✗ Error loading librarians: ${error.message}`;
+        
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="4" style="text-align: center; color: var(--danger); padding: 2rem;">
+              <i class="fas fa-exclamation-triangle"></i>
+              Failed to load librarians. Please check if the backend is running.
+            </td>
+          </tr>
+        `;
+      }
+    }
+
+    // Render librarian table
+    function renderLibrarianTable() {
+      const tableBody = document.getElementById('librarianTableBody');
+      
+      if (librarians.length === 0) {
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="4" class="empty-state">
+              <i class="fas fa-user-graduate"></i>
+              <p>No librarians found. Add some librarians to get started!</p>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tableBody.innerHTML = librarians.map(librarian => {
+        return `
+          <tr onclick="selectLibrarian('${librarian.id}')" style="cursor: pointer;">
+            <td><strong>${librarian.id}</strong></td>
+            <td>${librarian.name}</td>
+            <td>${librarian.specialty}</td>
+            <td>
+              <span class="status-badge status-active">
+                Active
+              </span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Select librarian from table
+    function selectLibrarian(librarianId) {
+      const librarian = librarians.find(l => l.id === librarianId);
+      if (librarian) {
+        document.getElementById('librarianId').value = librarian.id;
+        document.getElementById('librarianName').value = librarian.name;
+        document.getElementById('librarianSpecialty').value = librarian.specialty;
+        
+        const output = document.getElementById('librarianOutput');
+        output.className = 'output-content';
+        output.textContent = `Selected librarian: ${librarian.name} (${librarian.id})`;
+      }
+    }
+
+    // Add new librarian
+    async function addLibrarian() {
+      const output = document.getElementById('librarianOutput');
+      
+      // Get form values
+      const librarianData = {
+        id: document.getElementById('librarianId').value.trim(),
+        name: document.getElementById('librarianName').value.trim(),
+        specialty: document.getElementById('librarianSpecialty').value.trim()
+      };
+
+      // Validate required fields
+      if (!librarianData.id || !librarianData.name || !librarianData.specialty) {
+        output.className = 'output-content error';
+        output.textContent = '✗ Error: All fields are required.';
+        return;
+      }
+
+      try {
+        output.className = 'output-content';
+        output.textContent = 'Adding librarian...';
+        
+        const response = await fetch(`${API_BASE}/librarians`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(librarianData)
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const result = await response.text();
+        output.className = 'output-content success';
+        output.textContent = `✓ ${result}`;
+        
+        // Refresh the librarian list
+        await loadAllLibrarians();
+        clearForm();
+        
+      } catch (error) {
+        console.error('Error adding librarian:', error);
+        output.className = 'output-content error';
+        output.textContent = `✗ Error adding librarian: ${error.message}`;
+      }
+    }
+
+    // Search for a librarian
+    async function searchLibrarian() {
+      const librarianId = document.getElementById('librarianId').value.trim();
+      const output = document.getElementById('librarianOutput');
+      
+      if (!librarianId) {
+        output.className = 'output-content error';
+        output.textContent = '✗ Error: Please enter a Librarian ID to search.';
+        return;
+      }
+
+      try {
+        output.className = 'output-content';
+        output.textContent = `Searching for librarian with ID: ${librarianId}...`;
+        
+        const response = await fetch(`${API_BASE}/librarians/${librarianId}`);
+        
+        if (!response.ok) {
+          if (response.status === 404) {
+            throw new Error('Librarian not found');
+          }
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const librarianJson = await response.text();
+        const librarian = JSON.parse(librarianJson);
+        
+        // Populate form with librarian data
+        document.getElementById('librarianName').value = librarian.name;
+        document.getElementById('librarianSpecialty').value = librarian.specialty;
+        
+        output.className = 'output-content success';
+        output.textContent = `✓ Found librarian: ${librarian.name} (${librarian.specialty})`;
+        
+      } catch (error) {
+        console.error('Error searching librarian:', error);
+        output.className = 'output-content error';
+        output.textContent = `✗ Error searching librarian: ${error.message}`;
+      }
+    }
+
+    // Update existing librarian
+    async function updateLibrarian() {
+      const output = document.getElementById('librarianOutput');
+      
+      // Get form values
+      const librarianData = {
+        id: document.getElementById('librarianId').value.trim(),
+        name: document.getElementById('librarianName').value.trim(),
+        specialty: document.getElementById('librarianSpecialty').value.trim()
+      };
+
+      // Validate required fields
+      if (!librarianData.id) {
+        output.className = 'output-content error';
+        output.textContent = '✗ Error: Librarian ID is required for updating.';
+        return;
+      }
+
+      try {
+        output.className = 'output-content';
+        output.textContent = `Updating librarian ${librarianData.id}...`;
+        
+        const response = await fetch(`${API_BASE}/librarians/${librarianData.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(librarianData)
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const result = await response.text();
+        output.className = 'output-content success';
+        output.textContent = `✓ ${result}`;
+        
+        // Refresh the librarian list
+        await loadAllLibrarians();
+        
+      } catch (error) {
+        console.error('Error updating librarian:', error);
+        output.className = 'output-content error';
+        output.textContent = `✗ Error updating librarian: ${error.message}`;
+      }
+    }
+
+    // Delete librarian
+    async function deleteLibrarian() {
+      const librarianId = document.getElementById('librarianId').value.trim();
+      const output = document.getElementById('librarianOutput');
+      
+      if (!librarianId) {
+        output.className = 'output-content error';
+        output.textContent = '✗ Error: Please enter a Librarian ID to delete.';
+        return;
+      }
+
+      if (!confirm(`Are you sure you want to delete librarian with ID: ${librarianId}?`)) {
+        return;
+      }
+
+      try {
+        output.className = 'output-content';
+        output.textContent = `Deleting librarian ${librarianId}...`;
+        
+        const response = await fetch(`${API_BASE}/librarians/${librarianId}`, {
+          method: 'DELETE'
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const result = await response.text();
+        output.className = 'output-content success';
+        output.textContent = `✓ ${result}`;
+        
+        // Refresh the librarian list
+        await loadAllLibrarians();
+        clearForm();
+        
+      } catch (error) {
+        console.error('Error deleting librarian:', error);
+        output.className = 'output-content error';
+        output.textContent = `✗ Error deleting librarian: ${error.message}`;
+      }
+    }
+
+    // Clear form
+    function clearForm() {
+      document.getElementById('librarianId').value = '';
+      document.getElementById('librarianName').value = '';
+      document.getElementById('librarianSpecialty').value = '';
+      
+      const output = document.getElementById('librarianOutput');
+      output.className = 'output-content';
+      output.textContent = 'Form cleared. Ready for new input.';
+    }
+
+    // Logout function
+    function logout() {
+      localStorage.removeItem('libraryUser');
+      window.location.href = 'login.html';
+    }
   </script>
-  <p>Redirecting to Librarian Management...</p>
 </body>
 </html> 
