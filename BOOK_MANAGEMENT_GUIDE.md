@@ -135,10 +135,60 @@ curl -X PUT http://localhost:8080/inventory/BOOK009 \
   }'
 ```
 
-## 📋 Sample Books Included
+## 👥 Member Management Features
 
-The test data includes these books:
+### 1. **Add New Members**
+- Navigate to `http://localhost:3000/members.html`
+- Fill in the member information form:
+  - **Member ID**: Unique identifier (e.g., MEM004)
+  - **Full Name**: Member's complete name
+  - **Email Address**: Valid email address
+  - **Phone Number**: Contact phone number
+  - **Address**: Full residential address
+- Click **"Add New Member"** button
 
+### 2. **Search Members**
+- **Multiple search options:**
+  - **By Member ID**: Enter Member ID (fastest method)
+  - **By Name**: Enter full or partial name
+  - **By Email**: Enter email address
+  - **By Phone**: Enter phone number
+- Click **"Search Member"** button
+
+### 3. **Update/Delete Members**
+- Search for member first or click on member in table
+- Modify fields and click **"Update Member"**
+- Or click **"Delete Member"** to remove
+
+## 📋 Book Request & Borrowing Management
+
+### 1. **Create Book Requests**
+- Navigate to `http://localhost:3000/book-requests.html`
+- Fill in the request form:
+  - **Request ID**: Unique identifier (e.g., REQ004)
+  - **Member**: Select from dropdown of registered members
+  - **Book**: Select from dropdown of available books
+  - **Librarian**: Select librarian handling the request
+  - **Date & Time**: When the request was made
+  - **Status**: pending, borrowed, returned, overdue
+- Click **"Create Request"** button
+
+### 2. **Track Borrowed Books**
+- View all book requests in the table
+- See who borrowed which books
+- Track due dates (14 days from borrow date)
+- Monitor overdue books automatically
+- Update status when books are returned
+
+### 3. **Book Availability Management**
+- System automatically updates book availability when:
+  - Status changes to "borrowed" → decreases available count
+  - Status changes to "returned" → increases available count
+- Prevents borrowing when no copies available
+
+## 📋 Sample Data Included
+
+### Books
 1. **The Great Gatsby** by F. Scott Fitzgerald
 2. **To Kill a Mockingbird** by Harper Lee
 3. **1984** by George Orwell
@@ -147,6 +197,16 @@ The test data includes these books:
 6. **Lord of the Flies** by William Golding
 7. **The Hobbit** by J.R.R. Tolkien
 8. **Harry Potter and the Philosopher's Stone** by J.K. Rowling
+
+### Members
+1. **John Smith** (MEM001) - john.smith@email.com
+2. **Alice Johnson** (MEM002) - alice.johnson@email.com
+3. **Bob Wilson** (MEM003) - bob.wilson@email.com
+
+### Librarians
+1. **Sarah Johnson** (LIB001) - Reference & Research
+2. **Michael Chen** (LIB002) - Children's Literature
+3. **Emily Rodriguez** (LIB003) - Digital Resources
 
 ## 🎨 User Interface Features
 
