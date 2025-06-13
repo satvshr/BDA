@@ -1,0 +1,135 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "admin",
+      "email": "admin@library.com",
+      "password": "admin123",
+      "role": "admin"
+    },
+    {
+      "id": "2",
+      "username": "librarian1",
+      "email": "librarian1@library.com",
+      "password": "lib123",
+      "role": "doctor"
+    },
+    {
+      "id": "3",
+      "username": "librarian2",
+      "email": "librarian2@library.com",
+      "password": "lib123",
+      "role": "doctor"
+    }
+  ],
+  "librarians": [
+    {
+      "id": "LIB001",
+      "name": "Sarah Johnson",
+      "specialty": "Reference & Research"
+    },
+    {
+      "id": "LIB002",
+      "name": "Michael Chen",
+      "specialty": "Children's Literature"
+    },
+    {
+      "id": "LIB003",
+      "name": "Emily Rodriguez",
+      "specialty": "Digital Resources"
+    }
+  ],
+  "members": [
+    {
+      "id": "MEM001",
+      "name": "John Smith",
+      "email": "john.smith@email.com",
+      "phone": "+1-555-0101",
+      "address": "123 Main St, City, State 12345"
+    },
+    {
+      "id": "MEM002",
+      "name": "Alice Johnson",
+      "email": "alice.johnson@email.com",
+      "phone": "+1-555-0102",
+      "address": "456 Oak Ave, City, State 12345"
+    },
+    {
+      "id": "MEM003",
+      "name": "Bob Wilson",
+      "email": "bob.wilson@email.com",
+      "phone": "+1-555-0103",
+      "address": "789 Pine St, City, State 12345"
+    }
+  ],
+  "books": [
+    {
+      "id": "BOOK001",
+      "title": "The Great Gatsby",
+      "author": "F. Scott Fitzgerald",
+      "isbn": "978-0-7432-7356-5",
+      "quantity": 5,
+      "available": 3
+    },
+    {
+      "id": "BOOK002",
+      "title": "To Kill a Mockingbird",
+      "author": "Harper Lee",
+      "isbn": "978-0-06-112008-4",
+      "quantity": 4,
+      "available": 2
+    },
+    {
+      "id": "BOOK003",
+      "title": "1984",
+      "author": "George Orwell",
+      "isbn": "978-0-452-28423-4",
+      "quantity": 6,
+      "available": 4
+    },
+    {
+      "id": "BOOK004",
+      "title": "Pride and Prejudice",
+      "author": "Jane Austen",
+      "isbn": "978-0-14-143951-8",
+      "quantity": 3,
+      "available": 1
+    }
+  ],
+  "staff": [
+    {
+      "id": "STAFF001",
+      "name": "David Park",
+      "role": "Library Assistant",
+      "department": "Circulation"
+    },
+    {
+      "id": "STAFF002",
+      "name": "Lisa Wong",
+      "role": "Cataloger",
+      "department": "Technical Services"
+    },
+    {
+      "id": "STAFF003",
+      "name": "Mark Thompson",
+      "role": "Security",
+      "department": "Administration"
+    }
+  ],
+  "book_requests": [
+    {
+      "id": "REQ001",
+      "memberId": "MEM001",
+      "librarianId": "LIB001",
+      "date": "2024-01-15",
+      "time": "10:00"
+    },
+    {
+      "id": "REQ002",
+      "memberId": "MEM002",
+      "librarianId": "LIB002",
+      "date": "2024-01-16",
+      "time": "14:30"
+    }
+  ]
+} 
