@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🏥 Hospital Management System - Authentication</title>
+  <title>📚 Library Management System - Authentication</title>
   
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -175,7 +175,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="books" width="20" height="20" patternUnits="userSpaceOnUse"><rect width="20" height="20" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><rect x="4" y="8" width="2" height="8" fill="rgba(255,255,255,0.1)"/><rect x="7" y="6" width="2" height="10" fill="rgba(255,255,255,0.1)"/><rect x="10" y="9" width="2" height="6" fill="rgba(255,255,255,0.1)"/><rect x="13" y="5" width="2" height="12" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23books)"/></svg>');
       opacity: 0.3;
     }
 
@@ -579,11 +579,17 @@
   <nav class="navbar">
     <div class="nav-container">
       <a href="#" class="nav-logo">
-        <i class="fas fa-hospital"></i>
-            Booky System
+        <i class="fas fa-book-open"></i>
+        Library System
       </a>
       <ul class="nav-menu" id="navMenu">
-     
+        <li><a href="landing.html" class="nav-link">Home</a></li>
+        <li><a href="index.html" class="nav-link">Members</a></li>
+        <li><a href="doctors.html" class="nav-link">Librarians</a></li>
+        <li><a href="appointments.html" class="nav-link">Book Requests</a></li>
+        <li><a href="inventory.html" class="nav-link">Inventory</a></li>
+        <li><a href="staff.html" class="nav-link">Staff</a></li>
+        <li><a href="query.html" class="nav-link">Query</a></li>
       </ul>
       <button class="nav-button" id="authBtn" onclick="showAuth()">Login</button>
       <button class="mobile-toggle">
@@ -597,10 +603,10 @@
     <div class="auth-card">
       <div class="auth-header">
         <h1>
-          <i class="fas fa-user-md"></i>
+          <i class="fas fa-book-open"></i>
           Login
         </h1>
-        <p>Secure access to the Booky Inventory</p>
+        <p>Secure access to the Library Management System</p>
         
         <div class="auth-toggle">
           <button type="button" class="active" onclick="toggleAuth('login')">Login</button>
@@ -646,7 +652,7 @@
                 <span>Admin</span>
               </div>
               <div class="role-option" data-role="doctor" onclick="selectRole('doctor', 'login')">
-                <i class="fas fa-user-md"></i>
+                <i class="fas fa-user-graduate"></i>
                 <span>Librarian</span>
               </div>
             </div>
@@ -729,7 +735,7 @@
                 <span>Admin</span>
               </div>
               <div class="role-option" data-role="doctor" onclick="selectRole('doctor', 'signup')">
-                <i class="fas fa-user-md"></i>
+                <i class="fas fa-user-graduate"></i>
                 <span>Librarian</span>
               </div>
             </div>
@@ -752,8 +758,8 @@
   <section id="dashboardSection" class="dashboard">
     <div class="dashboard-header">
       <div class="container">
-        <h1 class="dashboard-title">Welcome to Hospital Management System</h1>
-        <p class="dashboard-subtitle">Manage hospital operations efficiently and securely</p>
+        <h1 class="dashboard-title">Welcome to Library Management System</h1>
+        <p class="dashboard-subtitle">Manage library operations efficiently and securely</p>
       </div>
     </div>
 
@@ -762,13 +768,13 @@
         <div class="feature-card admin-only">
           <div class="feature-header">
             <div class="feature-title">
-              <i class="fas fa-user-md"></i>
+              <i class="fas fa-user-graduate"></i>
               <h3>Librarian Management</h3>
             </div>
             <p class="feature-description">Manage librarian profiles, schedules, and specializations</p>
           </div>
           <div class="feature-content">
-            <button class="feature-btn">
+            <button class="feature-btn" onclick="window.location.href='doctors.html'">
               <i class="fas fa-plus"></i>
               Manage Librarians
             </button>
@@ -778,15 +784,15 @@
         <div class="feature-card">
           <div class="feature-header">
             <div class="feature-title">
-              <i class="fas fa-calendar-alt"></i>
-              <h3>Appointments</h3>
+              <i class="fas fa-book"></i>
+              <h3>Book Requests</h3>
             </div>
-            <p class="feature-description">Schedule and manage patient appointments</p>
+            <p class="feature-description">Manage book issue and return requests</p>
           </div>
           <div class="feature-content">
-            <button class="feature-btn">
+            <button class="feature-btn" onclick="window.location.href='appointments.html'">
               <i class="fas fa-calendar-plus"></i>
-              View Appointments
+              View Requests
             </button>
           </div>
         </div>
@@ -794,15 +800,15 @@
         <div class="feature-card">
           <div class="feature-header">
             <div class="feature-title">
-              <i class="fas fa-pills"></i>
-              <h3>Pharmacy</h3>
+              <i class="fas fa-warehouse"></i>
+              <h3>Book Inventory</h3>
             </div>
-            <p class="feature-description">Manage medications and prescriptions</p>
+            <p class="feature-description">Manage book collection and inventory</p>
           </div>
           <div class="feature-content">
-            <button class="feature-btn">
-              <i class="fas fa-prescription-bottle"></i>
-              Pharmacy System
+            <button class="feature-btn" onclick="window.location.href='inventory.html'">
+              <i class="fas fa-books"></i>
+              Inventory System
             </button>
           </div>
         </div>
@@ -813,12 +819,28 @@
               <i class="fas fa-users"></i>
               <h3>Staff Management</h3>
             </div>
-            <p class="feature-description">Manage hospital staff and their roles</p>
+            <p class="feature-description">Manage library staff and their roles</p>
           </div>
           <div class="feature-content">
-            <button class="feature-btn">
+            <button class="feature-btn" onclick="window.location.href='staff.html'">
               <i class="fas fa-user-plus"></i>
               Manage Staff
+            </button>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-header">
+            <div class="feature-title">
+              <i class="fas fa-users"></i>
+              <h3>Member Management</h3>
+            </div>
+            <p class="feature-description">Manage library members and memberships</p>
+          </div>
+          <div class="feature-content">
+            <button class="feature-btn" onclick="window.location.href='index.html'">
+              <i class="fas fa-user-friends"></i>
+              Manage Members
             </button>
           </div>
         </div>
@@ -829,10 +851,10 @@
               <i class="fas fa-search"></i>
               <h3>Query System</h3>
             </div>
-            <p class="feature-description">Search and query hospital data</p>
+            <p class="feature-description">Search and query library data</p>
           </div>
           <div class="feature-content">
-            <button class="feature-btn">
+            <button class="feature-btn" onclick="window.location.href='query.html'">
               <i class="fas fa-database"></i>
               Query Database
             </button>
@@ -988,91 +1010,89 @@
     }
 
     // Handle login
-   function handleLogin(event) {
-  event.preventDefault();
+    function handleLogin(event) {
+      event.preventDefault();
 
-  const username = document.getElementById('loginUsername').value.trim();
-  const password = document.getElementById('loginPassword').value;
-  const role = selectedRole.login;
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const role = selectedRole.login;
 
-  fetch('http://localhost:8080/users')
-    .then(res => {
-      if (!res.ok) throw new Error('Failed to fetch users');
-      return res.json();
-    })
-    .then(users => {
-      // parse each JSON string to object
-      const parsedUsers = users.map(u => JSON.parse(u));
+      fetch('http://localhost:8080/users')
+        .then(res => {
+          if (!res.ok) throw new Error('Failed to fetch users');
+          return res.json();
+        })
+        .then(users => {
+          // parse each JSON string to object
+          const parsedUsers = users.map(u => JSON.parse(u));
 
-      const user = parsedUsers.find(u =>
-        u.username === username &&
-        u.password === password &&
-        u.role === role
-      );
+          const user = parsedUsers.find(u =>
+            u.username === username &&
+            u.password === password &&
+            u.role === role
+          );
 
-      console.log(user);
+          console.log(user);
 
-      if (user) {
-        currentUser = user;
-        localStorage.setItem('hospitalUser', JSON.stringify(user));
-        showSuccessMessage('Login successful! Redirecting...');
-        setTimeout(() => showDashboard(), 1500);
-        setTimeout(() => {
-    if (user.role === 'admin') {
-        window.location.href = 'landing.html';
-        } else if (user.role === 'doctor') {
-        window.location.href = 'landing_doctor.html';
-       
-        } else {
-        showDashboard();  // fallback or default dashboard
-        }
-
-  }, 1500);
-      } else {
-        showError('loginPassword', 'Invalid credentials or role mismatch');
-      }
-    })
-    .catch(err => {
-      showError('loginPassword', 'Login failed: ' + err.message);
-    });
-}
+          if (user) {
+            currentUser = user;
+            localStorage.setItem('hospitalUser', JSON.stringify(user));
+            showSuccessMessage('Login successful! Redirecting...');
+            setTimeout(() => showDashboard(), 1500);
+            setTimeout(() => {
+              if (user.role === 'admin') {
+                window.location.href = 'landing.html';
+              } else if (user.role === 'doctor') {
+                window.location.href = 'landing_doctor.html';
+              } else {
+                showDashboard();  // fallback or default dashboard
+              }
+            }, 1500);
+          } else {
+            showError('loginPassword', 'Invalid credentials or role mismatch');
+          }
+        })
+        .catch(err => {
+          showError('loginPassword', 'Login failed: ' + err.message);
+        });
+    }
 
     // Handle signup
     function handleSignup(event) {
-  event.preventDefault();
+      event.preventDefault();
 
-  if (!validateSignupForm()) return;
+      if (!validateSignupForm()) return;
 
-  const username = document.getElementById('signupUsername').value;
-  const email = document.getElementById('signupEmail').value;
-  const password = document.getElementById('signupPassword').value;
-  const role = selectedRole.signup;
+      const username = document.getElementById('signupUsername').value;
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+      const role = selectedRole.signup;
 
-  fetch('http://localhost:8080/users/signup', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      id: Date.now().toString(),
-      username,
-      email,
-      password,
-      role
-    })
-  })
-    .then(res => {
-      if (res.ok) return res.text();
-      throw new Error('Signup failed');
-    })
-    .then(message => {
-      showSuccessMessage(message);
-      setTimeout(() => toggleAuth('login'), 1500);
-    })
-    .catch(err => {
-      showError('signupUsername', err.message);
-    });
-}
+      fetch('http://localhost:8080/users/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: Date.now().toString(),
+          username,
+          email,
+          password,
+          role
+        })
+      })
+        .then(res => {
+          if (res.ok) return res.text();
+          throw new Error('Signup failed');
+        })
+        .then(message => {
+          showSuccessMessage(message);
+          setTimeout(() => toggleAuth('login'), 1500);
+        })
+        .catch(err => {
+          showError('signupUsername', err.message);
+        });
+    }
 
     function validateSignupForm() {
       let isValid = true;

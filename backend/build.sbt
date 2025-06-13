@@ -1,4 +1,4 @@
-name := "LeaveManagementSystem"
+name := "LibraryManagementSystem"
 
 version := "0.1"
 

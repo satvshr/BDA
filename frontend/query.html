@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Query Interface - Hospital Management System</title>
+  <title>Query Interface - Library Management System</title>
   
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -809,17 +809,18 @@
  <nav class="navbar">
     <div class="nav-container">
       <a href="landing.html" class="nav-logo">
-        <i class="fas fa-hospital-alt"></i>
+        <i class="fas fa-books-alt"></i>
         Booky System
       </a>
       
-      <ul class="nav-menu">
-        <li><a href="landing.html" class="nav-link">Home</a></li>
-        <li><a href="doctors.html" class="nav-link ">Librarian</a></li>
-        <li><a href="appointments.html" class="nav-link ">Book issue requests</a></li>
-        <li><a href="pharmacy.html" class="nav-link ">Inventory</a></li>
-        <li><a href="staff.html" class="nav-link ">Staff</a></li>
-           <li><a href="query.html" class="nav-link active">Query</a></li>
+              <ul class="nav-menu">
+          <li><a href="landing.html" class="nav-link">Home</a></li>
+          <li><a href="index.html" class="nav-link">Members</a></li>
+          <li><a href="doctors.html" class="nav-link">Librarians</a></li>
+          <li><a href="appointments.html" class="nav-link">Book Requests</a></li>
+          <li><a href="inventory.html" class="nav-link">Inventory</a></li>
+          <li><a href="staff.html" class="nav-link">Staff</a></li>
+          <li><a href="query.html" class="nav-link active">Query</a></li>
            <div class="feature-content">
             <button class="feature-btn logout-btn" onclick="logout()">
               <i class="fas fa-sign-out-alt"></i>
@@ -836,7 +837,7 @@
         <i class="fas fa-search"></i>
         Query Interface
       </h1>
-      <p>Search and filter hospital records across all departments and services</p>
+      <p>Search and filter library records across all departments and services</p>
     </div>
   </header>
 
@@ -846,7 +847,7 @@
       <div class="card-header">
         <div class="card-title">
           <i class="fas fa-database"></i>
-          <h2>Hospital Records Query System</h2>
+          <h2>Library Records Query System</h2>
         </div>
         <p class="card-description">
           Access comprehensive search functionality for doctors, appointments, staff, and pharmacy records
@@ -1682,7 +1683,7 @@
 
     // Initialize the application
     document.addEventListener('DOMContentLoaded', () => {
-      console.log('Hospital Management Query Interface loaded successfully');
+      console.log('Library Management Query Interface loaded successfully');
     });
         function logout() {
   
