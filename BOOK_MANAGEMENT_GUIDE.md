@@ -43,9 +43,15 @@ chmod +x load-test-data.sh
 - Click **"Add New Book"** button
 
 ### 2. **Search Books**
-- Enter a **Book ID** in the form
+- **Multiple search options available:**
+  - **By Book ID**: Enter Book ID (fastest method)
+  - **By Title**: Enter full or partial book title
+  - **By Author**: Enter full or partial author name
+  - **By ISBN**: Enter full or partial ISBN
+  - **Combined search**: Fill multiple fields for precise matching
 - Click **"Search Book"** button
 - Book details will populate the form if found
+- **Multiple matches**: Shows list of matching books with IDs
 
 ### 3. **Update Books**
 - Search for the book first (or click on a book in the table)

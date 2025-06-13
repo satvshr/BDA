@@ -603,6 +603,11 @@
             <i class="fas fa-info-circle"></i>
             Book Information
           </h3>
+          <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">
+            <i class="fas fa-lightbulb" style="color: var(--warning);"></i>
+            <strong>Search Tip:</strong> You can search by any field - just fill in what you know and click "Search Book". 
+            For fastest results, use the Book ID.
+          </p>
 
           <div class="form-grid">
             <div class="form-group">
@@ -613,7 +618,7 @@
               <input 
                 id="bookId" 
                 class="form-input" 
-                placeholder="Enter unique book ID (e.g., BOOK001)" 
+                placeholder="Enter Book ID (e.g., BOOK001) - fastest search method" 
                 type="text"
               />
             </div>
@@ -626,7 +631,7 @@
               <input 
                 id="bookTitle" 
                 class="form-input" 
-                placeholder="Enter book title" 
+                placeholder="Enter book title (or partial title for search)" 
                 type="text"
               />
             </div>
@@ -639,7 +644,7 @@
               <input 
                 id="bookAuthor" 
                 class="form-input" 
-                placeholder="Enter author's full name" 
+                placeholder="Enter author name (or partial name for search)" 
                 type="text"
               />
             </div>
@@ -652,7 +657,7 @@
               <input 
                 id="bookIsbn" 
                 class="form-input" 
-                placeholder="Enter ISBN (e.g., 978-0-123456-78-9)" 
+                placeholder="Enter ISBN (full or partial for search)" 
                 type="text"
               />
             </div>
@@ -948,39 +953,96 @@ Ready to manage books. Please fill in the required fields and select an action.
     // Search for a book
     async function searchBook() {
       const bookId = document.getElementById('bookId').value.trim();
+      const title = document.getElementById('bookTitle').value.trim();
+      const author = document.getElementById('bookAuthor').value.trim();
+      const isbn = document.getElementById('bookIsbn').value.trim();
       const output = document.getElementById('bookOutput');
       
-      if (!bookId) {
+      // Check if at least one search criteria is provided
+      if (!bookId && !title && !author && !isbn) {
         output.className = 'output-content error';
-        output.textContent = '✗ Error: Please enter a Book ID to search.';
+        output.textContent = '✗ Error: Please enter at least one search criteria (Book ID, Title, Author, or ISBN).';
         return;
       }
 
       try {
         output.className = 'output-content';
-        output.textContent = `Searching for book with ID: ${bookId}...`;
         
-        const response = await fetch(`${API_BASE}/inventory/${bookId}`);
-        
-        if (!response.ok) {
-          if (response.status === 404) {
-            throw new Error('Book not found');
+        // If Book ID is provided, search by ID (fastest method)
+        if (bookId) {
+          output.textContent = `Searching for book with ID: ${bookId}...`;
+          
+          const response = await fetch(`${API_BASE}/inventory/${bookId}`);
+          
+          if (!response.ok) {
+            if (response.status === 404) {
+              throw new Error('Book not found with the provided ID');
+            }
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
           }
+
+          const bookJson = await response.text();
+          const book = JSON.parse(bookJson);
+          
+          // Populate form with book data
+          document.getElementById('bookTitle').value = book.title;
+          document.getElementById('bookAuthor').value = book.author;
+          document.getElementById('bookIsbn').value = book.isbn;
+          document.getElementById('bookQuantity').value = book.quantity;
+          document.getElementById('bookAvailable').value = book.available;
+          
+          output.className = 'output-content success';
+          output.textContent = `✓ Found book: "${book.title}" by ${book.author}`;
+          return;
+        }
+        
+        // If no Book ID, search through all books by other criteria
+        output.textContent = 'Searching through inventory...';
+        
+        const response = await fetch(`${API_BASE}/inventory`);
+        if (!response.ok) {
           throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
-
-        const bookJson = await response.text();
-        const book = JSON.parse(bookJson);
         
-        // Populate form with book data
-        document.getElementById('bookTitle').value = book.title;
-        document.getElementById('bookAuthor').value = book.author;
-        document.getElementById('bookIsbn').value = book.isbn;
-        document.getElementById('bookQuantity').value = book.quantity;
-        document.getElementById('bookAvailable').value = book.available;
+        const data = await response.json();
+        const allBooks = data.map(book => JSON.parse(book));
         
-        output.className = 'output-content success';
-        output.textContent = `✓ Found book: "${book.title}" by ${book.author}`;
+        // Search by title, author, or ISBN
+        const matchingBooks = allBooks.filter(book => {
+          const titleMatch = !title || book.title.toLowerCase().includes(title.toLowerCase());
+          const authorMatch = !author || book.author.toLowerCase().includes(author.toLowerCase());
+          const isbnMatch = !isbn || book.isbn.includes(isbn);
+          
+          return titleMatch && authorMatch && isbnMatch;
+        });
+        
+        if (matchingBooks.length === 0) {
+          output.className = 'output-content error';
+          output.textContent = '✗ No books found matching the search criteria.';
+          return;
+        }
+        
+        if (matchingBooks.length === 1) {
+          // Single match found - populate the form
+          const book = matchingBooks[0];
+          document.getElementById('bookId').value = book.id;
+          document.getElementById('bookTitle').value = book.title;
+          document.getElementById('bookAuthor').value = book.author;
+          document.getElementById('bookIsbn').value = book.isbn;
+          document.getElementById('bookQuantity').value = book.quantity;
+          document.getElementById('bookAvailable').value = book.available;
+          
+          output.className = 'output-content success';
+          output.textContent = `✓ Found book: "${book.title}" by ${book.author}`;
+        } else {
+          // Multiple matches found - show list
+          output.className = 'output-content warning';
+          output.textContent = `⚠ Found ${matchingBooks.length} matching books:\n\n` +
+            matchingBooks.map(book => 
+              `• ${book.id}: "${book.title}" by ${book.author}`
+            ).join('\n') +
+            '\n\nPlease use a specific Book ID to select one.';
+        }
         
       } catch (error) {
         console.error('Error searching book:', error);
