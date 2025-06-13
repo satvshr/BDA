@@ -1,981 +1,507 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Member Management - Library Management System</title>
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <style>
-    /* Dark Mode CSS Schema */
-    :root {
-      --primary: #6366f1; /* Indigo 500 */
-      --primary-dark: #4f46e5; /* Indigo 600 */
-      --secondary: #ec4899; /* Pink 500 */
-      --accent: #10b981; /* Emerald 500 */
-      --warning: #f59e0b; /* Amber 500 */
-      --danger: #ef4444; /* Red 500 */
-      --background: #0f172a; /* Slate 900 */
-      --surface: #1e293b; /* Slate 800 */
-      --surface-light: #334155; /* Slate 700 */
-      --surface-hover: #475569; /* Slate 600 */
-      --text-primary: #f8fafc; /* Slate 50 */
-      --text-secondary: #cbd5e1; /* Slate 300 */
-      --text-muted: #94a3b8; /* Slate 400 */
-      --border: #334155; /* Slate 700 */
-      --glow: 0 0 20px rgba(99, 102, 241, 0.3);
-      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-      --radius: 0.75rem; /* Adjusted for consistency with existing elements */
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: var(--background);
-      color: var(--text-primary);
-      line-height: 1.6;
-      min-height: 100vh;
-      /* Removed padding-top as header is not fixed */
-      background-image: 
-        radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.15) 0%, transparent 50%);
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    /* Header styling adapted for dark mode */
-    .header {
-      background: var(--surface); /* Darker background for header */
-      color: var(--text-primary);
-      padding: 2rem 0;
-      box-shadow: var(--shadow-lg);
-      position: relative;
-      overflow: hidden;
-      border-bottom: 1px solid var(--border); /* Add a subtle border */
-    }
-
-    /* Removed the old header animation for a cleaner dark mode look */
-    .header::before {
-        content: none;
-    }
-    @keyframes float { /* Keep keyframe definition but it's not used */
-        0% { transform: translate(0, 0) rotate(0deg); }
-        100% { transform: translate(-20px, -20px) rotate(360deg); }
-    }
-
-    .header-content {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .logo i {
-      font-size: 2.5rem;
-      color: var(--primary); /* Use primary color for icon */
-      filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5)); /* Glow effect */
-    }
-
-    .logo h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    }
-
-    .header-stats {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-weight: 500;
-      opacity: 0.95;
-      color: var(--text-secondary); /* Adjust text color for stats */
-    }
-    .header-stats .stat-item {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-    .header-stats .stat-item i {
-        font-size: 1.25rem;
-        color: var(--accent); /* Use accent color for stat icons */
-    }
-
-    /* Main Content */
-    .main-content {
-      padding: 3rem 0;
-    }
-
-    /* Sections */
-    .management-section {
-      background: var(--surface);
-      border-radius: var(--radius); /* Using new radius variable */
-      box-shadow: var(--shadow-lg);
-      margin-bottom: 2rem;
-      overflow: hidden;
-      transition: var(--transition);
-      border: 1px solid var(--border); /* Using new border variable */
-    }
-
-    .management-section:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--glow); /* Apply glow on hover */
-    }
-
-    .section-header {
-      background: var(--surface-light); /* Lighter surface for header */
-      padding: 1.5rem 2rem;
-      border-bottom: 2px solid var(--border);
-    }
-
-    .section-title {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .section-title i {
-      font-size: 1.5rem;
-      color: var(--primary);
-      background: rgba(99, 102, 241, 0.1); /* Primary color with transparency */
-      padding: 0.75rem;
-      border-radius: 0.5rem; /* Adjusted for consistency */
-      border: 2px solid rgba(99, 102, 241, 0.2);
-    }
-
-    .section-title h2 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-
-    .section-description {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      margin-left: 4.5rem;
-      font-style: italic;
-    }
-
-    /* Form Layout */
-    .form-container {
-      padding: 2rem;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
-
-    .input-group {
-      position: relative;
-    }
-
-    .input-group label {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-weight: 600;
-      color: var(--text-secondary); /* Adjusted label color */
-      margin-bottom: 0.5rem;
-      font-size: 0.9rem;
-    }
-
-    .input-group label i {
-      color: var(--primary);
-      width: 16px;
-      text-align: center;
-    }
-
-    .form-input {
-      width: 100%;
-      padding: 1rem;
-      border: 2px solid var(--border);
-      border-radius: 0.5rem; /* Using new radius */
-      font-size: 1rem;
-      font-family: inherit;
-      background: var(--surface-light); /* Lighter surface for inputs */
-      color: var(--text-primary);
-      transition: var(--transition);
-      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2); /* Inner shadow for depth */
-    }
-
-    .form-input:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2); /* Primary glow on focus */
-      transform: translateY(-1px);
-    }
-
-    .form-input:hover {
-      border-color: var(--primary); /* Primary color on hover */
-    }
-
-    .form-input::placeholder {
-      color: var(--text-muted); /* Muted text for placeholders */
-    }
-
-    /* Buttons */
-    .button-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-    }
-
-    .btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 1rem 1.5rem;
-      border: none;
-      border-radius: 0.5rem; /* Using new radius */
-      font-size: 1rem;
-      font-weight: 600;
-      font-family: inherit;
-      cursor: pointer;
-      transition: var(--transition);
-      text-decoration: none;
-      position: relative;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-
-    .btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); /* Subtle shine effect */
-      transition: left 0.5s;
-    }
-
-    .btn:hover::before {
-      left: 100%;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--glow); /* Apply glow on button hover */
-    }
-
-    .btn:active {
-      transform: translateY(0);
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      color: white;
-    }
-
-    .btn-secondary {
-      background: linear-gradient(135deg, var(--secondary) 0%, #d946ef 100%); /* Adjusted secondary gradient */
-      color: white;
-    }
-
-    .btn-warning {
-      background: linear-gradient(135deg, var(--warning) 0%, #b45309 100%); /* Adjusted warning gradient */
-      color: white;
-    }
-
-    .btn-danger {
-      background: linear-gradient(135deg, var(--danger) 0%, #b91c1c 100%); /* Adjusted danger gradient */
-      color: white;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 Library Management System</title>
     
-    /* New button for "View All Members" matching the accent color */
-    .btn-accent {
-        background: linear-gradient(135deg, var(--accent) 0%, #047857 100%); /* Using accent color */
-        color: white;
-    }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Modern CSS Variables */
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --accent: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --background: #0f172a;
+            --surface: #1e293b;
+            --surface-light: #334155;
+            --surface-hover: #475569;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --glow: 0 0 20px rgba(99, 102, 241, 0.3);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --radius: 1rem;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-    /* Output */
-    .output-container {
-      margin-top: 2rem;
-      border-top: 2px solid var(--border); /* Using new border variable */
-      padding-top: 1.5rem;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .output-header {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-      font-weight: 600;
-      color: var(--text-muted); /* Muted text for output header */
-      font-size: 0.9rem;
-    }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding-top: 5rem;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.15) 0%, transparent 50%);
+            min-height: 100vh;
+        }
 
-    .output-header i {
-      color: var(--primary);
-    }
+        /* Navigation Bar */
+        .navbar {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
 
-    .output-content {
-      background: var(--surface-light); /* Lighter surface for output content */
-      border: 1px solid var(--border);
-      border-left: 4px solid var(--primary);
-      border-radius: 0.5rem; /* Using new radius */
-      padding: 1.5rem;
-      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-      font-size: 0.9rem;
-      line-height: 1.6;
-      white-space: pre-wrap;
-      color: var(--text-primary);
-      min-height: 80px;
-      display: flex;
-      align-items: center;
-      transition: var(--transition);
-      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
-    }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 5rem;
+        }
 
-    .output-content.success {
-      border-left-color: var(--accent); /* Use accent for success */
-      background: rgba(16, 185, 129, 0.1); /* Accent color with transparency */
-    }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 800;
+            font-size: 1.5rem;
+        }
 
-    .output-content.error {
-      border-left-color: var(--danger); /* Use danger for error */
-      background: rgba(239, 68, 68, 0.1); /* Danger color with transparency */
-    }
+        .nav-logo i {
+            color: var(--primary);
+            font-size: 2rem;
+            filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5));
+        }
 
-    /* Footer */
-    .footer {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      padding: 2rem 0;
-      margin-top: 3rem;
-      box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
-    }
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+            align-items: center;
+        }
 
-    .footer-content {
-      text-align: center;
-    }
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+        }
 
-    .footer-text {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      color: var(--text-muted); /* Muted text for footer */
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
+        .nav-link:hover {
+            color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+            box-shadow: var(--glow);
+        }
 
-    .footer-text i {
-      color: var(--danger);
-      animation: heartbeat 2s infinite;
-    }
+        .nav-link.active {
+            color: var(--primary);
+            background: rgba(99, 102, 241, 0.2);
+            box-shadow: var(--glow);
+        }
 
-    @keyframes heartbeat {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-    }
+        /* Page Header (using .hero styles from provided CSS) */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+            color: white;
+        }
 
-    /* Loading Animation */
-    .loading {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      color: var(--primary);
-      font-size: 1.1rem;
-      padding: 20px;
-    }
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="books" width="40" height="40" patternUnits="userSpaceOnUse"><rect width="40" height="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><rect x="8" y="15" width="4" height="15" fill="rgba(255,255,255,0.1)"/><rect x="14" y="12" width="4" height="18" fill="rgba(255,255,255,0.1)"/><rect x="20" y="18" width="4" height="12" fill="rgba(255,255,255,0.1)"/><rect x="26" y="10" width="4" height="20" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23books)"/></svg>');
+            opacity: 0.3;
+        }
 
-    .loading i {
-      font-size: 1.5rem;
-      animation: spin 1s linear infinite;
-    }
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
+        .header-container h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
 
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .container {
-        padding: 0 1rem;
-      }
-      
-      .header-content {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-      }
-      
-      .logo h1 {
-        font-size: 1.5rem;
-      }
-      
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .button-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .section-description {
-        margin-left: 0;
-        margin-top: 0.5rem;
-      }
-      
-      .main-content {
-        padding: 2rem 0;
-      }
-    }
+        .header-container h1 i {
+            font-size: 3rem;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
+        }
 
-    @media (max-width: 480px) {
-      .section-header,
-      .form-container {
-        padding: 1.5rem;
-      }
-      
-      .logo {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-    }
+        .header-container p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
 
-    /* Animation for page load */
-    .management-section {
-      animation: slideInUp 0.6s ease-out;
-    }
+        /* Main Content */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
 
-    .management-section:nth-child(2) {
-      animation-delay: 0.1s;
-    }
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
 
-    @keyframes slideInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  </style>
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .quick-action {
+            background: var(--surface-light);
+            border: 2px solid var(--border);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quick-action::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .quick-action:hover::before {
+            opacity: 0.1;
+        }
+
+        .quick-action:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: var(--glow);
+        }
+
+        .quick-action i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .quick-action h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .quick-action p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .footer-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+        .footer-text i {
+            color: var(--danger);
+            animation: heartbeat 2s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .header-container h1 {
+                font-size: 2.5rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .header-container h1 i {
+                font-size: 2.5rem;
+            }
+
+            .header-container p {
+                font-size: 1.125rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container,
+            .header-container,
+            .container {
+                padding: 0 1rem;
+            }
+
+            .page-header {
+                padding: 3rem 0;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header class="header">
-    <div class="container">
-      <div class="header-content">
-        <div class="logo">
-          <i class="fas fa-book-open"></i>
-          <h1>Library Management System</h1>
-        </div>
-        <div class="header-stats">
-          <div class="stat-item">
-            <i class="fas fa-book-reader"></i>
-            <span>Organizing Knowledge</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <main class="main-content">
-    <div class="container">
-      
-      <section class="management-section">
-        <div class="section-header">
-          <div class="section-title">
-            <i class="fas fa-bolt"></i>
-            <h2>Quick Actions</h2>
-          </div>
-          <div class="section-description">
-            Perform common tasks quickly
-          </div>
-        </div>
-        <div class="form-container">
-          <div class="button-grid">
-            <button onclick="generateMemberId()" class="btn btn-primary">
-              <i class="fas fa-id-card"></i>
-              Generate Member ID
-            </button>
-            <button onclick="clearForm()" class="btn btn-warning">
-              <i class="fas fa-broom"></i>
-              Clear Form
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <section class="management-section">
-        <div class="section-header">
-          <div class="section-title">
-            <i class="fas fa-user-friends"></i>
-            <h2>Member Information System</h2>
-          </div>
-          <div class="section-description">
-            Add, update, search, and manage library member profiles
-          </div>
-        </div>
-        
-        <div class="form-container">
-          <div class="form-grid">
-            <div class="input-group">
-              <label for="memberId">
-                <i class="fas fa-id-badge"></i>
-                Member ID
-              </label>
-              <input 
-                id="memberId" 
-                class="form-input" 
-                placeholder="Enter unique member ID" 
-                type="text"
-              />
-            </div>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <i class="fas fa-book"></i>
+                Library System
+            </a>
             
-            <div class="input-group">
-              <label for="memberName">
-                <i class="fas fa-user"></i>
-                Full Name
-              </label>
-              <input 
-                id="memberName" 
-                class="form-input" 
-                placeholder="Enter member's full name" 
-                type="text"
-              />
-            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
             
-            <div class="input-group">
-              <label for="memberContact">
-                <i class="fas fa-phone"></i>
-                Contact Info
-              </label>
-              <input 
-                id="memberContact" 
-                class="form-input" 
-                placeholder="e.g., email@example.com or phone number" 
-                type="text"
-              />
+            <a href="login.html" class="nav-button btn-primary-action">
+                <i class="fas fa-sign-in-alt"></i>
+                Login
+            </a>
+            
+            <button class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <section class="page-header" id="home">
+        <div class="header-container">
+            <h1><i class="fas fa-book-reader"></i> Library Management System</h1>
+            <p>Efficiently manage your library's collection, members, and loans with our comprehensive platform.</p>
+            
+            <div class="hero-buttons">
+                <a href="#about" class="btn btn-primary-action">
+                    <i class="fas fa-info-circle"></i>
+                    Learn More
+                </a>
+                <a href="#contact" class="btn btn-secondary-action">
+                    <i class="fas fa-envelope"></i>
+                    Contact Us
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <main class="main-content">
+        <div class="container">
+            
+            <div class="section-header">
+                <h2>Welcome to Our Library</h2>
+                <p>Discover a world of knowledge and community resources.</p>
             </div>
 
-            <div class="input-group">
-              <label for="memberAddress">
-                <i class="fas fa-map-marker-alt"></i>
-                Address
-              </label>
-              <input 
-                id="memberAddress" 
-                class="form-input" 
-                placeholder="Enter member's address" 
-                type="text"
-              />
+            <div class="quick-actions">
+                <div class="quick-action" onclick="alert('Explore our vast collection of books!');">
+                    <i class="fas fa-book-open"></i> <h4>Browse Books</h4>
+                    <p>Find your next great read.</p>
+                </div>
+                <div class="quick-action" onclick="alert('Learn how to become a library member!');">
+                    <i class="fas fa-user-friends"></i>
+                    <h4>Become a Member</h4>
+                    <p>Access exclusive resources and services.</p>
+                </div>
+                </div>
+
+            <section id="about" class="member-list-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-info-circle"></i>
+                        <h2>About Our Library</h2>
+                    </div>
+                    <p class="card-description">Dedicated to fostering literacy and lifelong learning.</p>
+                </div>
+                <div class="member-list-content" style="padding: 2rem;">
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                        Our library is a vibrant hub for the community, offering a diverse collection of books, digital resources, and engaging programs for all ages. We believe in the power of knowledge and strive to create an inclusive environment where everyone can explore, learn, and grow.
+                    </p>
+                    <p style="color: var(--text-secondary);">
+                        With a commitment to innovation and accessibility, we continually update our resources and services to meet the evolving needs of our patrons. Join us in our mission to inspire curiosity and connect people through the joy of reading.
+                    </p>
+                </div>
+            </section>
+
+            <section id="contact" class="member-list-card" style="margin-top: 2rem;">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-envelope"></i>
+                        <h2>Contact Us</h2>
+                    </div>
+                    <p class="card-description">Have questions? Reach out to our friendly team.</p>
+                </div>
+                <div class="member-list-content" style="padding: 2rem;">
+                    <p style="color: var(--text-secondary); margin-bottom: 0.5rem;"><i class="fas fa-map-marker-alt" style="margin-right: 0.5rem; color: var(--accent);"></i> 123 Library Lane, Booktown, KL 56789</p>
+                    <p style="color: var(--text-secondary); margin-bottom: 0.5rem;"><i class="fas fa-phone" style="margin-right: 0.5rem; color: var(--accent);"></i> +91 98765 43210</p>
+                    <p style="color: var(--text-secondary);"><i class="fas fa-envelope" style="margin-right: 0.5rem; color: var(--accent);"></i> info@librarysystem.com</p>
+                    <p style="color: var(--text-secondary); margin-top: 1rem;">
+                        Our operating hours are Monday-Friday, 9:00 AM - 6:00 PM. We look forward to hearing from you!
+                    </p>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-text">
+                    <i class="fas fa-heart"></i>
+                    <span>Library Management System - Fostering Knowledge and Community</span>
+                </div>
             </div>
-
-            <div class="input-group">
-              <label for="memberType">
-                <i class="fas fa-user-tag"></i>
-                Member Type
-              </label>
-              <select id="memberType" class="form-input">
-                <option value="">Select Type</option>
-                <option value="Student">Student</option>
-                <option value="Faculty">Faculty</option>
-                <option value="General">General</option>
-              </select>
-            </div>
-          </div>
-          
-          <div class="button-grid">
-            <button onclick="addMember()" class="btn btn-primary">
-              <i class="fas fa-user-plus"></i>
-              Add New Member
-            </button>
-            <button onclick="searchMember()" class="btn btn-secondary">
-              <i class="fas fa-search"></i>
-              Search Member
-            </button>
-            <button onclick="updateMember()" class="btn btn-warning">
-              <i class="fas fa-user-edit"></i>
-              Update Information
-            </button>
-            <button onclick="deleteMember()" class="btn btn-danger">
-              <i class="fas fa-user-minus"></i>
-              Remove Member
-            </button>
-            <button onclick="viewAllMembers()" class="btn btn-accent">
-              <i class="fas fa-list"></i>
-              View All Members
-            </button>
-          </div>
         </div>
-        
-        <div class="output-container">
-          <div class="output-header">
-            <i class="fas fa-terminal"></i>
-            <span>System Response</span>
-          </div>
-          <div id="memberOutput" class="output-content">
-            Ready to manage member information. Please fill in the required fields and select an action.
-          </div>
-        </div>
-      </section>
-      
-      <section class="management-section">
-        <div class="section-header">
-          <div class="section-title">
-            <i class="fas fa-address-book"></i>
-            <h2>Registered Members</h2>
-          </div>
-          <div class="section-description">
-            View and manage all registered library members
-          </div>
-        </div>
-        <div class="form-container" id="memberListContainer">
-          <div class="loading">
-            <i class="fas fa-spinner fa-spin"></i>
-            <p>Loading members...</p>
-          </div>
-        </div>
-      </section>
+    </footer>
 
-    </div>
-  </main>
+    <script>
+        // === Navigation and Active Link Highlighting ===
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
 
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-text">
-          <i class="fas fa-heart"></i>
-          Library Management System - Organizing Knowledge, Inspiring Minds
-        </div>
-      </div>
-    </div>
-  </footer>
+            // Active navigation highlighting
+            window.addEventListener('scroll', function() {
+                const sections = document.querySelectorAll('section[id], div[id]');
+                const navLinks = document.querySelectorAll('.nav-link');
+                
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    // Adjust offset for fixed navbar
+                    if (pageYOffset >= sectionTop - document.querySelector('.navbar').offsetHeight - 50) {
+                        current = section.getAttribute('id');
+                    }
+                });
 
-  <script>
-    const baseURL = ""; // Keep empty for relative paths in Canvas environment
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
 
-    // Get references to input fields
-    const memberIdInput = document.getElementById("memberId");
-    const memberNameInput = document.getElementById("memberName");
-    const memberContactInput = document.getElementById("memberContact");
-    const memberAddressInput = document.getElementById("memberAddress");
-    const memberTypeInput = document.getElementById("memberType");
-    const memberOutput = document.getElementById("memberOutput");
-    const memberListContainer = document.getElementById("memberListContainer");
-
-    // Utility Functions
-    // setTodaysDate is not directly used in the member form, but kept for consistency if needed elsewhere.
-    function setTodaysDate() {
-      const today = new Date();
-      updateOutput("Current date set to " + today.toLocaleDateString(), "success");
-    }
-
-    function generateMemberId() {
-      const prefix = "LIBM"; // Library Member
-      const randomNum = Math.floor(Math.random() * 100000).toString().padStart(5, '0');
-      memberIdInput.value = prefix + randomNum;
-      updateOutput("Generated Member ID: " + memberIdInput.value, "success");
-    }
-
-    function clearForm() {
-      memberIdInput.value = "";
-      memberNameInput.value = "";
-      memberContactInput.value = "";
-      memberAddressInput.value = "";
-      memberTypeInput.value = "";
-      updateOutput("Form cleared successfully.", "success");
-    }
-
-    function updateOutput(message, type) {
-      memberOutput.textContent = message;
-      memberOutput.className = `output-content ${type}`; // Add dynamic class for styling
-    }
-
-    // API Call Helper
-    async function makeApiCall(endpoint, method, data = null) {
-      const options = {
-        method: method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
-      if (data) {
-        options.body = JSON.stringify(data);
-      }
-
-      try {
-        const response = await fetch(`${baseURL}${endpoint}`, options); 
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
-        }
-        return await response.json();
-      } catch (error) {
-        console.error("API call failed:", error);
-        updateOutput(`Error: ${error.message}`, "error");
-        return null;
-      }
-    }
-
-    // Member Management Functions
-    async function addMember() {
-      const member = {
-        id: memberIdInput.value,
-        name: memberNameInput.value,
-        contact: memberContactInput.value,
-        address: memberAddressInput.value,
-        type: memberTypeInput.value,
-      };
-
-      if (!member.id || !member.name || !member.contact || !member.type) {
-        updateOutput("Please fill in all required member fields (ID, Name, Contact, Type).", "error");
-        return;
-      }
-
-      memberOutput.className = "output-content";
-      memberOutput.innerText = "Adding new member...";
-
-      const result = await makeApiCall("/members", "POST", member);
-      if (result) {
-        updateOutput(`Member "${member.name}" added successfully! ID: ${result.id}`, "success");
-        clearForm();
-        viewAllMembers(); // Refresh the member list
-      } else {
-        updateOutput("Failed to add member.", "error");
-      }
-    }
-
-    async function searchMember() {
-      const memberId = memberIdInput.value;
-      if (!memberId) {
-        updateOutput("Please enter a Member ID to search.", "error");
-        return;
-      }
-
-      memberOutput.className = "output-content";
-      memberOutput.innerText = "Searching for member...";
-
-      const member = await makeApiCall(`/members/${memberId}`, "GET");
-      if (member) {
-        updateOutput(`Found Member: Name: ${member.name}, Contact: ${member.contact}, Type: ${member.type}`, "success");
-        // Populate form with found member details for potential update
-        memberIdInput.value = member.id; // Ensure ID is populated for update
-        memberNameInput.value = member.name;
-        memberContactInput.value = member.contact;
-        memberAddressInput.value = member.address;
-        memberTypeInput.value = member.type;
-      } else if (member === null) {
-        updateOutput(`Member with ID "${memberId}" not found.`, "error");
-        clearForm();
-      }
-    }
-
-    async function updateMember() {
-      const memberId = memberIdInput.value;
-      if (!memberId) {
-        updateOutput("Please enter the Member ID of the member to update.", "error");
-        return;
-      }
-
-      const updatedMember = {
-        name: memberNameInput.value,
-        contact: memberContactInput.value,
-        address: memberAddressInput.value,
-        type: memberTypeInput.value,
-      };
-
-      if (!updatedMember.name || !updatedMember.contact || !updatedMember.type) {
-        updateOutput("Please fill in all required member fields (Name, Contact, Type) for update.", "error");
-        return;
-      }
-
-      memberOutput.className = "output-content";
-      memberOutput.innerText = "Updating member information...";
-
-      const result = await makeApiCall(`/members/${memberId}`, "PUT", updatedMember);
-      if (result) {
-        updateOutput(`Member "${result.name}" (ID: ${result.id}) updated successfully!`, "success");
-        clearForm();
-        viewAllMembers(); // Refresh the member list
-      } else if (result === null) {
-        updateOutput(`Failed to update member with ID "${memberId}". It might not exist.`, "error");
-      }
-    }
-
-    async function deleteMember() {
-      const memberId = memberIdInput.value;
-      if (!memberId) {
-        updateOutput("Please enter the Member ID of the member to remove.", "error");
-        return;
-      }
-      
-      showCustomConfirm(`Are you sure you want to delete member with ID: ${memberId}?`, () => {
-        proceedDeleteMember(memberId);
-      });
-    }
-
-    // Custom confirm dialog function (re-used from previous version)
-    function showCustomConfirm(message, onConfirm) {
-      const confirmModal = document.createElement('div');
-      confirmModal.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.6);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 10000;
-      `;
-
-      const modalContent = document.createElement('div');
-      modalContent.style.cssText = `
-        background: var(--surface);
-        padding: 2rem;
-        border-radius: var(--radius); /* Using new radius */
-        box-shadow: var(--shadow-lg);
-        text-align: center;
-        max-width: 400px;
-        width: 90%;
-        color: var(--text-primary);
-      `;
-
-      const messagePara = document.createElement('p');
-      messagePara.textContent = message;
-      messagePara.style.marginBottom = '1.5rem';
-      messagePara.style.fontSize = '1.1rem';
-      messagePara.style.fontWeight = '500';
-
-      const buttonContainer = document.createElement('div');
-      buttonContainer.style.display = 'flex';
-      buttonContainer.style.justifyContent = 'center';
-      buttonContainer.style.gap = '1rem';
-
-      const confirmBtn = document.createElement('button');
-      confirmBtn.textContent = 'Yes, Delete';
-      confirmBtn.className = 'btn btn-danger'; // Use existing btn styles
-      confirmBtn.onclick = () => {
-        onConfirm();
-        document.body.removeChild(confirmModal);
-      };
-
-      const cancelBtn = document.createElement('button');
-      cancelBtn.textContent = 'Cancel';
-      cancelBtn.className = 'btn'; // Use default btn style
-      cancelBtn.style.backgroundColor = 'var(--surface-light)'; /* Using new surface-light */
-      cancelBtn.style.color = 'var(--text-primary)';
-      cancelBtn.style.borderColor = 'var(--border)'; /* Using new border */
-      cancelBtn.onclick = () => {
-        document.body.removeChild(confirmModal);
-      };
-
-      buttonContainer.appendChild(confirmBtn);
-      buttonContainer.appendChild(cancelBtn);
-      modalContent.appendChild(messagePara);
-      modalContent.appendChild(buttonContainer);
-      confirmModal.appendChild(modalContent);
-      document.body.appendChild(confirmModal);
-    }
-
-    async function proceedDeleteMember(idToDelete) {
-      memberOutput.className = "output-content";
-      memberOutput.innerText = "Removing member from system...";
-      
-      try {
-        const res = await fetch(`${baseURL}/members/${idToDelete}`, { 
-          method: "DELETE" 
+            // Mobile menu toggle (if needed, based on original HTML)
+            const mobileToggle = document.querySelector('.mobile-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            if (mobileToggle && navMenu) {
+                mobileToggle.addEventListener('click', () => {
+                    navMenu.classList.toggle('active'); // You might need to add a .nav-menu.active style
+                });
+            }
         });
-        
-        const responseText = await res.text();
-        memberOutput.className = res.ok ? "output-content success" : "output-content error";
-        memberOutput.innerText = responseText;
-        
-        if (res.ok) {
-          clearForm();
-          viewAllMembers(); // Refresh the list after deletion
-        }
-      } catch (error) {
-        memberOutput.className = "output-content error";
-        memberOutput.innerText = `Network Error: ${error.message}`;
-      }
-    }
-
-    async function viewAllMembers() {
-      memberListContainer.innerHTML = `
-        <div class="loading">
-          <i class="fas fa-spinner fa-spin"></i>
-          <p>Loading members...</p>
-        </div>
-      `; // Show loading state
-
-      const members = await makeApiCall("/members", "GET");
-      if (members && members.length > 0) {
-        let tableHtml = `
-          <table class="member-table" style="width:100%; border-collapse: collapse; margin-top: 15px; border-radius: var(--radius); overflow: hidden;">
-            <thead>
-              <tr style="background-color: var(--surface-light); color: var(--text-primary);">
-                <th style="border: 1px solid var(--border); padding: 10px; text-align: left;">ID</th>
-                <th style="border: 1px solid var(--border); padding: 10px; text-align: left;">Name</th>
-                <th style="border: 1px solid var(--border); padding: 10px; text-align: left;">Contact</th>
-                <th style="border: 1px solid var(--border); padding: 10px; text-align: left;">Address</th>
-                <th style="border: 1px solid var(--border); padding: 10px; text-align: left;">Type</th>
-              </tr>
-            </thead>
-            <tbody>
-        `;
-        members.forEach(member => {
-          tableHtml += `
-            <tr style="border: 1px solid var(--border); background-color: var(--surface);">
-              <td style="border: 1px solid var(--border); padding: 10px; color: var(--text-secondary);">${member.id || "N/A"}</td>
-              <td style="border: 1px solid var(--border); padding: 10px; color: var(--text-secondary);">${member.name || "N/A"}</td>
-              <td style="border: 1px solid var(--border); padding: 10px; color: var(--text-secondary);">${member.contact || "N/A"}</td>
-              <td style="border: 1px solid var(--border); padding: 10px; color: var(--text-secondary);">${member.address || "N/A"}</td>
-              <td style="border: 1px solid var(--border); padding: 10px; color: var(--text-secondary);">${member.type || "N/A"}</td>
-            </tr>
-          `;
-        });
-        tableHtml += `
-            </tbody>
-          </table>
-        `;
-        memberListContainer.innerHTML = tableHtml;
-        updateOutput("All members loaded successfully.", "success");
-      } else if (members && members.length === 0) {
-        memberListContainer.innerHTML = `<p class="loading" style="color: var(--text-muted);">No members found in the system. Add some!</p>`;
-        updateOutput("No members found in the system.", "warning");
-      } else {
-        memberListContainer.innerHTML = `<p class="loading" style="color: var(--danger);">Failed to load members. Please check the backend server.</p>`;
-      }
-    }
-
-    // Initial load of members when the page loads
-    document.addEventListener("DOMContentLoaded", viewAllMembers);
-  </script>
+    </script>
 </body>
 </html>
