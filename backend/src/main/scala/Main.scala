@@ -20,7 +20,7 @@ import akka.http.scaladsl.server.Directives._
 
 // Case class definitions for Library Management System
 case class Librarian(id: String, name: String, specialty: String)
-case class BookRequest(id: String, memberId: String, librarianId: String, date: String, time: String)
+case class BookRequest(id: String, memberId: String, librarianId: String, bookId: String, date: String, time: String, status: String)
 case class Staff(id: String, name: String, role: String, department: String)
 case class Member(id: String, name: String, email: String, phone: String, address: String)
 case class Book(id: String, title: String, author: String, isbn: String, quantity: Int, available: Int)
@@ -55,7 +55,7 @@ object Main {
       Document("id" -> l.id, "name" -> l.name, "specialty" -> l.specialty)
 
     def docFromBookRequest(br: BookRequest): Document =
-      Document("id" -> br.id, "memberId" -> br.memberId, "librarianId" -> br.librarianId, "date" -> br.date, "time" -> br.time)
+      Document("id" -> br.id, "memberId" -> br.memberId, "librarianId" -> br.librarianId, "bookId" -> br.bookId, "date" -> br.date, "time" -> br.time, "status" -> br.status)
 
     def docFromStaff(s: Staff): Document =
       Document("id" -> s.id, "name" -> s.name, "role" -> s.role, "department" -> s.department)
@@ -220,8 +220,10 @@ object Main {
                     bookRequestCollection.updateOne(equal("id", id), combine(
                       set("memberId", updated.memberId),
                       set("librarianId", updated.librarianId),
+                      set("bookId", updated.bookId),
                       set("date", updated.date),
-                      set("time", updated.time)
+                      set("time", updated.time),
+                      set("status", updated.status)
                     )).toFuture()
                     complete(StatusCodes.OK, s"Book request $id updated.")
                   }
@@ -234,6 +236,18 @@ object Main {
                 }
               }
             )
+          },
+
+          // === Borrowed Books Tracking ===
+          pathPrefix("borrowed-books") {
+            get {
+              complete {
+                // Get all borrowed books (status = "borrowed")
+                bookRequestCollection.find(equal("status", "borrowed")).toFuture().map { requests =>
+                  requests.map(_.toJson())
+                }
+              }
+            }
           },
 
           // === Book Inventory Management (formerly Pharmacy) ===

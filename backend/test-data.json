@@ -121,15 +121,37 @@
       "id": "REQ001",
       "memberId": "MEM001",
       "librarianId": "LIB001",
+      "bookId": "BOOK001",
       "date": "2024-01-15",
-      "time": "10:00"
+      "time": "10:00",
+      "status": "borrowed"
     },
     {
       "id": "REQ002",
       "memberId": "MEM002",
       "librarianId": "LIB002",
+      "bookId": "BOOK002",
       "date": "2024-01-16",
-      "time": "14:30"
+      "time": "14:30",
+      "status": "borrowed"
+    },
+    {
+      "id": "REQ003",
+      "memberId": "MEM003",
+      "librarianId": "LIB001",
+      "bookId": "BOOK004",
+      "date": "2024-01-17",
+      "time": "09:15",
+      "status": "borrowed"
+    },
+    {
+      "id": "REQ004",
+      "memberId": "MEM001",
+      "librarianId": "LIB003",
+      "bookId": "BOOK003",
+      "date": "2024-01-18",
+      "time": "11:30",
+      "status": "pending"
     }
   ]
 } 

@@ -1085,9 +1085,9 @@
             setTimeout(() => showDashboard(), 1500);
             setTimeout(() => {
               if (user.role === 'admin') {
-                window.location.href = 'login.html';
+                window.location.href = 'index.html';
               } else if (user.role === 'doctor') {
-                window.location.href = 'login.html';
+                window.location.href = 'librarian-dashboard.html';
               } else {
                 showDashboard();  // fallback or default dashboard
               }
