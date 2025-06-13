@@ -782,22 +782,6 @@
         <div class="feature-card">
           <div class="feature-header">
             <div class="feature-title">
-              <i class="fas fa-book"></i>
-              <h3>Book Requests</h3>
-            </div>
-            <p class="feature-description">Manage book issue and return requests</p>
-          </div>
-          <div class="feature-content">
-            <button class="feature-btn" onclick="window.location.href='appointments.html'">
-              <i class="fas fa-calendar-plus"></i>
-              View Requests
-            </button>
-          </div>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-header">
-            <div class="feature-title">
               <i class="fas fa-warehouse"></i>
               <h3>Book Inventory</h3>
             </div>
@@ -807,38 +791,6 @@
             <button class="feature-btn" onclick="window.location.href='inventory.html'">
               <i class="fas fa-books"></i>
               Inventory System
-            </button>
-          </div>
-        </div>
-
-        <div class="feature-card admin-only">
-          <div class="feature-header">
-            <div class="feature-title">
-              <i class="fas fa-users"></i>
-              <h3>Staff Management</h3>
-            </div>
-            <p class="feature-description">Manage library staff and their roles</p>
-          </div>
-          <div class="feature-content">
-            <button class="feature-btn" onclick="window.location.href='staff.html'">
-              <i class="fas fa-user-plus"></i>
-              Manage Staff
-            </button>
-          </div>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-header">
-            <div class="feature-title">
-              <i class="fas fa-users"></i>
-              <h3>Member Management</h3>
-            </div>
-            <p class="feature-description">Manage library members and memberships</p>
-          </div>
-          <div class="feature-content">
-            <button class="feature-btn" onclick="window.location.href='index.html'">
-              <i class="fas fa-user-friends"></i>
-              Manage Members
             </button>
           </div>
         </div>
@@ -1133,9 +1085,9 @@
             setTimeout(() => showDashboard(), 1500);
             setTimeout(() => {
               if (user.role === 'admin') {
-                window.location.href = 'index.html';
+                window.location.href = 'login.html';
               } else if (user.role === 'doctor') {
-                window.location.href = 'doctors.html';
+                window.location.href = 'login.html';
               } else {
                 showDashboard();  // fallback or default dashboard
               }
