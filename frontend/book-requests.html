@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>📚 Book Inventory Management - Library Management System</title>
+  <title>📋 Book Requests & Borrowing - Library Management System</title>
   
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -146,7 +146,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="books" width="20" height="20" patternUnits="userSpaceOnUse"><rect width="20" height="20" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><rect x="4" y="8" width="2" height="8" fill="rgba(255,255,255,0.1)"/><rect x="7" y="6" width="2" height="10" fill="rgba(255,255,255,0.1)"/><rect x="10" y="9" width="2" height="6" fill="rgba(255,255,255,0.1)"/><rect x="13" y="5" width="2" height="12" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23books)"/></svg>');
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="requests" width="20" height="20" patternUnits="userSpaceOnUse"><rect width="20" height="20" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><rect x="6" y="6" width="8" height="8" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><path d="M8 10 L10 12 L12 8" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23requests)"/></svg>');
       opacity: 0.3;
     }
 
@@ -272,7 +272,7 @@
       width: 16px;
     }
 
-    .form-input {
+    .form-input, .form-select {
       width: 100%;
       padding: 0.875rem;
       border: 2px solid var(--border);
@@ -284,18 +284,23 @@
       color: var(--text-primary);
     }
 
-    .form-input:focus {
+    .form-input:focus, .form-select:focus {
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
     }
 
-    .form-input:hover {
+    .form-input:hover, .form-select:hover {
       border-color: var(--text-secondary);
     }
 
     .form-input::placeholder {
       color: var(--text-muted);
+    }
+
+    .form-select option {
+      background: var(--surface);
+      color: var(--text-primary);
     }
 
     /* Button Styles */
@@ -419,8 +424,8 @@
       background: rgba(245, 158, 11, 0.1);
     }
 
-    /* Book Display Card */
-    .book-display-card {
+    /* Request Display Card */
+    .request-display-card {
       background: var(--surface);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
@@ -429,7 +434,7 @@
       overflow: hidden;
     }
 
-    .book-list-container {
+    .request-list-container {
       padding: 2rem;
       min-height: 200px;
     }
@@ -500,19 +505,25 @@
       letter-spacing: 0.05em;
     }
 
-    .status-available {
+    .status-borrowed {
       background: rgba(16, 185, 129, 0.1);
       color: var(--accent);
       border: 1px solid rgba(16, 185, 129, 0.2);
     }
 
-    .status-low {
+    .status-pending {
       background: rgba(245, 158, 11, 0.1);
       color: var(--warning);
       border: 1px solid rgba(245, 158, 11, 0.2);
     }
 
-    .status-out {
+    .status-returned {
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--primary);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+    }
+
+    .status-overdue {
       background: rgba(239, 68, 68, 0.1);
       color: var(--danger);
       border: 1px solid rgba(239, 68, 68, 0.2);
@@ -562,9 +573,9 @@
       <ul class="nav-menu">
         <li><a href="index.html" class="nav-link">Home</a></li>
         <li><a href="doctors.html" class="nav-link">Librarians</a></li>
-        <li><a href="inventory.html" class="nav-link active">Inventory</a></li>
+        <li><a href="inventory.html" class="nav-link">Inventory</a></li>
         <li><a href="members.html" class="nav-link">Members</a></li>
-        <li><a href="book-requests.html" class="nav-link">Book Requests</a></li>
+        <li><a href="book-requests.html" class="nav-link active">Book Requests</a></li>
         <li><a href="query.html" class="nav-link">Query</a></li>
         <li>
           <button class="logout-btn" onclick="logout()">
@@ -580,116 +591,115 @@
   <section class="page-header">
     <div class="header-container">
       <h1>
-        <i class="fas fa-warehouse"></i>
-        Book Inventory Management
+        <i class="fas fa-book-reader"></i>
+        Book Requests & Borrowing
       </h1>
-      <p>Add, update, and manage your library's book collection</p>
+      <p>Manage book borrowing, track who borrowed which books, and handle returns</p>
     </div>
   </section>
 
   <!-- Main Content -->
   <main class="container">
-    <!-- Book Management Form -->
+    <!-- Book Request Management Form -->
     <div class="management-card">
       <div class="card-header">
         <div class="card-title">
-          <i class="fas fa-book"></i>
-          <h2>Book Management</h2>
+          <i class="fas fa-clipboard-list"></i>
+          <h2>Book Request Management</h2>
         </div>
-        <p class="card-description">Add new books or update existing book information</p>
+        <p class="card-description">Create new book borrowing entries and manage existing requests</p>
       </div>
 
       <div class="card-content">
         <div class="form-section">
           <h3>
             <i class="fas fa-info-circle"></i>
-            Book Information
+            Request Information
           </h3>
           <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">
             <i class="fas fa-lightbulb" style="color: var(--warning);"></i>
-            <strong>Search Tip:</strong> You can search by any field - just fill in what you know and click "Search Book". 
-            For fastest results, use the Book ID.
+            <strong>Tip:</strong> Use the dropdowns to select existing members and books, or enter IDs manually.
           </p>
 
           <div class="form-grid">
             <div class="form-group">
-              <label for="bookId">
+              <label for="requestId">
                 <i class="fas fa-hashtag"></i>
-                Book ID
+                Request ID
               </label>
               <input 
-                id="bookId" 
+                id="requestId" 
                 class="form-input" 
-                placeholder="Enter Book ID (e.g., BOOK001) - fastest search method" 
+                placeholder="Enter Request ID (e.g., REQ001)" 
                 type="text"
               />
             </div>
 
             <div class="form-group">
-              <label for="bookTitle">
+              <label for="memberId">
+                <i class="fas fa-user"></i>
+                Member
+              </label>
+              <select id="memberId" class="form-select">
+                <option value="">Select a member...</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="bookId">
                 <i class="fas fa-book"></i>
-                Book Title
+                Book
+              </label>
+              <select id="bookId" class="form-select">
+                <option value="">Select a book...</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="librarianId">
+                <i class="fas fa-user-graduate"></i>
+                Librarian
+              </label>
+              <select id="librarianId" class="form-select">
+                <option value="">Select a librarian...</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="requestDate">
+                <i class="fas fa-calendar"></i>
+                Request Date
               </label>
               <input 
-                id="bookTitle" 
+                id="requestDate" 
                 class="form-input" 
-                placeholder="Enter book title (or partial title for search)" 
-                type="text"
+                type="date"
               />
             </div>
 
             <div class="form-group">
-              <label for="bookAuthor">
-                <i class="fas fa-user-edit"></i>
-                Author Name
+              <label for="requestTime">
+                <i class="fas fa-clock"></i>
+                Request Time
               </label>
               <input 
-                id="bookAuthor" 
+                id="requestTime" 
                 class="form-input" 
-                placeholder="Enter author name (or partial name for search)" 
-                type="text"
+                type="time"
               />
             </div>
 
             <div class="form-group">
-              <label for="bookIsbn">
-                <i class="fas fa-barcode"></i>
-                ISBN
+              <label for="requestStatus">
+                <i class="fas fa-flag"></i>
+                Status
               </label>
-              <input 
-                id="bookIsbn" 
-                class="form-input" 
-                placeholder="Enter ISBN (full or partial for search)" 
-                type="text"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="bookQuantity">
-                <i class="fas fa-boxes"></i>
-                Total Quantity
-              </label>
-              <input 
-                id="bookQuantity" 
-                class="form-input" 
-                placeholder="Enter total number of copies" 
-                type="number"
-                min="1"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="bookAvailable">
-                <i class="fas fa-check-circle"></i>
-                Available Copies
-              </label>
-              <input 
-                id="bookAvailable" 
-                class="form-input" 
-                placeholder="Enter available copies" 
-                type="number"
-                min="0"
-              />
+              <select id="requestStatus" class="form-select">
+                <option value="pending">Pending</option>
+                <option value="borrowed">Borrowed</option>
+                <option value="returned">Returned</option>
+                <option value="overdue">Overdue</option>
+              </select>
             </div>
           </div>
         </div>
@@ -701,27 +711,27 @@
           </h3>
 
           <div class="button-grid">
-            <button onclick="addBook()" class="btn btn-primary">
+            <button onclick="addRequest()" class="btn btn-primary">
               <i class="fas fa-plus"></i>
-              Add New Book
+              Create Request
             </button>
-            <button onclick="searchBook()" class="btn btn-secondary">
+            <button onclick="searchRequest()" class="btn btn-secondary">
               <i class="fas fa-search"></i>
-              Search Book
+              Search Request
             </button>
-            <button onclick="updateBook()" class="btn btn-warning">
+            <button onclick="updateRequest()" class="btn btn-warning">
               <i class="fas fa-edit"></i>
-              Update Book
+              Update Request
             </button>
-            <button onclick="deleteBook()" class="btn btn-danger">
+            <button onclick="deleteRequest()" class="btn btn-danger">
               <i class="fas fa-trash"></i>
-              Delete Book
+              Delete Request
             </button>
             <button onclick="clearForm()" class="btn btn-secondary">
               <i class="fas fa-eraser"></i>
               Clear Form
             </button>
-            <button onclick="loadAllBooks()" class="btn btn-success">
+            <button onclick="loadAllRequests()" class="btn btn-success">
               <i class="fas fa-sync"></i>
               Refresh List
             </button>
@@ -733,41 +743,42 @@
             <i class="fas fa-terminal"></i>
             <span>System Response</span>
           </div>
-          <div id="bookOutput" class="output-content">
-Ready to manage books. Please fill in the required fields and select an action.
+          <div id="requestOutput" class="output-content">
+Ready to manage book requests. Please fill in the required fields and select an action.
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Book Inventory Display -->
-    <div class="book-display-card">
+    <!-- Book Requests Display -->
+    <div class="request-display-card">
       <div class="card-header">
         <div class="card-title">
-          <i class="fas fa-books"></i>
-          <h2>Book Inventory</h2>
+          <i class="fas fa-list"></i>
+          <h2>Book Requests & Borrowing History</h2>
         </div>
-        <p class="card-description">Complete list of books in the library collection</p>
+        <p class="card-description">Complete list of book requests and borrowing records</p>
       </div>
-      <div class="book-list-container">
+      <div class="request-list-container">
         <div class="table-container">
           <table class="data-table">
             <thead>
               <tr>
-                <th>Book ID</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>ISBN</th>
-                <th>Total Copies</th>
-                <th>Available</th>
+                <th>Request ID</th>
+                <th>Member</th>
+                <th>Book Title</th>
+                <th>Librarian</th>
+                <th>Date</th>
+                <th>Time</th>
                 <th>Status</th>
+                <th>Due Date</th>
               </tr>
             </thead>
-            <tbody id="bookTableBody">
+            <tbody id="requestTableBody">
               <tr>
-                <td colspan="7" class="loading">
+                <td colspan="8" class="loading">
                   <i class="fas fa-spinner fa-spin"></i>
-                  Loading book inventory...
+                  Loading book requests...
                 </td>
               </tr>
             </tbody>
@@ -779,158 +790,249 @@ Ready to manage books. Please fill in the required fields and select an action.
 
   <script>
     // Application State
+    let requests = [];
+    let members = [];
     let books = [];
+    let librarians = [];
     const API_BASE = 'http://localhost:8080';
 
     // Initialize page
     document.addEventListener('DOMContentLoaded', function() {
-      loadAllBooks();
+      loadAllData();
+      setTodaysDate();
     });
 
-    // Load all books from the API
-    async function loadAllBooks() {
-      const output = document.getElementById('bookOutput');
-      const tableBody = document.getElementById('bookTableBody');
+    // Load all data
+    async function loadAllData() {
+      try {
+        await Promise.all([
+          loadAllRequests(),
+          loadMembers(),
+          loadBooks(),
+          loadLibrarians()
+        ]);
+        
+        populateDropdowns();
+      } catch (error) {
+        console.error('Error loading data:', error);
+      }
+    }
+
+    // Load all book requests
+    async function loadAllRequests() {
+      const output = document.getElementById('requestOutput');
+      const tableBody = document.getElementById('requestTableBody');
       
       try {
         output.className = 'output-content';
-        output.textContent = 'Loading books from inventory...';
+        output.textContent = 'Loading book requests...';
         
-        const response = await fetch(`${API_BASE}/inventory`);
+        const response = await fetch(`${API_BASE}/book-requests`);
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
         
         const data = await response.json();
-        books = data.map(book => JSON.parse(book));
+        requests = data.map(request => JSON.parse(request));
         
-        renderBookTable();
+        renderRequestTable();
         output.className = 'output-content success';
-        output.textContent = `✓ Successfully loaded ${books.length} books from inventory.`;
+        output.textContent = `✓ Successfully loaded ${requests.length} book requests.`;
         
       } catch (error) {
-        console.error('Error loading books:', error);
+        console.error('Error loading requests:', error);
         output.className = 'output-content error';
-        output.textContent = `✗ Error loading books: ${error.message}`;
+        output.textContent = `✗ Error loading requests: ${error.message}`;
         
         tableBody.innerHTML = `
           <tr>
-            <td colspan="7" style="text-align: center; color: var(--danger); padding: 2rem;">
+            <td colspan="8" style="text-align: center; color: var(--danger); padding: 2rem;">
               <i class="fas fa-exclamation-triangle"></i>
-              Failed to load books. Please check if the backend is running.
+              Failed to load requests. Please check if the backend is running.
             </td>
           </tr>
         `;
       }
     }
 
-    // Render book table
-    function renderBookTable() {
-      const tableBody = document.getElementById('bookTableBody');
+    // Load members for dropdown
+    async function loadMembers() {
+      try {
+        const response = await fetch(`${API_BASE}/members`);
+        if (response.ok) {
+          const data = await response.json();
+          members = data.map(member => JSON.parse(member));
+        }
+      } catch (error) {
+        console.error('Error loading members:', error);
+      }
+    }
+
+    // Load books for dropdown
+    async function loadBooks() {
+      try {
+        const response = await fetch(`${API_BASE}/inventory`);
+        if (response.ok) {
+          const data = await response.json();
+          books = data.map(book => JSON.parse(book));
+        }
+      } catch (error) {
+        console.error('Error loading books:', error);
+      }
+    }
+
+    // Load librarians for dropdown
+    async function loadLibrarians() {
+      try {
+        const response = await fetch(`${API_BASE}/librarians`);
+        if (response.ok) {
+          const data = await response.json();
+          librarians = data.map(librarian => JSON.parse(librarian));
+        }
+      } catch (error) {
+        console.error('Error loading librarians:', error);
+      }
+    }
+
+    // Populate dropdown menus
+    function populateDropdowns() {
+      // Populate members dropdown
+      const memberSelect = document.getElementById('memberId');
+      memberSelect.innerHTML = '<option value="">Select a member...</option>';
+      members.forEach(member => {
+        const option = document.createElement('option');
+        option.value = member.id;
+        option.textContent = `${member.name} (${member.id})`;
+        memberSelect.appendChild(option);
+      });
+
+      // Populate books dropdown
+      const bookSelect = document.getElementById('bookId');
+      bookSelect.innerHTML = '<option value="">Select a book...</option>';
+      books.forEach(book => {
+        const option = document.createElement('option');
+        option.value = book.id;
+        option.textContent = `${book.title} by ${book.author} (${book.id})`;
+        option.disabled = book.available <= 0;
+        if (book.available <= 0) {
+          option.textContent += ' - OUT OF STOCK';
+        }
+        bookSelect.appendChild(option);
+      });
+
+      // Populate librarians dropdown
+      const librarianSelect = document.getElementById('librarianId');
+      librarianSelect.innerHTML = '<option value="">Select a librarian...</option>';
+      librarians.forEach(librarian => {
+        const option = document.createElement('option');
+        option.value = librarian.id;
+        option.textContent = `${librarian.name} (${librarian.specialty})`;
+        librarianSelect.appendChild(option);
+      });
+    }
+
+    // Render request table
+    function renderRequestTable() {
+      const tableBody = document.getElementById('requestTableBody');
       
-      if (books.length === 0) {
+      if (requests.length === 0) {
         tableBody.innerHTML = `
           <tr>
-            <td colspan="7" style="text-align: center; color: var(--text-secondary); padding: 2rem;">
-              <i class="fas fa-book"></i>
-              No books found in inventory. Add some books to get started!
+            <td colspan="8" style="text-align: center; color: var(--text-secondary); padding: 2rem;">
+              <i class="fas fa-clipboard-list"></i>
+              No book requests found. Create some requests to get started!
             </td>
           </tr>
         `;
         return;
       }
 
-      tableBody.innerHTML = books.map(book => {
-        let statusClass, statusText;
-        if (book.available === 0) {
-          statusClass = 'status-out';
-          statusText = 'Out of Stock';
-        } else if (book.available <= 2) {
-          statusClass = 'status-low';
-          statusText = 'Low Stock';
-        } else {
-          statusClass = 'status-available';
-          statusText = 'Available';
+      tableBody.innerHTML = requests.map(request => {
+        // Find related data
+        const member = members.find(m => m.id === request.memberId);
+        const book = books.find(b => b.id === request.bookId);
+        const librarian = librarians.find(l => l.id === request.librarianId);
+        
+        // Calculate due date (14 days from request date)
+        const requestDate = new Date(request.date);
+        const dueDate = new Date(requestDate);
+        dueDate.setDate(dueDate.getDate() + 14);
+        
+        // Determine status class
+        let statusClass = `status-${request.status}`;
+        if (request.status === 'borrowed' && new Date() > dueDate) {
+          statusClass = 'status-overdue';
         }
         
         return `
-          <tr onclick="selectBook('${book.id}')" style="cursor: pointer;">
-            <td><strong>${book.id}</strong></td>
-            <td>${book.title}</td>
-            <td>${book.author}</td>
-            <td>${book.isbn}</td>
-            <td>${book.quantity}</td>
-            <td>${book.available}</td>
+          <tr onclick="selectRequest('${request.id}')" style="cursor: pointer;">
+            <td><strong>${request.id}</strong></td>
+            <td>${member ? member.name : 'Unknown Member'}</td>
+            <td>${book ? book.title : 'Unknown Book'}</td>
+            <td>${librarian ? librarian.name : 'Unknown Librarian'}</td>
+            <td>${new Date(request.date).toLocaleDateString()}</td>
+            <td>${request.time}</td>
             <td>
               <span class="status-badge ${statusClass}">
-                ${statusText}
+                ${request.status === 'borrowed' && new Date() > dueDate ? 'Overdue' : request.status}
               </span>
             </td>
+            <td>${request.status === 'borrowed' ? dueDate.toLocaleDateString() : '-'}</td>
           </tr>
         `;
       }).join('');
     }
 
-    // Select book from table
-    function selectBook(bookId) {
-      const book = books.find(b => b.id === bookId);
-      if (book) {
-        document.getElementById('bookId').value = book.id;
-        document.getElementById('bookTitle').value = book.title;
-        document.getElementById('bookAuthor').value = book.author;
-        document.getElementById('bookIsbn').value = book.isbn;
-        document.getElementById('bookQuantity').value = book.quantity;
-        document.getElementById('bookAvailable').value = book.available;
+    // Select request from table
+    function selectRequest(requestId) {
+      const request = requests.find(r => r.id === requestId);
+      if (request) {
+        document.getElementById('requestId').value = request.id;
+        document.getElementById('memberId').value = request.memberId;
+        document.getElementById('bookId').value = request.bookId;
+        document.getElementById('librarianId').value = request.librarianId;
+        document.getElementById('requestDate').value = request.date;
+        document.getElementById('requestTime').value = request.time;
+        document.getElementById('requestStatus').value = request.status;
         
-        const output = document.getElementById('bookOutput');
+        const output = document.getElementById('requestOutput');
         output.className = 'output-content';
-        output.textContent = `Selected book: ${book.title} by ${book.author}`;
+        output.textContent = `Selected request: ${request.id}`;
       }
     }
 
-    // Add new book
-    async function addBook() {
-      const output = document.getElementById('bookOutput');
+    // Add new request
+    async function addRequest() {
+      const output = document.getElementById('requestOutput');
       
       // Get form values
-      const bookData = {
-        id: document.getElementById('bookId').value.trim(),
-        title: document.getElementById('bookTitle').value.trim(),
-        author: document.getElementById('bookAuthor').value.trim(),
-        isbn: document.getElementById('bookIsbn').value.trim(),
-        quantity: parseInt(document.getElementById('bookQuantity').value) || 0,
-        available: parseInt(document.getElementById('bookAvailable').value) || 0
+      const requestData = {
+        id: document.getElementById('requestId').value.trim(),
+        memberId: document.getElementById('memberId').value,
+        bookId: document.getElementById('bookId').value,
+        librarianId: document.getElementById('librarianId').value,
+        date: document.getElementById('requestDate').value,
+        time: document.getElementById('requestTime').value,
+        status: document.getElementById('requestStatus').value
       };
 
       // Validate required fields
-      if (!bookData.id || !bookData.title || !bookData.author) {
+      if (!requestData.id || !requestData.memberId || !requestData.bookId || !requestData.librarianId || !requestData.date || !requestData.time) {
         output.className = 'output-content error';
-        output.textContent = '✗ Error: Book ID, Title, and Author are required fields.';
-        return;
-      }
-
-      if (bookData.quantity < 1) {
-        output.className = 'output-content error';
-        output.textContent = '✗ Error: Quantity must be at least 1.';
-        return;
-      }
-
-      if (bookData.available > bookData.quantity) {
-        output.className = 'output-content error';
-        output.textContent = '✗ Error: Available copies cannot exceed total quantity.';
+        output.textContent = '✗ Error: All fields are required.';
         return;
       }
 
       try {
         output.className = 'output-content';
-        output.textContent = 'Adding book to inventory...';
+        output.textContent = 'Creating book request...';
         
-        const response = await fetch(`${API_BASE}/inventory`, {
+        const response = await fetch(`${API_BASE}/book-requests`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(bookData)
+          body: JSON.stringify(requestData)
         });
 
         if (!response.ok) {
@@ -941,161 +1043,102 @@ Ready to manage books. Please fill in the required fields and select an action.
         output.className = 'output-content success';
         output.textContent = `✓ ${result}`;
         
-        // Refresh the book list
-        await loadAllBooks();
+        // If status is borrowed, update book availability
+        if (requestData.status === 'borrowed') {
+          await updateBookAvailability(requestData.bookId, -1);
+        }
+        
+        // Refresh the request list
+        await loadAllData();
         clearForm();
         
       } catch (error) {
-        console.error('Error adding book:', error);
+        console.error('Error adding request:', error);
         output.className = 'output-content error';
-        output.textContent = `✗ Error adding book: ${error.message}`;
+        output.textContent = `✗ Error adding request: ${error.message}`;
       }
     }
 
-    // Search for a book
-    async function searchBook() {
-      const bookId = document.getElementById('bookId').value.trim();
-      const title = document.getElementById('bookTitle').value.trim();
-      const author = document.getElementById('bookAuthor').value.trim();
-      const isbn = document.getElementById('bookIsbn').value.trim();
-      const output = document.getElementById('bookOutput');
+    // Search for a request
+    async function searchRequest() {
+      const requestId = document.getElementById('requestId').value.trim();
+      const output = document.getElementById('requestOutput');
       
-      // Check if at least one search criteria is provided
-      if (!bookId && !title && !author && !isbn) {
+      if (!requestId) {
         output.className = 'output-content error';
-        output.textContent = '✗ Error: Please enter at least one search criteria (Book ID, Title, Author, or ISBN).';
+        output.textContent = '✗ Error: Please enter a Request ID to search.';
         return;
       }
 
       try {
         output.className = 'output-content';
+        output.textContent = `Searching for request with ID: ${requestId}...`;
         
-        // If Book ID is provided, search by ID (fastest method)
-        if (bookId) {
-          output.textContent = `Searching for book with ID: ${bookId}...`;
-          
-          const response = await fetch(`${API_BASE}/inventory/${bookId}`);
-          
-          if (!response.ok) {
-            if (response.status === 404) {
-              throw new Error('Book not found with the provided ID');
-            }
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-          }
-
-          const bookJson = await response.text();
-          const book = JSON.parse(bookJson);
-          
-          // Populate form with book data
-          document.getElementById('bookTitle').value = book.title;
-          document.getElementById('bookAuthor').value = book.author;
-          document.getElementById('bookIsbn').value = book.isbn;
-          document.getElementById('bookQuantity').value = book.quantity;
-          document.getElementById('bookAvailable').value = book.available;
-          
-          output.className = 'output-content success';
-          output.textContent = `✓ Found book: "${book.title}" by ${book.author}`;
-          return;
-        }
+        const response = await fetch(`${API_BASE}/book-requests/${requestId}`);
         
-        // If no Book ID, search through all books by other criteria
-        output.textContent = 'Searching through inventory...';
-        
-        const response = await fetch(`${API_BASE}/inventory`);
         if (!response.ok) {
+          if (response.status === 404) {
+            throw new Error('Request not found');
+          }
           throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
+
+        const requestJson = await response.text();
+        const request = JSON.parse(requestJson);
         
-        const data = await response.json();
-        const allBooks = data.map(book => JSON.parse(book));
+        // Populate form with request data
+        document.getElementById('memberId').value = request.memberId;
+        document.getElementById('bookId').value = request.bookId;
+        document.getElementById('librarianId').value = request.librarianId;
+        document.getElementById('requestDate').value = request.date;
+        document.getElementById('requestTime').value = request.time;
+        document.getElementById('requestStatus').value = request.status;
         
-        // Search by title, author, or ISBN
-        const matchingBooks = allBooks.filter(book => {
-          const titleMatch = !title || book.title.toLowerCase().includes(title.toLowerCase());
-          const authorMatch = !author || book.author.toLowerCase().includes(author.toLowerCase());
-          const isbnMatch = !isbn || book.isbn.includes(isbn);
-          
-          return titleMatch && authorMatch && isbnMatch;
-        });
-        
-        if (matchingBooks.length === 0) {
-          output.className = 'output-content error';
-          output.textContent = '✗ No books found matching the search criteria.';
-          return;
-        }
-        
-        if (matchingBooks.length === 1) {
-          // Single match found - populate the form
-          const book = matchingBooks[0];
-          document.getElementById('bookId').value = book.id;
-          document.getElementById('bookTitle').value = book.title;
-          document.getElementById('bookAuthor').value = book.author;
-          document.getElementById('bookIsbn').value = book.isbn;
-          document.getElementById('bookQuantity').value = book.quantity;
-          document.getElementById('bookAvailable').value = book.available;
-          
-          output.className = 'output-content success';
-          output.textContent = `✓ Found book: "${book.title}" by ${book.author}`;
-        } else {
-          // Multiple matches found - show list
-          output.className = 'output-content warning';
-          output.textContent = `⚠ Found ${matchingBooks.length} matching books:\n\n` +
-            matchingBooks.map(book => 
-              `• ${book.id}: "${book.title}" by ${book.author}`
-            ).join('\n') +
-            '\n\nPlease use a specific Book ID to select one.';
-        }
+        output.className = 'output-content success';
+        output.textContent = `✓ Found request: ${request.id}`;
         
       } catch (error) {
-        console.error('Error searching book:', error);
+        console.error('Error searching request:', error);
         output.className = 'output-content error';
-        output.textContent = `✗ Error searching book: ${error.message}`;
+        output.textContent = `✗ Error searching request: ${error.message}`;
       }
     }
 
-    // Update existing book
-    async function updateBook() {
-      const output = document.getElementById('bookOutput');
+    // Update existing request
+    async function updateRequest() {
+      const output = document.getElementById('requestOutput');
       
       // Get form values
-      const bookData = {
-        id: document.getElementById('bookId').value.trim(),
-        title: document.getElementById('bookTitle').value.trim(),
-        author: document.getElementById('bookAuthor').value.trim(),
-        isbn: document.getElementById('bookIsbn').value.trim(),
-        quantity: parseInt(document.getElementById('bookQuantity').value) || 0,
-        available: parseInt(document.getElementById('bookAvailable').value) || 0
+      const requestData = {
+        id: document.getElementById('requestId').value.trim(),
+        memberId: document.getElementById('memberId').value,
+        bookId: document.getElementById('bookId').value,
+        librarianId: document.getElementById('librarianId').value,
+        date: document.getElementById('requestDate').value,
+        time: document.getElementById('requestTime').value,
+        status: document.getElementById('requestStatus').value
       };
 
       // Validate required fields
-      if (!bookData.id) {
+      if (!requestData.id) {
         output.className = 'output-content error';
-        output.textContent = '✗ Error: Book ID is required for updating.';
-        return;
-      }
-
-      if (!bookData.title || !bookData.author) {
-        output.className = 'output-content error';
-        output.textContent = '✗ Error: Title and Author are required fields.';
-        return;
-      }
-
-      if (bookData.available > bookData.quantity) {
-        output.className = 'output-content error';
-        output.textContent = '✗ Error: Available copies cannot exceed total quantity.';
+        output.textContent = '✗ Error: Request ID is required for updating.';
         return;
       }
 
       try {
         output.className = 'output-content';
-        output.textContent = `Updating book ${bookData.id}...`;
+        output.textContent = `Updating request ${requestData.id}...`;
         
-        const response = await fetch(`${API_BASE}/inventory/${bookData.id}`, {
+        // Get current request to check status change
+        const currentRequest = requests.find(r => r.id === requestData.id);
+        
+        const response = await fetch(`${API_BASE}/book-requests/${requestData.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(bookData)
+          body: JSON.stringify(requestData)
         });
 
         if (!response.ok) {
@@ -1106,36 +1149,47 @@ Ready to manage books. Please fill in the required fields and select an action.
         output.className = 'output-content success';
         output.textContent = `✓ ${result}`;
         
-        // Refresh the book list
-        await loadAllBooks();
+        // Handle book availability changes based on status change
+        if (currentRequest) {
+          if (currentRequest.status !== 'borrowed' && requestData.status === 'borrowed') {
+            // Book was borrowed
+            await updateBookAvailability(requestData.bookId, -1);
+          } else if (currentRequest.status === 'borrowed' && requestData.status === 'returned') {
+            // Book was returned
+            await updateBookAvailability(requestData.bookId, 1);
+          }
+        }
+        
+        // Refresh the request list
+        await loadAllData();
         
       } catch (error) {
-        console.error('Error updating book:', error);
+        console.error('Error updating request:', error);
         output.className = 'output-content error';
-        output.textContent = `✗ Error updating book: ${error.message}`;
+        output.textContent = `✗ Error updating request: ${error.message}`;
       }
     }
 
-    // Delete book
-    async function deleteBook() {
-      const bookId = document.getElementById('bookId').value.trim();
-      const output = document.getElementById('bookOutput');
+    // Delete request
+    async function deleteRequest() {
+      const requestId = document.getElementById('requestId').value.trim();
+      const output = document.getElementById('requestOutput');
       
-      if (!bookId) {
+      if (!requestId) {
         output.className = 'output-content error';
-        output.textContent = '✗ Error: Please enter a Book ID to delete.';
+        output.textContent = '✗ Error: Please enter a Request ID to delete.';
         return;
       }
 
-      if (!confirm(`Are you sure you want to delete book with ID: ${bookId}?`)) {
+      if (!confirm(`Are you sure you want to delete request with ID: ${requestId}?`)) {
         return;
       }
 
       try {
         output.className = 'output-content';
-        output.textContent = `Deleting book ${bookId}...`;
+        output.textContent = `Deleting request ${requestId}...`;
         
-        const response = await fetch(`${API_BASE}/inventory/${bookId}`, {
+        const response = await fetch(`${API_BASE}/book-requests/${requestId}`, {
           method: 'DELETE'
         });
 
@@ -1147,29 +1201,65 @@ Ready to manage books. Please fill in the required fields and select an action.
         output.className = 'output-content success';
         output.textContent = `✓ ${result}`;
         
-        // Refresh the book list and clear form
-        await loadAllBooks();
+        // Refresh the request list and clear form
+        await loadAllData();
         clearForm();
         
       } catch (error) {
-        console.error('Error deleting book:', error);
+        console.error('Error deleting request:', error);
         output.className = 'output-content error';
-        output.textContent = `✗ Error deleting book: ${error.message}`;
+        output.textContent = `✗ Error deleting request: ${error.message}`;
+      }
+    }
+
+    // Update book availability
+    async function updateBookAvailability(bookId, change) {
+      try {
+        const book = books.find(b => b.id === bookId);
+        if (book) {
+          const updatedBook = {
+            ...book,
+            available: Math.max(0, book.available + change)
+          };
+          
+          await fetch(`${API_BASE}/inventory/${bookId}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedBook)
+          });
+        }
+      } catch (error) {
+        console.error('Error updating book availability:', error);
       }
     }
 
     // Clear form
     function clearForm() {
+      document.getElementById('requestId').value = '';
+      document.getElementById('memberId').value = '';
       document.getElementById('bookId').value = '';
-      document.getElementById('bookTitle').value = '';
-      document.getElementById('bookAuthor').value = '';
-      document.getElementById('bookIsbn').value = '';
-      document.getElementById('bookQuantity').value = '';
-      document.getElementById('bookAvailable').value = '';
+      document.getElementById('librarianId').value = '';
+      document.getElementById('requestDate').value = '';
+      document.getElementById('requestTime').value = '';
+      document.getElementById('requestStatus').value = 'pending';
       
-      const output = document.getElementById('bookOutput');
+      const output = document.getElementById('requestOutput');
       output.className = 'output-content';
-      output.textContent = 'Form cleared. Ready for new book entry.';
+      output.textContent = 'Form cleared. Ready for new request entry.';
+      
+      setTodaysDate();
+    }
+
+    // Set today's date
+    function setTodaysDate() {
+      const today = new Date();
+      document.getElementById('requestDate').value = today.toISOString().split('T')[0];
+      
+      const now = new Date();
+      const timeString = now.toTimeString().slice(0, 5);
+      document.getElementById('requestTime').value = timeString;
     }
 
     // Logout function
@@ -1177,16 +1267,6 @@ Ready to manage books. Please fill in the required fields and select an action.
       localStorage.removeItem('hospitalUser');
       window.location.href = 'login.html';
     }
-
-    // Auto-sync available copies with quantity when quantity changes
-    document.getElementById('bookQuantity').addEventListener('input', function() {
-      const quantity = parseInt(this.value) || 0;
-      const availableField = document.getElementById('bookAvailable');
-      
-      if (!availableField.value || parseInt(availableField.value) > quantity) {
-        availableField.value = quantity;
-      }
-    });
   </script>
 </body>
-</html>
+</html> 
