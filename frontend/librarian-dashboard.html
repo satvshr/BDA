@@ -192,6 +192,88 @@
       margin-bottom: 3rem;
     }
 
+    /* Feature Grid */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* Feature Cards */
+    .feature-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary);
+    }
+
+    .feature-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .feature-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-title i {
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+
+    .feature-title h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    .feature-description {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin: 0;
+    }
+
+    .feature-content {
+      padding: 1.5rem;
+    }
+
+    .feature-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.5rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      box-shadow: var(--shadow);
+    }
+
+    .feature-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-lg);
+    }
+
     /* Stats Cards */
     .stats-card {
       background: var(--surface);
@@ -436,6 +518,7 @@
       
       <ul class="nav-menu">
         <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="librarian-dashboard.html" class="nav-link active">Dashboard</a></li>
         <li><a href="doctors.html" class="nav-link">Librarians</a></li>
         <li><a href="inventory.html" class="nav-link">Inventory</a></li>
         <li><a href="members.html" class="nav-link">Members</a></li>
@@ -506,6 +589,73 @@
         </div>
         <div class="stats-number" id="totalMembers">-</div>
         <div class="stats-label">Library members</div>
+      </div>
+    </div>
+
+    <!-- Quick Actions Section -->
+    <div class="feature-grid" style="margin-bottom: 2rem;">
+      <div class="feature-card">
+        <div class="feature-header">
+          <div class="feature-title">
+            <i class="fas fa-warehouse"></i>
+            <h3>Book Inventory</h3>
+          </div>
+          <p class="feature-description">Manage book collection and inventory</p>
+        </div>
+        <div class="feature-content">
+          <button class="feature-btn" onclick="window.location.href='inventory.html'">
+            <i class="fas fa-books"></i>
+            Inventory System
+          </button>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-header">
+          <div class="feature-title">
+            <i class="fas fa-users"></i>
+            <h3>Member Management</h3>
+          </div>
+          <p class="feature-description">Manage library members and memberships</p>
+        </div>
+        <div class="feature-content">
+          <button class="feature-btn" onclick="window.location.href='members.html'">
+            <i class="fas fa-user-friends"></i>
+            Manage Members
+          </button>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-header">
+          <div class="feature-title">
+            <i class="fas fa-book-reader"></i>
+            <h3>Book Requests</h3>
+          </div>
+          <p class="feature-description">Manage book borrowing and returns</p>
+        </div>
+        <div class="feature-content">
+          <button class="feature-btn" onclick="window.location.href='book-requests.html'">
+            <i class="fas fa-clipboard-list"></i>
+            Book Requests
+          </button>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-header">
+          <div class="feature-title">
+            <i class="fas fa-search"></i>
+            <h3>Query System</h3>
+          </div>
+          <p class="feature-description">Search and query library data</p>
+        </div>
+        <div class="feature-content">
+          <button class="feature-btn" onclick="window.location.href='query.html'">
+            <i class="fas fa-database"></i>
+            Query Database
+          </button>
+        </div>
       </div>
     </div>
 
