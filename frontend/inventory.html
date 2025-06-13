@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book Inventory - Library Management System</title>
+  <title>📚 Book Inventory Management - Library Management System</title>
   
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -31,7 +31,7 @@
       --glow: 0 0 20px rgba(99, 102, 241, 0.3);
       --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
       --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-      --radius: 0.75rem; /* Adjusted for consistency with existing elements */
+      --radius: 0.75rem;
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -42,7 +42,7 @@
     }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: 'Poppins', sans-serif;
       background: var(--background);
       color: var(--text-primary);
       line-height: 1.6;
@@ -71,38 +71,7 @@
       align-items: center;
       height: 4rem;
     }
-    .feature-content {
-      padding: 1.5rem;
-    }
 
-    .feature-btn {
-      width: 100%;
-      padding: 0.875rem;
-      background: var(--primary);
-      color: white;
-      border: none;
-      border-radius: 0.5rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-    }
-
-    .feature-btn:hover {
-      background: var(--primary-dark);
-      transform: translateY(-1px);
-    }
-
-    .logout-btn {
-      background: var(--danger);
-    }
-
-    .logout-btn:hover {
-      background: #b91c1c;
-    }
     .nav-logo {
       display: flex;
       align-items: center;
@@ -131,6 +100,7 @@
       font-weight: 500;
       transition: var(--transition);
       position: relative;
+      cursor: pointer;
     }
 
     .nav-link:hover {
@@ -141,27 +111,30 @@
       color: var(--primary);
     }
 
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      bottom: -0.5rem;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: var(--primary);
+    .logout-btn {
+      background: var(--danger);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: var(--radius);
+      font-weight: 600;
+      text-decoration: none;
       transition: var(--transition);
+      box-shadow: var(--shadow);
+      cursor: pointer;
     }
 
-    .nav-link:hover::after,
-    .nav-link.active::after {
-      width: 100%;
+    .logout-btn:hover {
+      background: #b91c1c;
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-lg);
     }
 
     /* Page Header */
     .page-header {
-      background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
-      color: white;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       padding: 3rem 0;
+      text-align: center;
       position: relative;
       overflow: hidden;
     }
@@ -173,7 +146,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="calendar" width="20" height="20" patternUnits="userSpaceOnUse"><rect width="20" height="20" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><circle cx="5" cy="5" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="15" cy="15" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23calendar)"/></svg>');
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="books" width="20" height="20" patternUnits="userSpaceOnUse"><rect width="20" height="20" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><rect x="4" y="8" width="2" height="8" fill="rgba(255,255,255,0.1)"/><rect x="7" y="6" width="2" height="10" fill="rgba(255,255,255,0.1)"/><rect x="10" y="9" width="2" height="6" fill="rgba(255,255,255,0.1)"/><rect x="13" y="5" width="2" height="12" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23books)"/></svg>');
       opacity: 0.3;
     }
 
@@ -183,13 +156,12 @@
       padding: 0 1.5rem;
       position: relative;
       z-index: 1;
-      text-align: center;
     }
 
     .header-container h1 {
       font-size: 2.5rem;
       font-weight: 700;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -197,7 +169,7 @@
     }
 
     .header-container h1 i {
-      font-size: 2rem;
+      font-size: 3rem;
     }
 
     .header-container p {
@@ -205,89 +177,84 @@
       opacity: 0.9;
     }
 
-    /* Main Content */
+    /* Main Container */
     .container {
-      max-width: 900px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 3rem 1.5rem;
+      padding: 2rem 1.5rem;
     }
 
+    /* Management Card */
     .management-card {
       background: var(--surface);
       border-radius: var(--radius);
-      box-shadow: var(--shadow-lg);
-      overflow: hidden;
+      box-shadow: var(--shadow);
       border: 1px solid var(--border);
-      animation: slideUp 0.6s ease-out;
+      margin-bottom: 2rem;
+      overflow: hidden;
     }
 
     .card-header {
       background: linear-gradient(135deg, var(--surface-hover) 0%, var(--surface) 100%);
       padding: 2rem;
       border-bottom: 1px solid var(--border);
-      text-align: center;
     }
 
     .card-title {
       display: flex;
       align-items: center;
-      justify-content: center;
       gap: 1rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
     }
 
     .card-title i {
-      font-size: 2rem;
-      color: var(--secondary);
-      background: rgba(8, 145, 178, 0.1);
-      padding: 1rem;
-      border-radius: 1rem;
+      color: var(--primary);
+      font-size: 1.5rem;
     }
 
     .card-title h2 {
-      font-size: 1.75rem;
+      font-size: 1.5rem;
       font-weight: 600;
       color: var(--text-primary);
     }
 
     .card-description {
       color: var(--text-secondary);
-      font-size: 1rem;
+      font-size: 0.95rem;
     }
 
     .card-content {
       padding: 2rem;
     }
 
+    /* Form Sections */
     .form-section {
       margin-bottom: 2rem;
     }
 
     .form-section h3 {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
       font-size: 1.25rem;
       font-weight: 600;
       color: var(--text-primary);
       margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
     }
 
     .form-section h3 i {
-      color: var(--secondary);
+      color: var(--primary);
     }
 
     .form-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 1.5rem;
-      margin-bottom: 2rem;
     }
 
     .form-group {
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
     }
 
     .form-group label {
@@ -296,28 +263,31 @@
       gap: 0.5rem;
       font-weight: 600;
       color: var(--text-primary);
+      margin-bottom: 0.5rem;
       font-size: 0.875rem;
     }
 
     .form-group label i {
-      color: var(--secondary);
+      color: var(--primary);
       width: 16px;
     }
 
     .form-input {
-      padding: 1rem;
+      width: 100%;
+      padding: 0.875rem;
       border: 2px solid var(--border);
       border-radius: 0.5rem;
       font-family: inherit;
-      font-size: 1rem;
+      font-size: 0.95rem;
       transition: var(--transition);
       background: var(--surface);
+      color: var(--text-primary);
     }
 
     .form-input:focus {
       outline: none;
-      border-color: var(--secondary);
-      box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
     }
 
     .form-input:hover {
@@ -325,14 +295,14 @@
     }
 
     .form-input::placeholder {
-      color: var(--text-secondary);
+      color: var(--text-muted);
     }
 
+    /* Button Styles */
     .button-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 1rem;
-      margin-bottom: 2rem;
     }
 
     .btn {
@@ -340,15 +310,14 @@
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
-      padding: 1rem 1.5rem;
+      padding: 0.875rem 1.5rem;
       border: none;
       border-radius: 0.5rem;
       font-weight: 600;
-      font-family: inherit;
+      font-size: 0.95rem;
       cursor: pointer;
       transition: var(--transition);
       text-decoration: none;
-      font-size: 0.95rem;
       box-shadow: var(--shadow);
     }
 
@@ -358,13 +327,21 @@
     }
 
     .btn-primary {
-      background: var(--secondary);
+      background: var(--primary);
       color: white;
     }
 
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
     .btn-secondary {
-      background: var(--primary);
-      color: white;
+      background: var(--surface-light);
+      color: var(--text-primary);
+    }
+
+    .btn-secondary:hover {
+      background: var(--surface-hover);
     }
 
     .btn-warning {
@@ -372,111 +349,176 @@
       color: white;
     }
 
+    .btn-warning:hover {
+      background: #d97706;
+    }
+
     .btn-danger {
       background: var(--danger);
       color: white;
     }
 
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    .btn-success {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #059669;
+    }
+
+    /* Output Section */
     .output-section {
-      margin-top: 2rem;
-      padding-top: 2rem;
-      border-top: 2px solid var(--border);
+      background: var(--surface-light);
+      border-radius: 0.5rem;
+      border: 1px solid var(--border);
+      overflow: hidden;
     }
 
     .output-header {
+      background: var(--surface-hover);
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
+      gap: 0.75rem;
       font-weight: 600;
-      color: var(--text-secondary);
-      font-size: 0.95rem;
+      color: var(--text-primary);
     }
 
     .output-header i {
-      color: var(--secondary);
+      color: var(--primary);
     }
 
     .output-content {
-      background: var(--surface-hover);
-      border: 1px solid var(--border);
-      border-left: 4px solid var(--secondary);
-      border-radius: 0.5rem;
       padding: 1.5rem;
-      font-family: 'Monaco', 'Menlo', monospace;
-      font-size: 0.9rem;
-      color: var(--text-primary);
-      min-height: 80px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      min-height: 100px;
       white-space: pre-wrap;
-      line-height: 1.5;
     }
 
     .output-content.success {
-      border-left-color: var(--success);
-      background: rgba(5, 150, 105, 0.05);
+      color: var(--accent);
+      background: rgba(16, 185, 129, 0.1);
     }
 
     .output-content.error {
-      border-left-color: var(--danger);
-      background: rgba(220, 38, 38, 0.05);
+      color: var(--danger);
+      background: rgba(239, 68, 68, 0.1);
     }
 
-    /* Quick Actions */
-    .quick-actions {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
+    .output-content.warning {
+      color: var(--warning);
+      background: rgba(245, 158, 11, 0.1);
     }
 
-    .quick-action {
-      background: var(--surface-hover);
-      border: 1px solid var(--border);
-      border-radius: 0.5rem;
-      padding: 1rem;
-      text-align: center;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .quick-action:hover {
+    /* Book Display Card */
+    .book-display-card {
       background: var(--surface);
-      border-color: var(--secondary);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      margin-top: 2rem;
+      overflow: hidden;
     }
 
-    .quick-action i {
+    .book-list-container {
+      padding: 2rem;
+      min-height: 200px;
+    }
+
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 3rem;
+      color: var(--text-secondary);
+    }
+
+    .loading i {
       font-size: 1.5rem;
-      color: var(--secondary);
-      margin-bottom: 0.5rem;
+      animation: spin 1s linear infinite;
     }
 
-    .quick-action h4 {
-      font-size: 0.9rem;
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Table Styles */
+    .table-container {
+      overflow-x: auto;
+      border-radius: 0.5rem;
+      border: 1px solid var(--border);
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--surface);
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .data-table th {
+      background: var(--surface-light);
       font-weight: 600;
       color: var(--text-primary);
-      margin-bottom: 0.25rem;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
-    .quick-action p {
-      font-size: 0.8rem;
+    .data-table td {
       color: var(--text-secondary);
     }
 
-    /* Footer */
-    .footer {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      padding: 2rem 0;
-      margin-top: 3rem;
-      text-align: center;
+    .data-table tr:hover {
+      background: var(--surface-hover);
     }
 
-    .footer-text {
-      color: var(--text-secondary);
-      font-size: 0.9rem;
+    /* Status Badges */
+    .status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
-    /* Responsive */
+    .status-available {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--accent);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .status-low {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    .status-out {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    /* Responsive Design */
     @media (max-width: 768px) {
       .nav-menu {
         display: none;
@@ -497,22 +539,13 @@
       }
 
       .card-content {
-        padding: 1.5rem;
+        padding: 1rem;
       }
 
-      .quick-actions {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
+      .data-table th,
+      .data-table td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.875rem;
       }
     }
   </style>
@@ -526,543 +559,570 @@
         Library System
       </a>
       
-              <ul class="nav-menu">
-          <li><a href="index.html" class="nav-link">Home</a></li>
-          <li><a href="doctors.html" class="nav-link">Librarians</a></li>
-          <li><a href="inventory.html" class="nav-link active">Inventory</a></li>
-          <li><a href="query.html" class="nav-link">Query</a></li>
-             <div class="feature-content">
-            <button class="feature-btn logout-btn" onclick="logout()">
-              <i class="fas fa-sign-out-alt"></i>
-              Logout
-            </button>
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="doctors.html" class="nav-link">Librarians</a></li>
+        <li><a href="inventory.html" class="nav-link active">Inventory</a></li>
+        <li><a href="query.html" class="nav-link">Query</a></li>
+        <li>
+          <button class="logout-btn" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+            Logout
+          </button>
+        </li>
       </ul>
     </div>
   </nav>
 
-<!-- Page Header -->
-<section class="page-header">
-  <div class="header-container">
-    <h1>
-      <i class="fas fa-prescription-bottle-alt"></i>
-      Inventory
-    </h1>
-    <p>Manage books, track inventory, and issue requests to users</p>
-  </div>
-</section>
-
-<!-- Main Content -->
-<main class="container">
-  <!-- Quick Actions -->
-
-  <div class="management-card">
-    <div class="card-header">
-      <div class="card-title">
-        <i class="fas fa-prescription"></i>
-        <h2>Inventory Management System</h2>
-      </div>
-      <p class="card-description">Issue, track, and manage books </p>
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="header-container">
+      <h1>
+        <i class="fas fa-warehouse"></i>
+        Book Inventory Management
+      </h1>
+      <p>Add, update, and manage your library's book collection</p>
     </div>
+  </section>
 
-    <div class="card-content">
-      <div class="form-section">
-        <h3>
-          <i class="fas fa-info-circle"></i>
-          Book Inventory Information
-        </h3>
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Book Management Form -->
+    <div class="management-card">
+      <div class="card-header">
+        <div class="card-title">
+          <i class="fas fa-book"></i>
+          <h2>Book Management</h2>
+        </div>
+        <p class="card-description">Add new books or update existing book information</p>
+      </div>
 
-        <div class="form-grid">
-          <div class="form-group">
-            <label for="aptId">
-              <i class="fas fa-hashtag"></i>
-              Book ID
-            </label>
-            <input 
-              id="aptId" 
-              class="form-input" 
-              placeholder="Enter unique prescription ID" 
-              type="text"
-            />
+      <div class="card-content">
+        <div class="form-section">
+          <h3>
+            <i class="fas fa-info-circle"></i>
+            Book Information
+          </h3>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="bookId">
+                <i class="fas fa-hashtag"></i>
+                Book ID
+              </label>
+              <input 
+                id="bookId" 
+                class="form-input" 
+                placeholder="Enter unique book ID (e.g., BOOK001)" 
+                type="text"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="bookTitle">
+                <i class="fas fa-book"></i>
+                Book Title
+              </label>
+              <input 
+                id="bookTitle" 
+                class="form-input" 
+                placeholder="Enter book title" 
+                type="text"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="bookAuthor">
+                <i class="fas fa-user-edit"></i>
+                Author Name
+              </label>
+              <input 
+                id="bookAuthor" 
+                class="form-input" 
+                placeholder="Enter author's full name" 
+                type="text"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="bookIsbn">
+                <i class="fas fa-barcode"></i>
+                ISBN
+              </label>
+              <input 
+                id="bookIsbn" 
+                class="form-input" 
+                placeholder="Enter ISBN (e.g., 978-0-123456-78-9)" 
+                type="text"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="bookQuantity">
+                <i class="fas fa-boxes"></i>
+                Total Quantity
+              </label>
+              <input 
+                id="bookQuantity" 
+                class="form-input" 
+                placeholder="Enter total number of copies" 
+                type="number"
+                min="1"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="bookAvailable">
+                <i class="fas fa-check-circle"></i>
+                Available Copies
+              </label>
+              <input 
+                id="bookAvailable" 
+                class="form-input" 
+                placeholder="Enter available copies" 
+                type="number"
+                min="0"
+              />
+            </div>
           </div>
+        </div>
 
-          <div class="form-group">
-            <label for="aptPatient">
-              <i class="fas fa-user-injured"></i>
-              User ID
-            </label>
-            <input 
-              id="aptPatient" 
-              class="form-input" 
-              placeholder="Enter patient ID" 
-              type="text"
-            />
+        <div class="form-section">
+          <h3>
+            <i class="fas fa-cogs"></i>
+            Actions
+          </h3>
+
+          <div class="button-grid">
+            <button onclick="addBook()" class="btn btn-primary">
+              <i class="fas fa-plus"></i>
+              Add New Book
+            </button>
+            <button onclick="searchBook()" class="btn btn-secondary">
+              <i class="fas fa-search"></i>
+              Search Book
+            </button>
+            <button onclick="updateBook()" class="btn btn-warning">
+              <i class="fas fa-edit"></i>
+              Update Book
+            </button>
+            <button onclick="deleteBook()" class="btn btn-danger">
+              <i class="fas fa-trash"></i>
+              Delete Book
+            </button>
+            <button onclick="clearForm()" class="btn btn-secondary">
+              <i class="fas fa-eraser"></i>
+              Clear Form
+            </button>
+            <button onclick="loadAllBooks()" class="btn btn-success">
+              <i class="fas fa-sync"></i>
+              Refresh List
+            </button>
           </div>
-          <div class="form-group">
-            <label for="aptDoctor">
-              <i class="fas fa-user-md"></i>
-              Author
-            </label>
-            <select id="aptDoctor" class="form-input">
-              <option value="">Select a Author</option>
-            </select>
+        </div>
+
+        <div class="output-section">
+          <div class="output-header">
+            <i class="fas fa-terminal"></i>
+            <span>System Response</span>
           </div>
-          <!-- <div class="form-group">
-  <label for="aptMedication">
-    <i class="fas fa-pills"></i>
-    Medication
-  </label>
-  <input 
-    id="aptMedication" 
-    class="form-input" 
-    placeholder="Enter medication details" 
-    type="text"
-  />
-</div> -->
-
-
-          <div class="form-group">
-            <label for="aptDate">
-              <i class="fas fa-calendar"></i>
-              Prescription Date
-            </label>
-            <input 
-              id="aptDate" 
-              type="date" 
-              class="form-input"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="aptTime">
-              <i class="fas fa-clock"></i>
-              Dispense Time
-            </label>
-            <input 
-              id="aptTime" 
-              type="time" 
-              class="form-input"
-            />
+          <div id="bookOutput" class="output-content">
+Ready to manage books. Please fill in the required fields and select an action.
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="form-section">
-        <h3>
-          <i class="fas fa-cogs"></i>
-          Actions
-        </h3>
-
-        <div class="button-grid">
-          <button onclick="createAppointment()" class="btn btn-primary">
-            <i class="fas fa-prescription-bottle"></i>
-            Add 
-          </button>
-          <button onclick="getAppointment()" class="btn btn-secondary">
-            <i class="fas fa-search"></i>
-            Find 
-          </button>
-          <button onclick="updateAppointment()" class="btn btn-warning">
-            <i class="fas fa-edit"></i>
-            Update Details
-          </button>
-          <button onclick="deleteAppointment()" class="btn btn-danger">
-            <i class="fas fa-times-circle"></i>
-            Cancel 
-          </button>
+    <!-- Book Inventory Display -->
+    <div class="book-display-card">
+      <div class="card-header">
+        <div class="card-title">
+          <i class="fas fa-books"></i>
+          <h2>Book Inventory</h2>
+        </div>
+        <p class="card-description">Complete list of books in the library collection</p>
+      </div>
+      <div class="book-list-container">
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Book ID</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>ISBN</th>
+                <th>Total Copies</th>
+                <th>Available</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="bookTableBody">
+              <tr>
+                <td colspan="7" class="loading">
+                  <i class="fas fa-spinner fa-spin"></i>
+                  Loading book inventory...
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-
-      <div class="output-section">
-        <div class="output-header">
-          <i class="fas fa-terminal"></i>
-          <span>System Response</span>
-        </div>
-        <div id="appointmentOutput" class="output-content">
-          Ready to manage. Please fill in the required fields and select an action.
-        </div>
-      </div>
     </div>
-  </div>
-</main>
+  </main>
 
-<!-- Appointment Display Card -->
-<div class="appointment-display-card">
-  <div class="card-header">
-    <div class="card-title">
-      <i class="fas fa-pills"></i>
-      <h2>Inventory</h2>
-    </div>
-    <p class="card-description">View and manage all issued</p>
-  </div>
-  <div class="card-content" id="appointmentListContainer">
-    <div class="loading">
-      <i class="fas fa-spinner fa-spin"></i>
-      <p>Loading ...</p>
-    </div>
-  </div>
-</div>
-
-
-<style>
-  .appointment-display-card {
-    max-width: 700px;
-    margin: 20px auto;
-    border: 2px solid #28a745; /* Green border for appointments */
-    border-radius: 10px;
-    background-color: #f0fff4; /* Light green background */
-    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.15);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-
-  .appointment-display-card .card-header {
-    padding: 20px 25px;
-    border-bottom: 1px solid #28a745;
-    background-color: #d4edda; /* Pale green header */
-    color: #155724;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .appointment-display-card .card-title {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-weight: 700;
-    font-size: 1.5rem;
-  }
-
-  .appointment-display-card .card-title i {
-    font-size: 1.8rem;
-  }
-
-  .appointment-display-card .card-description {
-    font-size: 1rem;
-    opacity: 0.8;
-    margin: 0;
-  }
-
-  .appointment-display-card .card-content {
-    padding: 20px 25px;
-    min-height: 150px;
-    color: #155724;
-  }
-
-  /* Loading spinner and text */
-  .appointment-display-card .loading {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    font-size: 1.1rem;
-    color: #28a745;
-  }
-
-  .appointment-display-card .loading i {
-    font-size: 1.5rem;
-  }
-
-  /* Table styles for appointment data if used */
-  .appointment-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-  }
-
-  .appointment-table th, .appointment-table td {
-    border: 1px solid #28a745;
-    padding: 12px 15px;
-    text-align: left;
-    font-size: 1rem;
-  }
-
-  .appointment-table th {
-    background-color: #c3e6cb;
-    color: #155724;
-  }
-
-  .appointment-table tbody tr:hover {
-    background-color: #e2f0d9;
-  }
-</style>
-
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-text">
-      <i class="fas fa-heart" style="color: var(--danger);"></i>
-      Healthcare Management System - Providing Quality Care
-    </div>
-  </footer>
   <script>
-  const baseURL = "http://localhost:8080";
-    
-  // === Populate Doctor Dropdown ===
-  async function populateDoctorDropdown() {
-  try {
-    const res = await fetch(`${baseURL}/doctors`);
-    if (!res.ok) throw new Error("Failed to fetch doctors");
+    // Application State
+    let books = [];
+    const API_BASE = 'http://localhost:8080';
 
-    const doctorsRaw = await res.json();
-
-    // Parse each JSON string into an object
-    const doctors = doctorsRaw.map(docStr => JSON.parse(docStr));
-
-    console.log("Parsed doctors:", doctors); // Check parsed structure
-
-    const doctorSelect = document.getElementById("aptDoctor");
-    doctorSelect.innerHTML = `<option value="">Select a Doctor</option>`;
-
-    doctors.forEach(doctor => {
-      const option = document.createElement("option");
-      option.value = doctor.id;          // id property as string
-      option.text = doctor.name || "Unnamed Doctor";
-      doctorSelect.appendChild(option);
-    });
-  } catch (error) {
-    console.error("Error loading doctors:", error);
-  }
-}
-
-    async function loadAndDisplayAppointments() {
-  const container = document.getElementById("appointmentListContainer");
-  container.innerHTML = `
-    <div class="loading">
-      <i class="fas fa-spinner fa-spin"></i>
-      <p>Loading appointments...</p>
-    </div>
-  `;
-
-  try {
-    const res = await fetch(`${baseURL}/pharmacy`);
-    if (!res.ok) throw new Error("Failed to fetch appointments");
-
-    // Assuming your API returns an array of JSON strings for each appointment
-    let appointmentsRaw = await res.json();
-
-    // Parse each appointment JSON string into object
-    let appointments = appointmentsRaw.map(item => {
-      if (typeof item === "string") {
-        return JSON.parse(item);
-      }
-      return item;
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      loadAllBooks();
     });
 
-    if (appointments.length === 0) {
-      container.innerHTML = "<p>No appointments found.</p>";
-      return;
-    }
-
-    // Build the table HTML
-    let tableHTML = `
-      <table class="appointment-table">
-        <thead>
+    // Load all books from the API
+    async function loadAllBooks() {
+      const output = document.getElementById('bookOutput');
+      const tableBody = document.getElementById('bookTableBody');
+      
+      try {
+        output.className = 'output-content';
+        output.textContent = 'Loading books from inventory...';
+        
+        const response = await fetch(`${API_BASE}/inventory`);
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        books = data.map(book => JSON.parse(book));
+        
+        renderBookTable();
+        output.className = 'output-content success';
+        output.textContent = `✓ Successfully loaded ${books.length} books from inventory.`;
+        
+      } catch (error) {
+        console.error('Error loading books:', error);
+        output.className = 'output-content error';
+        output.textContent = `✗ Error loading books: ${error.message}`;
+        
+        tableBody.innerHTML = `
           <tr>
-            <th>ID</th>
-            <th>Patient ID</th>
-            <th>Doctor ID</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Medicine</th>
+            <td colspan="7" style="text-align: center; color: var(--danger); padding: 2rem;">
+              <i class="fas fa-exclamation-triangle"></i>
+              Failed to load books. Please check if the backend is running.
+            </td>
           </tr>
-        </thead>
-        <tbody>
-    `;
+        `;
+      }
+    }
 
-    appointments.forEach(apt => {
-      tableHTML += `
-        <tr>
-          <td>${apt.id || "N/A"}</td>
-          <td>${apt.patientId || "N/A"}</td>
-          <td>${apt.doctorId || "N/A"}</td>
-          <td>${apt.date || "N/A"}</td>
-          <td>${apt.time || "N/A"}</td>
-          <td>${apt.medication || "N/A"}</td>
-        </tr>
-      `;
+    // Render book table
+    function renderBookTable() {
+      const tableBody = document.getElementById('bookTableBody');
+      
+      if (books.length === 0) {
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="7" style="text-align: center; color: var(--text-secondary); padding: 2rem;">
+              <i class="fas fa-book"></i>
+              No books found in inventory. Add some books to get started!
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tableBody.innerHTML = books.map(book => {
+        let statusClass, statusText;
+        if (book.available === 0) {
+          statusClass = 'status-out';
+          statusText = 'Out of Stock';
+        } else if (book.available <= 2) {
+          statusClass = 'status-low';
+          statusText = 'Low Stock';
+        } else {
+          statusClass = 'status-available';
+          statusText = 'Available';
+        }
+        
+        return `
+          <tr onclick="selectBook('${book.id}')" style="cursor: pointer;">
+            <td><strong>${book.id}</strong></td>
+            <td>${book.title}</td>
+            <td>${book.author}</td>
+            <td>${book.isbn}</td>
+            <td>${book.quantity}</td>
+            <td>${book.available}</td>
+            <td>
+              <span class="status-badge ${statusClass}">
+                ${statusText}
+              </span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Select book from table
+    function selectBook(bookId) {
+      const book = books.find(b => b.id === bookId);
+      if (book) {
+        document.getElementById('bookId').value = book.id;
+        document.getElementById('bookTitle').value = book.title;
+        document.getElementById('bookAuthor').value = book.author;
+        document.getElementById('bookIsbn').value = book.isbn;
+        document.getElementById('bookQuantity').value = book.quantity;
+        document.getElementById('bookAvailable').value = book.available;
+        
+        const output = document.getElementById('bookOutput');
+        output.className = 'output-content';
+        output.textContent = `Selected book: ${book.title} by ${book.author}`;
+      }
+    }
+
+    // Add new book
+    async function addBook() {
+      const output = document.getElementById('bookOutput');
+      
+      // Get form values
+      const bookData = {
+        id: document.getElementById('bookId').value.trim(),
+        title: document.getElementById('bookTitle').value.trim(),
+        author: document.getElementById('bookAuthor').value.trim(),
+        isbn: document.getElementById('bookIsbn').value.trim(),
+        quantity: parseInt(document.getElementById('bookQuantity').value) || 0,
+        available: parseInt(document.getElementById('bookAvailable').value) || 0
+      };
+
+      // Validate required fields
+      if (!bookData.id || !bookData.title || !bookData.author) {
+        output.className = 'output-content error';
+        output.textContent = '✗ Error: Book ID, Title, and Author are required fields.';
+        return;
+      }
+
+      if (bookData.quantity < 1) {
+        output.className = 'output-content error';
+        output.textContent = '✗ Error: Quantity must be at least 1.';
+        return;
+      }
+
+      if (bookData.available > bookData.quantity) {
+        output.className = 'output-content error';
+        output.textContent = '✗ Error: Available copies cannot exceed total quantity.';
+        return;
+      }
+
+      try {
+        output.className = 'output-content';
+        output.textContent = 'Adding book to inventory...';
+        
+        const response = await fetch(`${API_BASE}/inventory`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(bookData)
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const result = await response.text();
+        output.className = 'output-content success';
+        output.textContent = `✓ ${result}`;
+        
+        // Refresh the book list
+        await loadAllBooks();
+        clearForm();
+        
+      } catch (error) {
+        console.error('Error adding book:', error);
+        output.className = 'output-content error';
+        output.textContent = `✗ Error adding book: ${error.message}`;
+      }
+    }
+
+    // Search for a book
+    async function searchBook() {
+      const bookId = document.getElementById('bookId').value.trim();
+      const output = document.getElementById('bookOutput');
+      
+      if (!bookId) {
+        output.className = 'output-content error';
+        output.textContent = '✗ Error: Please enter a Book ID to search.';
+        return;
+      }
+
+      try {
+        output.className = 'output-content';
+        output.textContent = `Searching for book with ID: ${bookId}...`;
+        
+        const response = await fetch(`${API_BASE}/inventory/${bookId}`);
+        
+        if (!response.ok) {
+          if (response.status === 404) {
+            throw new Error('Book not found');
+          }
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const bookJson = await response.text();
+        const book = JSON.parse(bookJson);
+        
+        // Populate form with book data
+        document.getElementById('bookTitle').value = book.title;
+        document.getElementById('bookAuthor').value = book.author;
+        document.getElementById('bookIsbn').value = book.isbn;
+        document.getElementById('bookQuantity').value = book.quantity;
+        document.getElementById('bookAvailable').value = book.available;
+        
+        output.className = 'output-content success';
+        output.textContent = `✓ Found book: "${book.title}" by ${book.author}`;
+        
+      } catch (error) {
+        console.error('Error searching book:', error);
+        output.className = 'output-content error';
+        output.textContent = `✗ Error searching book: ${error.message}`;
+      }
+    }
+
+    // Update existing book
+    async function updateBook() {
+      const output = document.getElementById('bookOutput');
+      
+      // Get form values
+      const bookData = {
+        id: document.getElementById('bookId').value.trim(),
+        title: document.getElementById('bookTitle').value.trim(),
+        author: document.getElementById('bookAuthor').value.trim(),
+        isbn: document.getElementById('bookIsbn').value.trim(),
+        quantity: parseInt(document.getElementById('bookQuantity').value) || 0,
+        available: parseInt(document.getElementById('bookAvailable').value) || 0
+      };
+
+      // Validate required fields
+      if (!bookData.id) {
+        output.className = 'output-content error';
+        output.textContent = '✗ Error: Book ID is required for updating.';
+        return;
+      }
+
+      if (!bookData.title || !bookData.author) {
+        output.className = 'output-content error';
+        output.textContent = '✗ Error: Title and Author are required fields.';
+        return;
+      }
+
+      if (bookData.available > bookData.quantity) {
+        output.className = 'output-content error';
+        output.textContent = '✗ Error: Available copies cannot exceed total quantity.';
+        return;
+      }
+
+      try {
+        output.className = 'output-content';
+        output.textContent = `Updating book ${bookData.id}...`;
+        
+        const response = await fetch(`${API_BASE}/inventory/${bookData.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(bookData)
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const result = await response.text();
+        output.className = 'output-content success';
+        output.textContent = `✓ ${result}`;
+        
+        // Refresh the book list
+        await loadAllBooks();
+        
+      } catch (error) {
+        console.error('Error updating book:', error);
+        output.className = 'output-content error';
+        output.textContent = `✗ Error updating book: ${error.message}`;
+      }
+    }
+
+    // Delete book
+    async function deleteBook() {
+      const bookId = document.getElementById('bookId').value.trim();
+      const output = document.getElementById('bookOutput');
+      
+      if (!bookId) {
+        output.className = 'output-content error';
+        output.textContent = '✗ Error: Please enter a Book ID to delete.';
+        return;
+      }
+
+      if (!confirm(`Are you sure you want to delete book with ID: ${bookId}?`)) {
+        return;
+      }
+
+      try {
+        output.className = 'output-content';
+        output.textContent = `Deleting book ${bookId}...`;
+        
+        const response = await fetch(`${API_BASE}/inventory/${bookId}`, {
+          method: 'DELETE'
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const result = await response.text();
+        output.className = 'output-content success';
+        output.textContent = `✓ ${result}`;
+        
+        // Refresh the book list and clear form
+        await loadAllBooks();
+        clearForm();
+        
+      } catch (error) {
+        console.error('Error deleting book:', error);
+        output.className = 'output-content error';
+        output.textContent = `✗ Error deleting book: ${error.message}`;
+      }
+    }
+
+    // Clear form
+    function clearForm() {
+      document.getElementById('bookId').value = '';
+      document.getElementById('bookTitle').value = '';
+      document.getElementById('bookAuthor').value = '';
+      document.getElementById('bookIsbn').value = '';
+      document.getElementById('bookQuantity').value = '';
+      document.getElementById('bookAvailable').value = '';
+      
+      const output = document.getElementById('bookOutput');
+      output.className = 'output-content';
+      output.textContent = 'Form cleared. Ready for new book entry.';
+    }
+
+    // Logout function
+    function logout() {
+      localStorage.removeItem('hospitalUser');
+      window.location.href = 'login.html';
+    }
+
+    // Auto-sync available copies with quantity when quantity changes
+    document.getElementById('bookQuantity').addEventListener('input', function() {
+      const quantity = parseInt(this.value) || 0;
+      const availableField = document.getElementById('bookAvailable');
+      
+      if (!availableField.value || parseInt(availableField.value) > quantity) {
+        availableField.value = quantity;
+      }
     });
-
-    tableHTML += "</tbody></table>";
-
-    container.innerHTML = tableHTML;
-
-  } catch (error) {
-    container.innerHTML = `<p style="color:red;">Error loading appointments: ${error.message}</p>`;
-  }
-}
-
-// Call this on page load to populate appointments list
-document.addEventListener('DOMContentLoaded', () => {
-  loadAndDisplayAppointments();
-  populateDoctorDropdown(); // your existing function
-});
-
-  // === Utility Functions ===
-  function setTodaysDate() {
-    const today = new Date();
-    aptDate.value = today.toISOString().split('T')[0];
-  }
-
-  function setTomorrowDate() {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    aptDate.value = tomorrow.toISOString().split('T')[0];
-  }
-
-  function clearForm() {
-    aptId.value = '';
-    aptPatient.value = '';
-    aptDoctor.value = '';
-    aptDate.value = '';
-    aptTime.value = '';
-    appointmentOutput.className = "output-content";
-    appointmentOutput.innerText = "Form cleared. Ready to manage appointments.";
-  }
-
-  // === Appointment Functions ===
-  async function createAppointment() {
-    const data = {
-      id: aptId.value,
-      patientId: aptPatient.value,
-      doctorId: aptDoctor.value,
-      date: aptDate.value,
-      time: aptTime.value,
-      medication: document.getElementById('aptMedication').value.trim()
-    };
-
-    if (!data.id || !data.patientId || !data.doctorId || !data.date || !data.time) {
-      appointmentOutput.className = "output-content error";
-      appointmentOutput.innerText = "Error: Please fill in all required fields (ID, Patient ID, Doctor ID, Date, and Time)";
-      return;
-    }
-
-    appointmentOutput.className = "output-content";
-    appointmentOutput.innerText = "Booking appointment...";
-
-    try {
-      const res = await fetch(`${baseURL}/pharmacy`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
-
-      const responseText = await res.text();
-      appointmentOutput.className = res.ok ? "output-content success" : "output-content error";
-      appointmentOutput.innerText = responseText;
-
-      // Clear form on success
-      if (res.ok) {
-        clearForm();
-      }
-    } catch (error) {
-      appointmentOutput.className = "output-content error";
-      appointmentOutput.innerText = `Network Error: ${error.message}`;
-    }
-  }
-
-  async function getAppointment() {
-    if (!aptId.value) {
-      appointmentOutput.className = "output-content error";
-      appointmentOutput.innerText = "Error: Please enter an Appointment ID to search";
-      return;
-    }
-
-    appointmentOutput.className = "output-content";
-    appointmentOutput.innerText = "Searching for appointment...";
-
-    try {
-      const res = await fetch(`${baseURL}/pharmacy/${aptId.value}`);
-      const responseText = await res.text();
-      appointmentOutput.className = res.ok ? "output-content success" : "output-content error";
-      appointmentOutput.innerText = responseText;
-    } catch (error) {
-      appointmentOutput.className = "output-content error";
-      appointmentOutput.innerText = `Network Error: ${error.message}`;
-    }
-  }
-
-  async function updateAppointment() {
-    const data = {
-      id: aptId.value,
-      patientId: aptPatient.value,
-      doctorId: aptDoctor.value,
-      date: aptDate.value,
-      time: aptTime.value,
-      medication: document.getElementById('aptMedication').value.trim()
-    };
-
-    if (!data.id || !data.patientId || !data.doctorId || !data.date || !data.time) {
-      appointmentOutput.className = "output-content error";
-      appointmentOutput.innerText = "Error: Please fill in all required fields (ID, Patient ID, Doctor ID, Date, and Time)";
-      return;
-    }
-
-    appointmentOutput.className = "output-content";
-    appointmentOutput.innerText = "Updating appointment details...";
-
-    try {
-      const res = await fetch(`${baseURL}/pharmacy/${aptId.value}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
-
-      const responseText = await res.text();
-      appointmentOutput.className = res.ok ? "output-content success" : "output-content error";
-      appointmentOutput.innerText = responseText;
-    } catch (error) {
-      appointmentOutput.className = "output-content error";
-      appointmentOutput.innerText = `Network Error: ${error.message}`;
-    }
-  }
-
-  async function deleteAppointment() {
-    if (!aptId.value) {
-      appointmentOutput.className = "output-content error";
-      appointmentOutput.innerText = "Error: Please enter an Appointment ID to cancel";
-      return;
-    }
-
-    if (!confirm(`Are you sure you want to cancel appointment with ID: ${aptId.value}?`)) {
-      return;
-    }
-
-    appointmentOutput.className = "output-content";
-    appointmentOutput.innerText = "Cancelling appointment...";
-
-    try {
-      const res = await fetch(`${baseURL}/pharmacy/${aptId.value}`, {
-        method: "DELETE"
-      });
-
-      const responseText = await res.text();
-      appointmentOutput.className = res.ok ? "output-content success" : "output-content error";
-      appointmentOutput.innerText = responseText;
-
-      // Clear form on success
-      if (res.ok) {
-        clearForm();
-      }
-    } catch (error) {
-      appointmentOutput.className = "output-content error";
-      appointmentOutput.innerText = `Network Error: ${error.message}`;
-    }
-  }
-
-  // Set minimum date to today and populate doctor dropdown on page load
-  document.addEventListener('DOMContentLoaded', function() {
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('aptDate').setAttribute('min', today);
-
-    // Populate doctor dropdown
-    populateDoctorDropdown();
-  });
-      function logout() {
-  
-  // Redirect to login page
-  window.location.href = 'login.html';
-}
-
-</script>
-
+  </script>
 </body>
 </html>

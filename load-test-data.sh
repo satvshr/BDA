@@ -134,6 +134,22 @@ make_request "POST" "/inventory" \
     '{"id":"BOOK004","title":"Pride and Prejudice","author":"Jane Austen","isbn":"978-0-14-143951-8","quantity":3,"available":1}' \
     "Add Pride and Prejudice"
 
+make_request "POST" "/inventory" \
+    '{"id":"BOOK005","title":"The Catcher in the Rye","author":"J.D. Salinger","isbn":"978-0-316-76948-0","quantity":4,"available":4}' \
+    "Add The Catcher in the Rye"
+
+make_request "POST" "/inventory" \
+    '{"id":"BOOK006","title":"Lord of the Flies","author":"William Golding","isbn":"978-0-571-05686-2","quantity":5,"available":3}' \
+    "Add Lord of the Flies"
+
+make_request "POST" "/inventory" \
+    '{"id":"BOOK007","title":"The Hobbit","author":"J.R.R. Tolkien","isbn":"978-0-547-92822-7","quantity":6,"available":5}' \
+    "Add The Hobbit"
+
+make_request "POST" "/inventory" \
+    '{"id":"BOOK008","title":"Harry Potter and the Philosopher'\''s Stone","author":"J.K. Rowling","isbn":"978-0-7475-3269-9","quantity":8,"available":6}' \
+    "Add Harry Potter and the Philosopher's Stone"
+
 # Load Staff
 print_status "Loading staff members..."
 make_request "POST" "/staff" \
@@ -170,7 +186,7 @@ print_success "🎉 Test data loading completed!"
 echo ""
 echo "📊 Summary of loaded data:"
 echo "  👥 Users: 3 (1 admin, 2 librarians)"
-echo "  📚 Books: 4 titles with varying availability"
+echo "  📚 Books: 8 titles with varying availability"
 echo "  👨‍👩‍👧‍👦 Members: 3 library members"
 echo "  👨‍🏫 Librarians: 3 library staff"
 echo "  👷 Staff: 3 general staff members"

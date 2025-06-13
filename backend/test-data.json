@@ -94,6 +94,38 @@
       "isbn": "978-0-14-143951-8",
       "quantity": 3,
       "available": 1
+    },
+    {
+      "id": "BOOK005",
+      "title": "The Catcher in the Rye",
+      "author": "J.D. Salinger",
+      "isbn": "978-0-316-76948-0",
+      "quantity": 4,
+      "available": 4
+    },
+    {
+      "id": "BOOK006",
+      "title": "Lord of the Flies",
+      "author": "William Golding",
+      "isbn": "978-0-571-05686-2",
+      "quantity": 5,
+      "available": 3
+    },
+    {
+      "id": "BOOK007",
+      "title": "The Hobbit",
+      "author": "J.R.R. Tolkien",
+      "isbn": "978-0-547-92822-7",
+      "quantity": 6,
+      "available": 5
+    },
+    {
+      "id": "BOOK008",
+      "title": "Harry Potter and the Philosopher's Stone",
+      "author": "J.K. Rowling",
+      "isbn": "978-0-7475-3269-9",
+      "quantity": 8,
+      "available": 6
     }
   ],
   "staff": [
