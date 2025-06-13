@@ -576,6 +576,27 @@
 </head>
 <body>
   <!-- Authentication Section -->
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo">
+        <i class="fas fa-book-open"></i>
+        Library System
+      </a>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="doctors.html" class="nav-link">Librarians</a></li>
+        <li><a href="inventory.html" class="nav-link">Inventory</a></li>
+        <li><a href="query.html" class="nav-link">Query</a></li>
+      </ul>
+      <button class="nav-button" id="authBtn" onclick="showAuth()">Login</button>
+      <button class="mobile-toggle">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Authentication Section -->
   <section id="authSection" class="auth-container">
     <div class="auth-card">
       <div class="auth-header">
@@ -857,6 +878,100 @@
     </div>
   </section>
 
+  <!-- Dashboard Section -->
+  <section id="dashboardSection" class="dashboard">
+    <div class="dashboard-header">
+      <div class="container">
+        <h1 class="dashboard-title">Welcome to Library Management System</h1>
+        <p class="dashboard-subtitle">Manage library operations efficiently and securely</p>
+      </div>
+    </div>
+
+    <div class="dashboard-content">
+      <div class="feature-grid">
+        <div class="feature-card admin-only">
+          <div class="feature-header">
+            <div class="feature-title">
+              <i class="fas fa-user-graduate"></i>
+              <h3>Librarian Management</h3>
+            </div>
+            <p class="feature-description">Manage librarian profiles, schedules, and specializations</p>
+          </div>
+          <div class="feature-content">
+            <button class="feature-btn" onclick="window.location.href='doctors.html'">
+              <i class="fas fa-plus"></i>
+              Manage Librarians
+            </button>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-header">
+            <div class="feature-title">
+              <i class="fas fa-warehouse"></i>
+              <h3>Book Inventory</h3>
+            </div>
+            <p class="feature-description">Manage book collection and inventory</p>
+          </div>
+          <div class="feature-content">
+            <button class="feature-btn" onclick="window.location.href='inventory.html'">
+              <i class="fas fa-books"></i>
+              Inventory System
+            </button>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-header">
+            <div class="feature-title">
+              <i class="fas fa-users"></i>
+              <h3>Member Management</h3>
+            </div>
+            <p class="feature-description">Manage library members and memberships</p>
+          </div>
+          <div class="feature-content">
+            <button class="feature-btn" onclick="window.location.href='index.html'">
+              <i class="fas fa-user-friends"></i>
+              Manage Members
+            </button>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-header">
+            <div class="feature-title">
+              <i class="fas fa-search"></i>
+              <h3>Query System</h3>
+            </div>
+            <p class="feature-description">Search and query library data</p>
+          </div>
+          <div class="feature-content">
+            <button class="feature-btn" onclick="window.location.href='query.html'">
+              <i class="fas fa-database"></i>
+              Query Database
+            </button>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-header">
+            <div class="feature-title">
+              <i class="fas fa-sign-out-alt"></i>
+              <h3>Logout</h3>
+            </div>
+            <p class="feature-description">Securely logout from the system</p>
+          </div>
+          <div class="feature-content">
+            <button class="feature-btn logout-btn" onclick="logout()">
+              <i class="fas fa-sign-out-alt"></i>
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <script>
     // Application State
     let currentMode = 'login';
@@ -1020,7 +1135,7 @@
               if (user.role === 'admin') {
                 window.location.href = 'index.html';
               } else if (user.role === 'doctor') {
-                window.location.href = 'landing_doctor.html';
+                window.location.href = 'doctors.html';
               } else {
                 showDashboard();  // fallback or default dashboard
               }
