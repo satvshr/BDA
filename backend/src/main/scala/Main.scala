@@ -151,7 +151,7 @@ object Main {
                   complete {
                     librarianCollection.find(equal("id", id)).first().toFuture().map(_.toJson())
                   }
-                } ~
+                } 
                 pathEndOrSingleSlash {
                   complete {
                     librarianCollection.find().toFuture().map(_.map(_.toJson()))

@@ -519,7 +519,7 @@
       <ul class="nav-menu">
         <li><a href="index.html" class="nav-link">Home</a></li>
         <li><a href="librarian-dashboard.html" class="nav-link active">Dashboard</a></li>
-        <li><a href="doctors.html" class="nav-link">Librarians</a></li>
+                    <li><a href="librarians.html" class="nav-link">Librarians</a></li>
         <li><a href="inventory.html" class="nav-link">Inventory</a></li>
         <li><a href="members.html" class="nav-link">Members</a></li>
         <li><a href="book-requests.html" class="nav-link">Book Requests</a></li>
@@ -745,7 +745,7 @@
     // Initialize Dashboard
     document.addEventListener('DOMContentLoaded', function() {
       // Check if user is logged in
-      const savedUser = localStorage.getItem('hospitalUser');
+      const savedUser = localStorage.getItem('libraryUser');
       if (!savedUser) {
         window.location.href = 'login.html';
         return;
@@ -754,7 +754,7 @@
       currentUser = JSON.parse(savedUser);
       
       // Check if user is a librarian
-      if (currentUser.role !== 'doctor') {
+      if (currentUser.role !== 'librarian') {
         alert('Access denied. This page is for librarians only.');
         window.location.href = 'login.html';
         return;
@@ -789,7 +789,15 @@
         if (!response.ok) throw new Error('Failed to fetch books');
         
         const data = await response.json();
-        books = data.map(book => JSON.parse(book));
+        books = data.map(book => {
+          try {
+            return typeof book === 'string' ? JSON.parse(book) : book;
+          } catch (e) {
+            console.error('Error parsing book:', book, e);
+            return book;
+          }
+        });
+        console.log('Loaded books:', books);
       } catch (error) {
         console.error('Error loading books:', error);
         books = [];
@@ -803,7 +811,15 @@
         if (!response.ok) throw new Error('Failed to fetch members');
         
         const data = await response.json();
-        members = data.map(member => JSON.parse(member));
+        members = data.map(member => {
+          try {
+            return typeof member === 'string' ? JSON.parse(member) : member;
+          } catch (e) {
+            console.error('Error parsing member:', member, e);
+            return member;
+          }
+        });
+        console.log('Loaded members:', members);
       } catch (error) {
         console.error('Error loading members:', error);
         members = [];
@@ -817,7 +833,14 @@
         if (!response.ok) throw new Error('Failed to fetch borrowed books');
         
         const data = await response.json();
-        borrowedBooks = data.map(request => JSON.parse(request));
+        borrowedBooks = data.map(request => {
+          try {
+            return typeof request === 'string' ? JSON.parse(request) : request;
+          } catch (e) {
+            console.error('Error parsing borrowed book request:', request, e);
+            return request;
+          }
+        });
         console.log('Loaded borrowed books:', borrowedBooks);
       } catch (error) {
         console.error('Error loading borrowed books:', error);
@@ -898,6 +921,10 @@
         const book = books.find(b => b.id === request.bookId);
         const member = members.find(m => m.id === request.memberId);
         
+        // Debug logging
+        if (!book) console.log('Book not found for borrowed request:', request.bookId, 'Available books:', books.map(b => b.id));
+        if (!member) console.log('Member not found for borrowed request:', request.memberId, 'Available members:', members.map(m => m.id));
+        
         // Calculate due date (assuming 14 days loan period)
         const borrowDate = new Date(request.date);
         const dueDate = new Date(borrowDate);
@@ -910,8 +937,8 @@
         return `
           <tr>
             <td><strong>${request.id}</strong></td>
-            <td>${book ? book.title : 'Unknown Book'}</td>
-            <td>${member ? member.name : 'Unknown Member'}</td>
+            <td>${book ? book.title : `Unknown Book (${request.bookId})`}</td>
+            <td>${member ? member.name : `Unknown Member (${request.memberId})`}</td>
             <td>${request.memberId}</td>
             <td>${new Date(request.date).toLocaleDateString()}</td>
             <td>${dueDate.toLocaleDateString()}</td>
@@ -934,7 +961,7 @@
 
     // Logout function
     function logout() {
-      localStorage.removeItem('hospitalUser');
+      localStorage.removeItem('libraryUser');
       window.location.href = 'login.html';
     }
 

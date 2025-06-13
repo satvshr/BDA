@@ -586,7 +586,7 @@
       <ul class="nav-menu" id="navMenu">
         <li><a href="index.html" class="nav-link">Home</a></li>
         <li><a href="librarian-dashboard.html" class="nav-link">Dashboard</a></li>
-        <li><a href="doctors.html" class="nav-link">Librarians</a></li>
+                    <li><a href="librarians.html" class="nav-link">Librarians</a></li>
         <li><a href="inventory.html" class="nav-link">Inventory</a></li>
         <li><a href="members.html" class="nav-link">Members</a></li>
         <li><a href="book-requests.html" class="nav-link">Book Requests</a></li>
@@ -652,7 +652,7 @@
                 <i class="fas fa-user-shield"></i>
                 <span>Admin</span>
               </div>
-              <div class="role-option" data-role="doctor" onclick="selectRole('doctor', 'login')">
+              <div class="role-option" data-role="librarian" onclick="selectRole('librarian', 'login')">
                 <i class="fas fa-user-graduate"></i>
                 <span>Librarian</span>
               </div>
@@ -735,7 +735,7 @@
                 <i class="fas fa-user-shield"></i>
                 <span>Admin</span>
               </div>
-              <div class="role-option" data-role="doctor" onclick="selectRole('doctor', 'signup')">
+              <div class="role-option" data-role="librarian" onclick="selectRole('librarian', 'signup')">
                 <i class="fas fa-user-graduate"></i>
                 <span>Librarian</span>
               </div>
@@ -769,7 +769,7 @@
     // Initialize the application
     document.addEventListener('DOMContentLoaded', function() {
       // Load user session if exists
-      const savedUser = localStorage.getItem('hospitalUser');
+              const savedUser = localStorage.getItem('libraryUser');
       if (savedUser) {
         currentUser = JSON.parse(savedUser);
         showDashboard();
@@ -913,13 +913,13 @@
 
           if (user) {
             currentUser = user;
-            localStorage.setItem('hospitalUser', JSON.stringify(user));
+            localStorage.setItem('libraryUser', JSON.stringify(user));
             showSuccessMessage('Login successful! Redirecting...');
             setTimeout(() => showDashboard(), 1500);
             setTimeout(() => {
               if (user.role === 'admin') {
                 window.location.href = 'index.html';
-              } else if (user.role === 'doctor') {
+              } else if (user.role === 'librarian') {
                 window.location.href = 'librarian-dashboard.html';
               } else {
                 showDashboard();  // fallback or default dashboard
@@ -1108,7 +1108,7 @@
     }
 
     function getStoredUsers() {
-      const users = localStorage.getItem('hospitalUsers');
+              const users = localStorage.getItem('libraryUsers');
       return users ? JSON.parse(users) : [];
     }
 
@@ -1118,7 +1118,7 @@
       if (currentUser.role === 'admin') {
         // Redirect admin to main dashboard
         window.location.href = 'index.html';
-      } else if (currentUser.role === 'doctor') {
+              } else if (currentUser.role === 'librarian') {
         // Redirect librarian to librarian dashboard
         window.location.href = 'librarian-dashboard.html';
       } else {
@@ -1134,7 +1134,7 @@
 
 
     function logout() {
-      localStorage.removeItem('hospitalUser');
+              localStorage.removeItem('libraryUser');
       currentUser = null;
       selectedRole = { login: null, signup: null };
       

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend Endpoint Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .result { margin: 10px 0; padding: 10px; background: #f5f5f5; }
+        .error { background: #ffebee; color: #c62828; }
+        .success { background: #e8f5e9; color: #2e7d32; }
+        button { margin: 5px; padding: 8px 16px; }
+    </style>
+</head>
+<body>
+    <h1>Backend Endpoint Test</h1>
+    
+    <div class="test-section">
+        <h3>Test All Endpoints</h3>
+        <button onclick="testAllEndpoints()">Test All Endpoints</button>
+        <div id="allResults"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Individual Tests</h3>
+        <button onclick="testEndpoint('/members', 'members')">Test Members</button>
+        <button onclick="testEndpoint('/librarians', 'librarians')">Test Librarians</button>
+        <button onclick="testEndpoint('/inventory', 'inventory')">Test Inventory</button>
+        <button onclick="testEndpoint('/book-requests', 'book-requests')">Test Book Requests</button>
+        <button onclick="testEndpoint('/borrowed-books', 'borrowed-books')">Test Borrowed Books</button>
+        <div id="individualResults"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080';
+
+        async function testEndpoint(endpoint, name) {
+            const resultDiv = document.getElementById('individualResults');
+            
+            try {
+                const response = await fetch(`${API_BASE}${endpoint}`);
+                const data = await response.json();
+                
+                let parsedData = [];
+                if (Array.isArray(data)) {
+                    parsedData = data.map(item => {
+                        try {
+                            return typeof item === 'string' ? JSON.parse(item) : item;
+                        } catch (e) {
+                            return item;
+                        }
+                    });
+                }
+                
+                resultDiv.innerHTML += `
+                    <div class="result success">
+                        <strong>${name.toUpperCase()}</strong> (${endpoint}): 
+                        Status: ${response.status}, 
+                        Count: ${parsedData.length}, 
+                        Sample: ${JSON.stringify(parsedData[0] || 'No data', null, 2)}
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML += `
+                    <div class="result error">
+                        <strong>${name.toUpperCase()}</strong> (${endpoint}): 
+                        ERROR: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        async function testAllEndpoints() {
+            const resultDiv = document.getElementById('allResults');
+            resultDiv.innerHTML = '<div>Testing all endpoints...</div>';
+            
+            const endpoints = [
+                ['/members', 'members'],
+                ['/librarians', 'librarians'],
+                ['/inventory', 'inventory'],
+                ['/book-requests', 'book-requests'],
+                ['/borrowed-books', 'borrowed-books']
+            ];
+            
+            let results = '';
+            
+            for (const [endpoint, name] of endpoints) {
+                try {
+                    const response = await fetch(`${API_BASE}${endpoint}`);
+                    const data = await response.json();
+                    
+                    let parsedData = [];
+                    if (Array.isArray(data)) {
+                        parsedData = data.map(item => {
+                            try {
+                                return typeof item === 'string' ? JSON.parse(item) : item;
+                            } catch (e) {
+                                return item;
+                            }
+                        });
+                    }
+                    
+                    results += `
+                        <div class="result success">
+                            <strong>${name.toUpperCase()}</strong>: ✓ ${parsedData.length} items
+                            ${parsedData.length > 0 ? `<br>Sample: <pre>${JSON.stringify(parsedData[0], null, 2)}</pre>` : ''}
+                        </div>
+                    `;
+                } catch (error) {
+                    results += `
+                        <div class="result error">
+                            <strong>${name.toUpperCase()}</strong>: ✗ ${error.message}
+                        </div>
+                    `;
+                }
+            }
+            
+            resultDiv.innerHTML = results;
+        }
+    </script>
+</body>
+</html> 
